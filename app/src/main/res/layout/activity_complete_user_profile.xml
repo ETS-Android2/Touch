@@ -11,7 +11,6 @@
         android:id="@+id/complete_fullname_edittext"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
         android:hint="Full Name ( John Anderson )" />
 
     <Spinner
