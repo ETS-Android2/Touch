@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Touch</string>
+    <string name="home">خانه</string>
+    <string name="world">دنیا</string>
+    <string name="profile">حساب</string>
+    <string name="news">اخبار</string>
+    <string name="sort_by">مرتب سازی بر اساس</string>
+</resources>

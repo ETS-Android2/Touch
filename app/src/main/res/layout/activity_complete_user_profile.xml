@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".Activity.CompleteUserProfile">
+
+    <EditText
+        android:id="@+id/complete_fullname_edittext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:hint="Full Name ( John Anderson )" />
+
+    <Spinner
+        android:id="@+id/complete_gender_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/complete_complete_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Complete" />
+
+
+</LinearLayout>
