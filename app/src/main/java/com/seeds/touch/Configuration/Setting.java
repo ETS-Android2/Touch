@@ -33,7 +33,7 @@ public final class Setting {
     private Setting() {
     }
 
-    public static void checkForPermissions(Context context,String... permissions) {
+    public static void checkForPermissions(Context context, String... permissions) {
 //        TedRxPermission.with(context)
 //                .setDeniedMessage(
 //                        "If you reject permission,you can not use this service\n\nPlease turn on permissions at [Setting] > [Permission]")
@@ -53,6 +53,11 @@ public final class Setting {
                 .withButtonText(android.R.string.ok)
                 .withIcon(R.mipmap.setting_icon)
                 .build()).check();
+    }
+
+    public static void saveEncryptedID(Context context, String newEncryptedID) {
+        Helper.encryptedUserID = newEncryptedID;
+        Setting.saveSetting(context, USER_INFORMATION_SHARED_PREFERENCES_TABLE, Helper.ENCRYPTED_USER_ID_KEY, newEncryptedID);
     }
 
     public static LoginStatus getLoginStatus(Context context) {
@@ -81,15 +86,14 @@ public final class Setting {
             ((Activity) (context)).getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         }
     }
-    public static void hideStatusBar(Context context,Enums.DisplayMode displayStatus) {
-        switch (displayStatus)
-        {
+
+    public static void hideStatusBar(Context context, Enums.DisplayMode displayStatus) {
+        switch (displayStatus) {
             case SHOW:
                 if (Build.VERSION.SDK_INT < 16) {
-                    ((Activity)context).getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-                }
-                else {
-                    View decorView = ((Activity)context).getWindow().getDecorView();
+                    ((Activity) context).getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+                } else {
+                    View decorView = ((Activity) context).getWindow().getDecorView();
                     // Show Status Bar.
                     int uiOptions = View.SYSTEM_UI_FLAG_VISIBLE;
                     decorView.setSystemUiVisibility(uiOptions);
@@ -97,11 +101,10 @@ public final class Setting {
                 break;
             case HIDE:
                 if (Build.VERSION.SDK_INT < 16) {
-                    ((Activity)context).getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                    ((Activity) context).getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                             WindowManager.LayoutParams.FLAG_FULLSCREEN);
-                }
-                else {
-                    View decorView = ((Activity)context).getWindow().getDecorView();
+                } else {
+                    View decorView = ((Activity) context).getWindow().getDecorView();
                     // Hide Status Bar.
                     int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
                     decorView.setSystemUiVisibility(uiOptions);

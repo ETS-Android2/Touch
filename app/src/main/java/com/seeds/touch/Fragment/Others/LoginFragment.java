@@ -43,12 +43,16 @@ public class LoginFragment extends Fragment {
                 person.setPassword(password);
                 Server.loginUserProfile(view.getContext(), Volley.newRequestQueue(view.getContext()), person, objects1 -> {
                     if (objects1[0].toString().equals("done")) {
-                        Person personProfile = (Person) objects1[1];
-                        Helper.encryptedUserID = Setting.encode_Default(personProfile.getID());
-                        Setting.saveSetting(view.getContext(), USER_INFORMATION_SHARED_PREFERENCES_TABLE, Helper.ENCRYPTED_USER_ID_KEY, Helper.encryptedUserID);
-                        Setting.saveSetting(view.getContext(), USER_INFORMATION_SHARED_PREFERENCES_TABLE, Helper.LOGIN_STATUS_KEY, Enums.LoginStatus.USER.toString());
-                        Toast.makeText(view.getContext(), "Welcome " + personProfile.getID(), Toast.LENGTH_SHORT).show();
-                        MainActivity.openActivity_GeneralMode(view.getContext(), Enums.ActivityRepository.MAIN_ACTIVITY, true);
+                        Person authenticatedUser = (Person) objects1[1];
+                        if (authenticatedUser.isARawUser()) {
+                            MainActivity.openActivity_GeneralMode(view.getContext(), Enums.ActivityRepository.COMPLETE_USER_PROFILE, false);
+                        } else {
+                            Helper.encryptedUserID = Setting.encode_Default(authenticatedUser.getID());
+                            Setting.saveSetting(view.getContext(), USER_INFORMATION_SHARED_PREFERENCES_TABLE, Helper.ENCRYPTED_USER_ID_KEY, Helper.encryptedUserID);
+                            Setting.saveSetting(view.getContext(), USER_INFORMATION_SHARED_PREFERENCES_TABLE, Helper.LOGIN_STATUS_KEY, Enums.LoginStatus.USER.toString());
+                            Toast.makeText(view.getContext(), "Welcome " + authenticatedUser.getID(), Toast.LENGTH_SHORT).show();
+                            MainActivity.openActivity_GeneralMode(view.getContext(), Enums.ActivityRepository.MAIN_ACTIVITY, true);
+                        }
                     } else {
                         Toast.makeText(view.getContext(), "Error while log in", Toast.LENGTH_LONG).show();
                     }
@@ -64,12 +68,16 @@ public class LoginFragment extends Fragment {
             fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commit();
         });
+        Helper.login_forgetPasswordButton.setOnClickListener(v -> {
+
+        });
 
     }
 
     private void findViews(View view) {
         Helper.login_signInButton = (Button) view.findViewById(R.id.login_login_button);
         Helper.login_registerButton = (Button) view.findViewById(R.id.login_sign_up_button);
+        Helper.login_forgetPasswordButton= (Button) view.findViewById(R.id.login_forget_password_text);
         Helper.login_UsernameEditText = (EditText) view.findViewById(R.id.login_username_edittext);
         Helper.login_PasswordEditText = (EditText) view.findViewById(R.id.login_password_edittext);
         Helper.login_Facebook_Register = (Button) view.findViewById(R.id.login_login_with_facebook);

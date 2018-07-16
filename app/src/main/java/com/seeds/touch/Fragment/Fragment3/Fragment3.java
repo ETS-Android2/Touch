@@ -18,8 +18,14 @@ public class Fragment3  extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view= inflater.inflate(R.layout.fragment_fragment3, container, false);
-
-
+        findViews(view);
+        tuneRecyclerView();
         return  view;
+    }
+
+    private void tuneRecyclerView() {
+    }
+
+    private void findViews(View view) {
     }
 }

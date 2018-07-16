@@ -8,8 +8,8 @@ public class CinemaEvent extends Event {
     private String filmName;
 
     public CinemaEvent(String title, Calendar startDate, Calendar endDate, Location location,
-                       String description, HashSet<String> tags, int ATTENDER_NUMBER_RANGE, String filmName) {
-        super(title, startDate, endDate, location, description, tags, ATTENDER_NUMBER_RANGE);
+                       String description, int ATTENDER_NUMBER_RANGE, String filmName) {
+        super(title, startDate, endDate, location, description, ATTENDER_NUMBER_RANGE);
         this.filmName = filmName;
     }
 

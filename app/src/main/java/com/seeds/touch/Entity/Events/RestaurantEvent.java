@@ -10,8 +10,8 @@ public class RestaurantEvent extends Event {
     private MealMode mealMode;
 
     public RestaurantEvent(String title, Calendar startDate, Calendar endDate, Location location,
-                           String description, HashSet<String> tags, int ATTENDER_NUMBER_RANGE, MealMode mealMode) {
-        super(title, startDate, endDate, location, description, tags, ATTENDER_NUMBER_RANGE);
+                           String description, int ATTENDER_NUMBER_RANGE, MealMode mealMode) {
+        super(title, startDate, endDate, location, description, ATTENDER_NUMBER_RANGE);
         this.mealMode = mealMode;
     }
 

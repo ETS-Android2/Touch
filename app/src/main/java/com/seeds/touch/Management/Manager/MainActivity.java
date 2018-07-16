@@ -48,7 +48,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (Setting.getLoginStatus(this).equals(NEW)) {
+       /* Setting.checkForPermissions(this, Manifest.permission.INTERNET, Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.ACCESS_FINE_LOCATION);*/
+        if (!Setting.getLoginStatus(this).equals(NEW)) {
             openActivity_GeneralMode(this, Enums.ActivityRepository.LOG_IN, true);
         } else {
             Helper.encryptedUserID = Setting.loadSetting(this, Setting.USER_INFORMATION_SHARED_PREFERENCES_TABLE,
@@ -58,8 +60,6 @@ public class MainActivity extends AppCompatActivity {
             exec.scheduleAtFixedRate(() -> {
                 updateScreenOnlineDetails();
             }, 0, 100, TimeUnit.MILLISECONDS);
-               Setting.checkForPermissions(this, Manifest.permission.INTERNET, Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                       Manifest.permission.ACCESS_FINE_LOCATION);
         }
     }
 

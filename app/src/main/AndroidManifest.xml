@@ -2,9 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.seeds.touch">
 
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
         android:allowBackup="true"
@@ -27,7 +27,9 @@
             android:value="87b03ab49aa74a16ad0c3258035fec89" />
 
         <activity android:name=".Activity.SettingActivity" />
-        <activity android:name=".Activity.CompleteUserProfile"></activity>
+        <activity android:name=".Activity.CompleteUserProfile" />
+        <activity android:name=".Activity.ForgetPasswordActivity1" />
+        <activity android:name=".Activity.ShowItemFullInformation"></activity>
     </application>
 
 </manifest>

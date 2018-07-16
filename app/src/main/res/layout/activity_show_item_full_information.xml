@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activity.ShowItemFullInformation">
+
+    <fragment
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        class="com.seeds.touch.Fragment.Others.DefaultHomePageFragment"
+        tools:layout="@layout/fragment_default_home_page"
+        android:id="@+id/item_detail_monitor"/>
+
+</LinearLayout>

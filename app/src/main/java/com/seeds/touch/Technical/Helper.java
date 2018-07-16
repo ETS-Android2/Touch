@@ -2,6 +2,8 @@ package com.seeds.touch.Technical;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -30,6 +32,7 @@ public final class Helper {
     public static  AHBottomNavigationItem item4;
     public static Button login_signInButton;
     public static Button login_registerButton;
+    public static Button login_forgetPasswordButton;
     public static Button login_Facebook_Register;
     public static Button login_Google_Facebook;
     public static Button login_Twitter_Facebook;
@@ -49,6 +52,12 @@ public final class Helper {
     public static final String ENCRYPTED_USER_ID_KEY="ENCRYPTED_USER_ID_KEY";
     public static final String NO_VALUE_FOUND_FOR_KEY="NO_VALUE_FOUND_FOR_KEY";
     public static final String LOGIN_STATUS_KEY="LOGIN_STATUS_KEY";
+    public static RecyclerView fragment1_RecyclerView;
+    public static RecyclerView fragment2_RecyclerView;
+    public static LinearLayoutManager fragment1_LinearLayoutManager;
+    public static LinearLayoutManager fragment2_LinearLayoutManager;
+    public static RecyclerView.Adapter fragment1_Adapter;
+    public static RecyclerView.Adapter fragment2_Adapter;
 
 
     public static void reNewObjects(Context context) {

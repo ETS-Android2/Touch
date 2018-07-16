@@ -17,6 +17,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.google.gson.Gson;
 import com.seeds.touch.Configuration.Converter;
 import com.seeds.touch.Configuration.Setting;
+import com.seeds.touch.Entity.Entities.Item;
 import com.seeds.touch.Entity.Entities.Person;
 import com.seeds.touch.Management.Interface.CurrentTimeInterface;
 import com.seeds.touch.Management.Interface.PostTimeInterface;
@@ -44,7 +45,7 @@ public class Server {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, REGISTER_PERSON_URL, response -> {
             Object[] objects = new Object[2];
             try {
-                Log.d(Helper.LOG_TOUCH_ERROR, "IS : " + response);
+                Log.d(Helper.LOG_TOUCH_ERROR, "RESPONSEE : " + response);
                 JSONObject job = new JSONObject(response);
                 objects[0] = job.getString("state");
                 if (objects[0].toString().equals("done")) {
@@ -56,23 +57,23 @@ public class Server {
                 }
 
             } catch (Exception e) {
-                Log.d(Helper.LOG_TOUCH_ERROR, "for response,try : " + e.getMessage());
+                Log.d(Helper.LOG_TOUCH_ERROR, "fdfgor response,try : " + e.getMessage());
             }
-            try {
-                onPost.does(objects);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+//            try {
+//                //onPost.does(objects);
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
         }, error -> {
-            Log.d(Helper.LOG_TOUCH_ERROR, "for error,try : " + error.getMessage());
+            Log.d(Helper.LOG_TOUCH_ERROR, "fonbmbnr error,try : " + error.getMessage());
         }) {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("test", "test");
-                params.put("ID", Setting.encode_Default(userName));
-                params.put("Password", Setting.encode_Default(password));
-                params.put("PhoneNumber", Setting.encode_Default(phoneNumber));
+                params.put("ID", "SDF");//Setting.encode_Default(userName));
+                params.put("Password","CVXB");// Setting.encode_Default(password));
+                params.put("PhoneNumber", "CXVV");//Setting.encode_Default(phoneNumber));
                 return params;
             }
         };
@@ -178,5 +179,29 @@ public class Server {
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         requestQueue.add(stringRequest);
 
+    }
+
+    public static void getUserProfile(String id,PostTimeInterface onPost) throws Exception {
+
+        Person person=new Person();
+        // server operations
+            person.setName("Charlie");
+        //
+        Object[] objects=new Object[1];
+        objects[0]=new Gson().toJson(person);
+        onPost.does(objects);
+
+    }
+
+    public static void editItemDetails(String databaseID, Item item, PostTimeInterface onPost) {
+        Object[] objects=new Object[2];
+        objects[0]="done";
+        objects[1]=new Gson().toJson(new Item("2",null,null,null,
+                null,"fg",null,null,12,null,null));
+        try {
+            onPost.does(objects);
+        } catch (IOException e) {
+            Log.d(Helper.LOG_TOUCH_ERROR,e.getMessage());
+        }
     }
 }

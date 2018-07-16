@@ -11,17 +11,15 @@ public class Event implements Serializable {
     private Calendar endDate;
     private Location location;
     private String description;
-    private HashSet<String> tags;
     private int ATTENDER_NUMBER_RANGE;
 
     public Event(String title, Calendar startDate, Calendar endDate, Location location,
-                 String description, HashSet<String> tags, int ATTENDER_NUMBER_RANGE) {
+                 String description, int ATTENDER_NUMBER_RANGE) {
         this.title = title;
         this.startDate = startDate;
         this.endDate = endDate;
         this.location = location;
         this.description = description;
-        this.tags = tags;
         this.ATTENDER_NUMBER_RANGE = ATTENDER_NUMBER_RANGE;
     }
 
@@ -63,14 +61,6 @@ public class Event implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public HashSet<String> getTags() {
-        return tags;
-    }
-
-    public void setTags(HashSet<String> tags) {
-        this.tags = tags;
     }
 
     public int getATTENDER_NUMBER_RANGE() {

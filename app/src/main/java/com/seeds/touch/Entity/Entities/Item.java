@@ -20,6 +20,9 @@ public class Item {
     private Status status;
     private AccessType accessType;
 
+    public Item() {
+    }
+
     public Item(String databaseID, HashSet<String> pictures, Calendar releaseDate,
                 HashSet<String> tags, Event event, String publisher, HashSet<String> attenderPeople,
                 HashSet<Comment> comments, float rank, Status status, AccessType accessType) {

@@ -21,6 +21,7 @@ import com.seeds.touch.Technical.Enums;
 import com.seeds.touch.Technical.Helper;
 
 import java.io.IOException;
+import java.util.Set;
 
 import static com.seeds.touch.Configuration.Setting.USER_INFORMATION_SHARED_PREFERENCES_TABLE;
 
@@ -46,27 +47,25 @@ public class RegisterFragment extends Fragment {
                 Server.registerUserProfile(view.getContext(), Volley.newRequestQueue(view.getContext()), phoneNumber, userName, password, objects -> {
                     if (objects[0].toString().equals("done")) {
                         Person person = (Person) objects[1];
-                        Helper.encryptedUserID = Setting.encode_Default(person.getID());
+                        Setting.saveEncryptedID(view.getContext(), person.getID());
                         Toast.makeText(view.getContext(), "Signed Up Successfully", Toast.LENGTH_LONG).show();
-                        if(person.isARawUser())
-                        {
-                            MainActivity.openActivity_GeneralMode(view.getContext(), Enums.ActivityRepository.COMPLETE_USER_PROFILE,false);
-                        }
-                        else {
-                            Server.loginUserProfile(view.getContext(), Volley.newRequestQueue(view.getContext()), person, objects1 -> {
-                                if (objects[0].toString().equals("done")) {
-                                    Person personProfile = (Person) objects1[1];
-                                    Setting.saveSetting(view.getContext(), USER_INFORMATION_SHARED_PREFERENCES_TABLE, Helper.ENCRYPTED_USER_ID_KEY, Helper.encryptedUserID);
-                                    Setting.saveSetting(view.getContext(), USER_INFORMATION_SHARED_PREFERENCES_TABLE, Helper.LOGIN_STATUS_KEY, Enums.LoginStatus.USER.toString());
-                                    Toast.makeText(view.getContext(), "Welcome " + personProfile.getID(), Toast.LENGTH_SHORT).show();
-                                    MainActivity.openActivity_GeneralMode(view.getContext(), Enums.ActivityRepository.MAIN_ACTIVITY, true);
+
+                        Server.loginUserProfile(view.getContext(), Volley.newRequestQueue(view.getContext()), person, objects1 -> {
+                            if (objects[0].toString().equals("done")) {
+                                if (person.isARawUser()) {
+                                    MainActivity.openActivity_GeneralMode(view.getContext(), Enums.ActivityRepository.COMPLETE_USER_PROFILE, false);
                                 } else {
-                                    Toast.makeText(view.getContext(), "Error while log in", Toast.LENGTH_LONG).show();
+                                    Setting.saveSetting(view.getContext(), USER_INFORMATION_SHARED_PREFERENCES_TABLE, Helper.LOGIN_STATUS_KEY, Enums.LoginStatus.USER.toString());
+                                    Toast.makeText(view.getContext(), "Welcome " + person.getID(), Toast.LENGTH_SHORT).show();
+                                    MainActivity.openActivity_GeneralMode(view.getContext(), Enums.ActivityRepository.MAIN_ACTIVITY, true);
                                 }
-                            });
-                        }
+                            } else {
+                                Toast.makeText(view.getContext(), "Error while log in", Toast.LENGTH_LONG).show();
+                            }
+                        });
+
                     } else {
-                        Toast.makeText(view.getContext(), "Error While Log in", Toast.LENGTH_LONG).show();
+                        Toast.makeText(view.getContext(), "Error While Register", Toast.LENGTH_LONG).show();
                     }
                 });
             } else

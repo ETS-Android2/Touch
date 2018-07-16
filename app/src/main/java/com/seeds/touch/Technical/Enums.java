@@ -29,7 +29,7 @@ public final class Enums {
     }
 
     public enum EventTypes {
-
+        HOME,WORLD
     }
     public static enum Tabs {
         FIRST,SECOND,THIRD,FORTH,FIFTH
