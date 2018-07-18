@@ -3,8 +3,6 @@ package com.seeds.touch.Fragment.Others;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,10 +12,9 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
-import com.seeds.touch.Entity.Entities.Person;
 import com.seeds.touch.R;
 
-public class fp_enterverifycode extends Fragment {
+public class EnterVerifyCodeFragment extends Fragment {
     private Button button;
     private String person;
     @Override
@@ -37,7 +34,7 @@ public class fp_enterverifycode extends Fragment {
                 String enteredCode=((EditText)view.findViewById(R.id.send_code_edittext)).getText().toString();
                 if(enteredCode!=null && !enteredCode.isEmpty())
                 {
-                    Fragment fragment = new ChangePassword();
+                    Fragment fragment = new ChangePasswordFragment();
                     FragmentManager fragmentManager = getFragmentManager();
                     Bundle bundle=new Bundle();
                     bundle.putString("PERSON",new Gson().toJson(person));

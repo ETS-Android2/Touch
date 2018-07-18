@@ -1,5 +1,6 @@
 package com.seeds.touch.Entity.Entities;
 
+import com.google.gson.annotations.SerializedName;
 import com.seeds.touch.Entity.Events.Event;
 
 import java.util.Calendar;
@@ -19,8 +20,10 @@ public class Item {
     private float rank;
     private Status status;
     private AccessType accessType;
+    private boolean loadItem; //if was true, no data will be bind to it and just a progressbar will show inside it |  default=false
 
     public Item() {
+        this.loadItem=false;
     }
 
     public Item(String databaseID, HashSet<String> pictures, Calendar releaseDate,
@@ -37,6 +40,7 @@ public class Item {
         this.rank = rank;
         this.status = status;
         this.accessType = accessType;
+        this.loadItem=false;
     }
 
     public String getDatabaseID() {
@@ -125,5 +129,13 @@ public class Item {
 
     public void setAccessType(AccessType accessType) {
         this.accessType = accessType;
+    }
+
+    public boolean isLoadItem() {
+        return loadItem;
+    }
+
+    public void setLoadItem(boolean loadItem) {
+        this.loadItem = loadItem;
     }
 }

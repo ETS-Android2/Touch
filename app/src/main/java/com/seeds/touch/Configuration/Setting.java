@@ -124,4 +124,9 @@ public final class Setting {
             return str;
         return new String(Base64.encodeToString(str.getBytes(), Base64.DEFAULT));
     }
+
+    public static void logout(Context context) {
+        saveSetting(context, USER_INFORMATION_SHARED_PREFERENCES_TABLE, "LOGIN_STATUS", LoginStatus.NEW.toString());
+        System.exit(0);
+    }
 }

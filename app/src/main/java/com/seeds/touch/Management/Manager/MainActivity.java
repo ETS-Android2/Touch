@@ -1,6 +1,5 @@
 package com.seeds.touch.Management.Manager;
 
-import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.FragmentTransaction;
@@ -13,19 +12,20 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.app.AppCompatDelegate;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.notification.AHNotification;
-import com.seeds.touch.Activity.CompleteUserProfile;
-import com.seeds.touch.Activity.SettingActivity;
+import com.google.gson.Gson;
+import com.seeds.touch.Activity.CompleteUserProfileActivity;
+import com.seeds.touch.Activity.SettingsActivity;
 import com.seeds.touch.Activity.UserVerify;
 import com.seeds.touch.Configuration.Setting;
+import com.seeds.touch.Entity.Entities.Comment;
+import com.seeds.touch.Entity.Entities.Item;
 import com.seeds.touch.Fragment.Fragment1.Fragment1;
 import com.seeds.touch.Fragment.Fragment2.Fragment2;
 import com.seeds.touch.Fragment.Fragment3.Fragment3;
@@ -37,6 +37,8 @@ import com.seeds.touch.Technical.Helper;
 import net.hockeyapp.android.CrashManager;
 import net.hockeyapp.android.UpdateManager;
 
+import java.util.Calendar;
+import java.util.HashSet;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -59,12 +61,25 @@ public class MainActivity extends AppCompatActivity {
             ScheduledExecutorService exec = Executors.newSingleThreadScheduledExecutor();
             exec.scheduleAtFixedRate(() -> {
                 updateScreenOnlineDetails();
-            }, 0, 100, TimeUnit.MILLISECONDS);
+            }, 0, 1000, TimeUnit.MILLISECONDS);
         }
+        new Item();
+        Gson gson=new Gson();
+        Log.d("Attender",gson.toJson(Calendar.getInstance()));
+        Log.d("Attender",gson.toJson(new HashSet<Comment>()));
+        Log.d("Attender",gson.toJson(new HashSet<String>()));
+        Log.d("Attender",gson.toJson(new HashSet<String>()));
+        Log.d("Attender",gson.toJson(new HashSet<String>()));
+        Log.d("Attender",gson.toJson(new HashSet<String>()));
+        Log.d("Attender",gson.toJson(new HashSet<String>()));
+        Log.d("Attender",gson.toJson(new HashSet<String>()));
+        Log.d("Attender",gson.toJson(new HashSet<String>()));
+        Log.d("Attender",gson.toJson(new HashSet<String>()));
     }
 
     private void updateScreenOnlineDetails() {
         //code
+
     }
 
     private void constructMainActivityItems(Bundle savedInstanceState) {
@@ -224,7 +239,7 @@ public class MainActivity extends AppCompatActivity {
                 toOpenIntent = new Intent(context, UserVerify.class);
                 break;
             case COMPLETE_USER_PROFILE:
-                toOpenIntent = new Intent(context, CompleteUserProfile.class);
+                toOpenIntent = new Intent(context, CompleteUserProfileActivity.class);
                 break;
 
 //            case ADD_CINEMA_ITEM:
@@ -237,7 +252,7 @@ public class MainActivity extends AppCompatActivity {
 ////                toOpenIntent = new Intent(context, AddItemActivity_Travel.class);
 ////                break;
             case SETTING:
-                toOpenIntent = new Intent(context, SettingActivity.class);
+                toOpenIntent = new Intent(context, SettingsActivity.class);
                 break;
             default:
                 toOpenIntent = null;
@@ -270,5 +285,7 @@ public class MainActivity extends AppCompatActivity {
     public static String getStringValueOf(int id) {
         return Helper.MainActivity_resource.getString(id);
     }
+
+
 
 }

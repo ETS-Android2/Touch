@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_gravity="top"
-        android:layout_weight="10"
+        android:layout_weight="12"
         android:background="@color/white">
 
 
@@ -37,12 +37,15 @@
                 android:orientation="vertical"
                 android:weightSum="100">
 
-
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="12"/>
                 <TextView
                     android:id="@+id/word_tab_name_in_toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_weight="67"
+                    android:layout_weight="55"
                     android:text="Home"
                     android:textAlignment="textStart"
                     android:textColor="@color/black"
@@ -55,9 +58,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="33"
-                    android:text="loading ..."
-                    android:textColor="@color/black"
-                    android:textSize="13sp" />
+                    android:text="Connecting ..."
+                    android:textColor="@color/status_color"
+                    android:textSize="11sp" />
 
             </LinearLayout>
 
@@ -114,11 +117,11 @@
 
     <fragment
         android:id="@+id/main_place_holder"
-        android:name="com.seeds.touch.Fragment.Others.DefaultHomePageFragment"
+        class="com.seeds.touch.Fragment.Others.DefaultHomePageFragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         tools:layout="@layout/fragment_default_home_page"
-        android:layout_weight="80" />
+        android:layout_weight="78" />
 
     <com.aurelhubert.ahbottomnavigation.AHBottomNavigation
         android:id="@+id/bottom_navigation"

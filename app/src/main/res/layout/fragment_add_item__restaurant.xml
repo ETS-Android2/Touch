@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:scrollbars="vertical"
+    tools:context=".Fragment.Others.AddRestaurantItemFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:weightSum="100">
+
+        <android.support.v7.widget.Toolbar
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="5"
+            android:background="@color/white">
+
+            <android.support.design.widget.CoordinatorLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/add_restaurant_item_back_icon"
+                    android:layout_gravity="start|center_vertical"
+                    android:src="@android:drawable/ic_menu_revert" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="Add Item"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end|center_vertical"
+                    android:layout_marginEnd="20dp"
+                    android:text="Save"
+                    android:id="@+id/add_restaurant_item_save_icon"
+                    android:textSize="18sp" />
+
+            </android.support.design.widget.CoordinatorLayout>
+        </android.support.v7.widget.Toolbar>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="90"
+            android:orientation="vertical">
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:text="Tap to set photo"
+                android:textAllCaps="false"
+                android:scaleType="fitXY"
+                android:id="@+id/add_restaurant_item_add_set_image_button"
+                android:background="@drawable/add_item_rounded_effect_image"
+                android:src="@drawable/mytestimage" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="20dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="40dp"
+                android:layout_marginStart="40dp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="4dp"
+                        android:text="Title"
+                        android:textColor="@color/black" />
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/add_restaurant_item_title"
+                        android:hint="type your title" />
+                </LinearLayout>
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="12dp"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="4dp"
+                        android:text="Description"
+                        android:textColor="@color/black" />
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/add_restaurant_item_description"
+                        android:hint="type your description" />
+                </LinearLayout>
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/divider_color"/>
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="4dp"
+                        android:text="Location"
+                        android:textColor="@color/black" />
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/add_restaurant_item_location"
+                        android:hint="type your location" />
+                </LinearLayout>
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="65dp" />
+                <android.support.design.widget.CoordinatorLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start"
+                        android:textSize="18sp"
+                        android:layout_marginStart="10dp"
+                        android:text="Date"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:textSize="18sp"
+                        android:id="@+id/add_restaurant_item_choose_date"
+                        android:layout_marginEnd="10dp"
+                        android:text="Choose"/>
+                </android.support.design.widget.CoordinatorLayout>.
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="25dp" />
+                <android.support.design.widget.CoordinatorLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start"
+                        android:gravity="center_vertical"
+                        android:textSize="18sp"
+                        android:layout_marginStart="10dp"
+                        android:text="Meal Type"/>
+                    <Spinner
+                        android:layout_width="80dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:id="@+id/add_restaurant_item_meal_type" />
+                </android.support.design.widget.CoordinatorLayout>
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="25dp" />
+                <android.support.design.widget.CoordinatorLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start"
+                        android:gravity="center_vertical"
+                        android:textSize="18sp"
+                        android:layout_marginStart="10dp"
+                        android:text="Attenders"/>
+                    <Spinner
+                        android:layout_width="wrap_content"
+                        android:id="@+id/add_restaurant_item_attenders"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"/>
+                </android.support.design.widget.CoordinatorLayout>
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="25dp" />
+                <android.support.design.widget.CoordinatorLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start"
+                        android:gravity="center_vertical"
+                        android:textSize="18sp"
+                        android:layout_marginStart="10dp"
+                        android:text="Access Type"/>
+                    <Spinner
+                        android:layout_width="wrap_content"
+                        android:id="@+id/add_restaurant_item_accesstype"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"/>
+                </android.support.design.widget.CoordinatorLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

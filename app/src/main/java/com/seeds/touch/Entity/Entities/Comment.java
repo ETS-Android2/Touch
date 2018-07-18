@@ -1,8 +1,9 @@
 package com.seeds.touch.Entity.Entities;
 
+import java.io.Serializable;
 import java.util.Calendar;
 
-public class Comment {
+public class Comment implements Serializable{
     private String text;
     private Calendar date;
     private String publisher;

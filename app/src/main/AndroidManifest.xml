@@ -26,10 +26,15 @@
             android:name="net.hockeyapp.android.appIdentifier"
             android:value="87b03ab49aa74a16ad0c3258035fec89" />
 
-        <activity android:name=".Activity.SettingActivity" />
-        <activity android:name=".Activity.CompleteUserProfile" />
+        <activity android:name=".Activity.CompleteUserProfileActivity" />
         <activity android:name=".Activity.ForgetPasswordActivity1" />
-        <activity android:name=".Activity.ShowItemFullInformation"></activity>
+        <activity android:name=".Activity.ShowItemFullInformationActivity" />
+        <activity
+            android:name=".Activity.AddItemActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".Activity.SettingsActivity"
+            android:label="@string/title_activity_settings"></activity>
     </application>
 
 </manifest>

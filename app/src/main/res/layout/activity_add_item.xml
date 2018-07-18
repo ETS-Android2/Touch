@@ -4,13 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activity.ShowItemFullInformationActivity">
-
+    android:weightSum="100"
+    android:orientation="vertical"
+    android:theme="@style/AppTheme"
+    tools:context=".Activity.AddItemActivity">
     <fragment
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        class="com.seeds.touch.Fragment.Others.DefaultHomePageFragment"
-        tools:layout="@layout/fragment_default_home_page"
-        android:id="@+id/item_detail_monitor"/>
-
+        android:layout_height="0dp"
+        android:layout_weight="90"
+        android:id="@+id/add_item_fragment"
+        class="com.seeds.touch.Fragment.Others.DefaultHomePageFragment" />
 </LinearLayout>

@@ -19,7 +19,7 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.seeds.touch.Activity.ShowItemFullInformation;
+import com.seeds.touch.Activity.ShowItemFullInformationActivity;
 import com.seeds.touch.Configuration.Converter;
 import com.seeds.touch.Configuration.Setting;
 import com.seeds.touch.Entity.Entities.Item;
@@ -83,7 +83,7 @@ public class F2_Adapter extends RecyclerView.Adapter<F2_Adapter.ViewHolder> {
                 e.printStackTrace();
             }
         }, objects -> {
-            String name = ((Person) objects[0]).getName();
+            String name = item.getPublisher();//((Person) objects[0]).getName();
             publisherName.setText(name);
 
         }).execute(item.getPublisher());
@@ -155,7 +155,7 @@ public class F2_Adapter extends RecyclerView.Adapter<F2_Adapter.ViewHolder> {
         TextView tv = (TextView) dialogView.findViewById(R.id.test_tv);
         tv.setText(item.getPublisher());
         button.setOnClickListener(v1 -> {
-            Intent intent = new Intent(v.getContext(), ShowItemFullInformation.class);
+            Intent intent = new Intent(v.getContext(), ShowItemFullInformationActivity.class);
             GsonBuilder gsonBuilder = new GsonBuilder();
             gsonBuilder.registerTypeAdapter(Location.class, new LocationDeserializer());
             gsonBuilder.registerTypeAdapter(Location.class, new LocationSerializer());

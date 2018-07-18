@@ -31,7 +31,7 @@ import java.net.NetworkInterface;
 import java.util.Collections;
 import java.util.List;
 
-public class CompleteUserProfile extends AppCompatActivity implements
+public class CompleteUserProfileActivity extends AppCompatActivity implements
         AdapterView.OnItemSelectedListener, LocationListener {
     private Person person = new Person();
 

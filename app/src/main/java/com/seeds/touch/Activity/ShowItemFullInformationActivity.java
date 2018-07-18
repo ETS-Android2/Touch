@@ -15,11 +15,13 @@ import com.seeds.touch.Fragment.Others.DetailFragment_Cinema;
 import com.seeds.touch.Fragment.Others.DetailFragment_Restaurant;
 import com.seeds.touch.Fragment.Others.DetailFragment_Trip;
 import com.seeds.touch.Fragment.Others.LoginFragment;
+import com.seeds.touch.Management.Manager.MainActivity;
 import com.seeds.touch.R;
+import com.seeds.touch.Technical.Enums;
 import com.seeds.touch.Technical.LocationDeserializer;
 import com.seeds.touch.Technical.LocationSerializer;
 
-public class ShowItemFullInformation extends AppCompatActivity {
+public class ShowItemFullInformationActivity extends AppCompatActivity {
     private static String type;
     private static String GSONitem;
 
@@ -61,5 +63,10 @@ public class ShowItemFullInformation extends AppCompatActivity {
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        MainActivity.openActivity_GeneralMode(this, Enums.ActivityRepository.MAIN_ACTIVITY,true);
     }
 }

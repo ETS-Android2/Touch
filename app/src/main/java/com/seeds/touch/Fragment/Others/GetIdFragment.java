@@ -18,7 +18,7 @@ import com.seeds.touch.R;
 import com.seeds.touch.Server.Server;
 import com.seeds.touch.Technical.Helper;
 
-public class fp_getID extends Fragment {
+public class GetIdFragment extends Fragment {
     private Button nextButton;
 
     @Override
@@ -40,7 +40,7 @@ public class fp_getID extends Fragment {
                 } else {
                     try {
                         Server.getUserProfile(gottenID, objects -> {
-                            Fragment fragment = new fp_verifyPhone();
+                            Fragment fragment = new VerifyPhoneFragment();
                             Bundle bundle=new Bundle();
                             bundle.putString("PERSON",new Gson().toJson((Person)objects[0]));
                             fragment.setArguments(bundle);

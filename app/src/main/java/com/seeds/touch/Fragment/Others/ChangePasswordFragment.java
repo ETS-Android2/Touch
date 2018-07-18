@@ -27,7 +27,7 @@ import java.io.IOException;
 
 import static com.seeds.touch.Configuration.Setting.USER_INFORMATION_SHARED_PREFERENCES_TABLE;
 
-public class ChangePassword extends Fragment {
+public class ChangePasswordFragment extends Fragment {
     private Button submitButton;
     private Person person;
 

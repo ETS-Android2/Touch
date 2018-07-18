@@ -15,7 +15,7 @@ import com.google.gson.Gson;
 import com.seeds.touch.Entity.Entities.Person;
 import com.seeds.touch.R;
 
-public class fp_verifyPhone extends Fragment {
+public class VerifyPhoneFragment extends Fragment {
     private Button verifyButton;
     private Person person;
 
@@ -43,7 +43,7 @@ public class fp_verifyPhone extends Fragment {
                         //send the code //
 
                         //////////////////
-                        Fragment fragment= new fp_enterverifycode();
+                        Fragment fragment= new EnterVerifyCodeFragment();
                         Bundle bundle=new Bundle();
                         bundle.putString("PERSON",new Gson().toJson(person));
                         fragment.setArguments(bundle);
