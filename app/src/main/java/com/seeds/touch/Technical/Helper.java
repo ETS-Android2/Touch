@@ -15,6 +15,7 @@ import com.seeds.touch.Management.Manager.MainActivity;
 import com.seeds.touch.R;
 
 public final class Helper {
+    public final static String API_KEY = "";
     //touch log messages
     public static final String LOG_TOUCH_ERROR = "Error_In_Touch";
     //helpers
@@ -48,10 +49,14 @@ public final class Helper {
     public static Button complete_completeButton;
 
 
+
+
     //final keys
     public static final String ENCRYPTED_USER_ID_KEY="ENCRYPTED_USER_ID_KEY";
     public static final String NO_VALUE_FOUND_FOR_KEY="NO_VALUE_FOUND_FOR_KEY";
     public static final String LOGIN_STATUS_KEY="LOGIN_STATUS_KEY";
+
+    public static final String TAG = "MainActivity - ";
     public static RecyclerView fragment1_RecyclerView;
     public static RecyclerView fragment2_RecyclerView;
     public static LinearLayoutManager fragment1_LinearLayoutManager;

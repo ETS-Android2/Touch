@@ -103,7 +103,7 @@ public class F1_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public int getItemViewType(int position) {
-        return position == 0 ? TYPE_ADD_ITEM : (items.get(position).isLoadItem() ? TYPE_LOAD: TYPE_ITEM);
+        return position == 0 ? TYPE_ADD_ITEM : (items.get(position).isLoadItem() ? TYPE_LOAD : TYPE_ITEM);
     }
 
     @Override
@@ -181,7 +181,7 @@ public class F1_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                         break;
                     case TYPE_ITEM:
                         Item item = items.get(position);
-                        item.getAttenderPeople().add(Setting.decode_Default(Helper.encryptedUserID));
+                        item.getAttenders().add(Setting.decode_Default(Helper.encryptedUserID));
                         Server.editItemDetails(item.getDatabaseID(), item, objects -> {
                             Item newItem = null;
                             try {
@@ -207,7 +207,7 @@ public class F1_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         //} else {
         //set publisher name
-        if(items.get(position)!=null && items.get(position).getPublisher()!=null) {
+        if (items.get(position) != null && items.get(position).getPublisher() != null) {
             new ASyncProfessionalClass(objects -> {
                 String id = objects[0].toString();
                 try {
@@ -224,15 +224,15 @@ public class F1_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             }).execute(items.get(position).getPublisher());
         }
         //set population
-        if (items.get(position)!=null && items.get(position).getAttenderPeople() != null)
-            population.setText("Attenders : " + items.get(position).getAttenderPeople().size() + " / " + items.get(position).getEvent().getATTENDER_NUMBER_RANGE());
+        if (items.get(position) != null && items.get(position).getEvent()!=null && items.get(position).getAttenders() != null)
+            population.setText("Attenders : " + items.get(position).getAttenders().size() + " / " + items.get(position).getEvent().getATTENDER_NUMBER_RANGE());
         //set image
         image.setImageResource(R.drawable.mytestimage);
         //set publisher image
         Picasso.with(holder.view.getContext()).load(R.drawable.testimagetwo).resize(90, 90)
                 .transform(new CropCircleTransformation()).into(publisherPhoto);
         //set category desc
-        if (items.get(position)!=null && items.get(position).getEvent() != null) {
+        if (items.get(position) != null && items.get(position).getEvent() != null) {
             String sentence = "";
             Item item = items.get(position);
             if (item.getEvent() instanceof CinemaEvent) {
@@ -245,14 +245,14 @@ public class F1_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             category.setText(sentence);
         }
         //set stickerLabel
-        if (items.get(position)!=null && items.get(position).getEvent() != null) {
+        if (items.get(position) != null && items.get(position).getEvent() != null) {
             if (Calendar.getInstance().after(items.get(position).getEvent().getEndDate()))
                 stickerLabel.setText("Join");
             else
                 stickerLabel.setText("Expired");
         }
         //set endDate
-        if (items.get(position)!=null && items.get(position).getEvent() != null)
+        if (items.get(position) != null && items.get(position).getEvent() != null)
             startDate.setText(Converter.getDifferenceBetweenCalendars(Calendar.getInstance(), items.get(position).getEvent().getEndDate()));
         //
         //}
@@ -309,7 +309,7 @@ public class F1_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
 
     public F1_Adapter(List<Item> items, Context context, RecyclerView recyclerView) {
-        this.items =  items;
+        this.items = items;
         this.context = context;
         this.listener = ItemClickSupport.addTo(context, recyclerView);
 

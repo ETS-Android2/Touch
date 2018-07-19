@@ -9,17 +9,29 @@ import java.util.HashSet;
 import static com.seeds.touch.Technical.Enums.*;
 
 public class Item {
+    @SerializedName("database_id")
     private String databaseID;
+    @SerializedName("pictures")
     private HashSet<String> pictures;
+    @SerializedName("release_date")
     private Calendar releaseDate;
+    @SerializedName("tags")
     private HashSet<String> tags;
+    @SerializedName("event")
     private Event event;
+    @SerializedName("publisher")
     private String publisher;
-    private HashSet<String> attenderPeople;
+    @SerializedName("attenders")
+    private HashSet<String> attenders;
+    @SerializedName("comments")
     private HashSet<Comment> comments;
+    @SerializedName("rank")
     private float rank;
+    @SerializedName("status")
     private Status status;
+    @SerializedName("access_type")
     private AccessType accessType;
+    @SerializedName("load_item")
     private boolean loadItem; //if was true, no data will be bind to it and just a progressbar will show inside it |  default=false
 
     public Item() {
@@ -27,7 +39,7 @@ public class Item {
     }
 
     public Item(String databaseID, HashSet<String> pictures, Calendar releaseDate,
-                HashSet<String> tags, Event event, String publisher, HashSet<String> attenderPeople,
+                HashSet<String> tags, Event event, String publisher, HashSet<String> attenders,
                 HashSet<Comment> comments, float rank, Status status, AccessType accessType) {
         this.databaseID = databaseID;
         this.pictures = pictures;
@@ -35,7 +47,7 @@ public class Item {
         this.tags = tags;
         this.event = event;
         this.publisher = publisher;
-        this.attenderPeople = attenderPeople;
+        this.attenders = attenders;
         this.comments = comments;
         this.rank = rank;
         this.status = status;
@@ -91,12 +103,12 @@ public class Item {
         this.publisher = publisher;
     }
 
-    public HashSet<String> getAttenderPeople() {
-        return attenderPeople;
+    public HashSet<String> getAttenders() {
+        return attenders;
     }
 
-    public void setAttenderPeople(HashSet<String> attenderPeople) {
-        this.attenderPeople = attenderPeople;
+    public void setAttenders(HashSet<String> attenders) {
+        this.attenders = attenders;
     }
 
     public HashSet<Comment> getComments() {

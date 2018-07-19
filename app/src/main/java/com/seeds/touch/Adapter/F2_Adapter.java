@@ -37,30 +37,55 @@ import com.seeds.touch.Technical.LocationSerializer;
 import com.squareup.picasso.Picasso;
 
 import java.util.Calendar;
-import java.util.LinkedList;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import jp.wasabeef.picasso.transformations.CropCircleTransformation;
 
-public class F2_Adapter extends RecyclerView.Adapter<F2_Adapter.ViewHolder> {
+public class F2_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final ItemClickSupport listener;
-    private LinkedList<Item> items;
+    private List<Item> items;
     private Context context;
     private RecyclerView recyclerView;
+    public final int TYPE_ITEM = 0;
+    public final int TYPE_LOAD = 1;
+    F2_Adapter.OnLoadMoreListener loadMoreListener;
+    boolean isLoading = false, isMoreDataAvailable = true;
 
     @NonNull
     @Override
-    public F2_Adapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.fragment2_item_layout, parent, false);
-        F2_Adapter.ViewHolder vh = new F2_Adapter.ViewHolder(v);
-        return vh;
+        switch (viewType) {
+            case TYPE_ITEM:
+                return new F2_Adapter.ViewHolder0(LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment2_item_layout, parent, false));
+            case TYPE_LOAD:
+                return new F2_Adapter.ViewHolder1(LayoutInflater.from(parent.getContext()).inflate(R.layout.row_load_world, parent, false));
+        }
+        return null;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull F2_Adapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+
+        if (position >= getItemCount() - 1 && isMoreDataAvailable && !isLoading && loadMoreListener != null) {
+            isLoading = true;
+            loadMoreListener.onLoadMore();
+        }
+        switch (holder.getItemViewType()) {
+            case TYPE_ITEM:
+                F2_Adapter.ViewHolder0 holder0 = (F2_Adapter.ViewHolder0) holder;
+                handleBindViewHolder(holder0, position);
+                break;
+            case TYPE_LOAD:
+                //
+                //no need any binding for loading holder
+                break;
+        }
+    }
+
+    private void handleBindViewHolder(F2_Adapter.ViewHolder0 holder, int position) {
+
         CardView cardView = (CardView) holder.view.findViewById(R.id.world_card_view);
         ImageView image = (ImageView) holder.view.findViewById(R.id.world_item_image);
         ImageView sticker = (ImageView) holder.view.findViewById(R.id.world_item_sticker);
@@ -73,22 +98,25 @@ public class F2_Adapter extends RecyclerView.Adapter<F2_Adapter.ViewHolder> {
 
         Item item = items.get(position);
         //set publisher name
-        new ASyncProfessionalClass(objects -> {
-            String id = objects[0].toString();
-            try {
-                Server.getUserProfile(id, objects1 -> {
-                    objects[0] = new Gson().fromJson(objects1[0].toString(), Person.class);
-                });
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }, objects -> {
-            String name = item.getPublisher();//((Person) objects[0]).getName();
-            publisherName.setText(name);
+        if (item.getPublisher() != null) {
+            new ASyncProfessionalClass(objects -> {
+                String id = objects[0].toString();
+                try {
+                    Server.getUserProfile(id, objects1 -> {
+                        objects[0] = new Gson().fromJson(objects1[0].toString(), Person.class);
+                    });
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }, objects -> {
+                String name = item.getPublisher();//((Person) objects[0]).getName();
+                publisherName.setText(name);
 
-        }).execute(item.getPublisher());
+            }).execute(item.getPublisher());
+        }
         //set population
-        population.setText("Attenders : " + item.getAttenderPeople().size() + " / " + item.getEvent().getATTENDER_NUMBER_RANGE());
+        if (item.getEvent() != null)
+            population.setText("Attenders : " + item.getAttenders().size() + " / " + item.getEvent().getATTENDER_NUMBER_RANGE());
         //set image
         image.setImageResource(R.drawable.mytestimage);
         //set publisher image
@@ -105,12 +133,14 @@ public class F2_Adapter extends RecyclerView.Adapter<F2_Adapter.ViewHolder> {
         }
         category.setText(sentence);
         //set stickerLabel
-        if (Calendar.getInstance().after(item.getEvent().getEndDate()))
-            stickerLabel.setText("Join");
-        else
-            stickerLabel.setText("Expired");
+        if (item.getEvent() != null)
+            if (Calendar.getInstance().after(item.getEvent().getEndDate()))
+                stickerLabel.setText("Join");
+            else
+                stickerLabel.setText("Expired");
         //set endDate
-        startDate.setText(Converter.getDifferenceBetweenCalendars(Calendar.getInstance(), item.getEvent().getEndDate()));
+        if (item.getEvent() != null)
+            startDate.setText(Converter.getDifferenceBetweenCalendars(Calendar.getInstance(), item.getEvent().getEndDate()));
         //
         listener.setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
             @Override
@@ -122,7 +152,7 @@ public class F2_Adapter extends RecyclerView.Adapter<F2_Adapter.ViewHolder> {
             @Override
             public void onItemDoubleClicked(RecyclerView recyclerView, int position, View v) {
                 Item item = items.get(position);
-                item.getAttenderPeople().add(Setting.decode_Default(Helper.encryptedUserID));
+                item.getAttenders().add(Setting.decode_Default(Helper.encryptedUserID));
                 Server.editItemDetails(item.getDatabaseID(), item, objects -> {
                     Item newItem = null;
                     try {
@@ -143,7 +173,11 @@ public class F2_Adapter extends RecyclerView.Adapter<F2_Adapter.ViewHolder> {
             }
         });
 
+    }
 
+    @Override
+    public int getItemViewType(int position) {
+        return items.get(position).isLoadItem() ? TYPE_LOAD : TYPE_ITEM;
     }
 
     private void openInSummaryMode(View v, Item item) {
@@ -176,19 +210,51 @@ public class F2_Adapter extends RecyclerView.Adapter<F2_Adapter.ViewHolder> {
         return items.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    //for item
+    public static class ViewHolder0 extends RecyclerView.ViewHolder {
         public View view;
 
-        public ViewHolder(View v) {
+        public ViewHolder0(View v) {
+            super(v);
+            view = v;
+        }
+    }
+
+    //for load item
+    public static class ViewHolder1 extends RecyclerView.ViewHolder {
+        public View view;
+
+        public ViewHolder1(View v) {
             super(v);
             view = v;
         }
     }
 
     public F2_Adapter(List<Item> items, Context context, RecyclerView recyclerView) {
-        this.items = (LinkedList<Item>) items;
+        this.items = items;
         this.context = context;
         this.listener = ItemClickSupport.addTo(context, recyclerView);
 
+    }
+
+    public void setMoreDataAvailable(boolean moreDataAvailable) {
+        isMoreDataAvailable = moreDataAvailable;
+    }
+
+    /* notifyDataSetChanged is final method so we can't override it
+         call adapter.notifyDataChanged(); after update the list
+         */
+    public void notifyDataChanged() {
+        notifyDataSetChanged();
+        isLoading = false;
+    }
+
+
+    public interface OnLoadMoreListener {
+        void onLoadMore();
+    }
+
+    public void setLoadMoreListener(F2_Adapter.OnLoadMoreListener loadMoreListener) {
+        this.loadMoreListener = loadMoreListener;
     }
 }

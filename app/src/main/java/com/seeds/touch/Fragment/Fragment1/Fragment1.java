@@ -1,7 +1,6 @@
 package com.seeds.touch.Fragment.Fragment1;
 
 import android.content.Context;
-import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,17 +13,10 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.seeds.touch.Adapter.F1_Adapter;
-import com.seeds.touch.Entity.Entities.Comment;
 import com.seeds.touch.Entity.Entities.Item;
-import com.seeds.touch.Entity.Events.CinemaEvent;
-import com.seeds.touch.Entity.Events.Event;
-import com.seeds.touch.Entity.Events.RestaurantEvent;
-import com.seeds.touch.Entity.Events.TripEvent;
-import com.seeds.touch.Management.Interface.ItemAPI;
-import com.seeds.touch.Management.Manager.ItemManager;
+import com.seeds.touch.Management.Interface.HomeItemAPI;
 import com.seeds.touch.R;
 import com.seeds.touch.Server.ServiceGenerator;
-import com.seeds.touch.Technical.Enums;
 import com.seeds.touch.Technical.Helper;
 
 import java.util.ArrayList;
@@ -34,13 +26,13 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.seeds.touch.Technical.Helper.TAG;
+
 
 //starter item will cause to minus 1  ALL NECESSARY PARTS
 public class Fragment1 extends Fragment {
     private List<Item> items = new ArrayList<>();
-    ItemAPI api;
-    String TAG = "MainActivity - ";
-
+    private HomeItemAPI api;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -50,8 +42,7 @@ public class Fragment1 extends Fragment {
         View view = inflater.inflate(R.layout.fragment_fragment1, container, false);
         findViews(view);
         tuneRecyclerView(view);
-        api = ServiceGenerator.createService(ItemAPI.class);
-     //   load(0);
+        api = ServiceGenerator.createService(HomeItemAPI.class);
 
 
 //        ItemManager.getInstance().readItems(view.getContext(), Enums.EventTypes.HOME, objects -> {
@@ -107,23 +98,23 @@ public class Fragment1 extends Fragment {
         return view;
     }
 
-    private void load(int index){
+    private void load(int index) {
         Call<List<Item>> call = api.getItems(index);
         call.enqueue(new Callback<List<Item>>() {
             @Override
             public void onResponse(Call<List<Item>> call, Response<List<Item>> response) {
-                Log.d("FGHBVNC",new Gson().toJson(response.body()));
-                if(response.isSuccessful()){
+                Log.d("FGHBVNC", new Gson().toJson(response.body()));
+                if (response.isSuccessful()) {
                     items.addAll(response.body());
-                    ((F1_Adapter)Helper.fragment1_Adapter).notifyDataChanged();
-                }else{
-                    Log.e(TAG," Response Error "+String.valueOf(response.code()));
+                    ((F1_Adapter) Helper.fragment1_Adapter).notifyDataChanged();
+                } else {
+                    Log.e(TAG, " Response Error " + String.valueOf(response.code()));
                 }
             }
 
             @Override
             public void onFailure(Call<List<Item>> call, Throwable t) {
-                Log.e(TAG," Rxcvesponse Error "+t.getMessage());
+                Log.e(TAG, " Rxcvesponse Error " + t.getMessage());
             }
         });
     }
@@ -136,8 +127,8 @@ public class Fragment1 extends Fragment {
         Helper.fragment1_LinearLayoutManager = new LinearLayoutManager(getContext());
         Helper.fragment1_RecyclerView.setHasFixedSize(true);
         Helper.fragment1_RecyclerView.setLayoutManager(Helper.fragment1_LinearLayoutManager);
-        Helper.fragment1_Adapter = new F1_Adapter(items, view.getContext(),Helper.fragment1_RecyclerView);
-        ((F1_Adapter)Helper.fragment1_Adapter).setLoadMoreListener(() -> {
+        Helper.fragment1_Adapter = new F1_Adapter(items, view.getContext(), Helper.fragment1_RecyclerView);
+        ((F1_Adapter) Helper.fragment1_Adapter).setLoadMoreListener(() -> {
 
             Helper.fragment1_RecyclerView.post(() -> {
                 int index = items.size() - 1;
@@ -150,42 +141,42 @@ public class Fragment1 extends Fragment {
 
     }
 
-    private void loadMore(Context context,int index){
-        Item item=new Item();
+    private void loadMore(Context context, int index) {
+        Item item = new Item();
         item.setLoadItem(true);
 //add loading progress view
         items.add(item);
-        Helper.fragment1_Adapter.notifyItemInserted(items.size()-1);
+        Helper.fragment1_Adapter.notifyItemInserted(items.size() - 1);
 
         Call<List<Item>> call = api.getItems(index);
         call.enqueue(new Callback<List<Item>>() {
             @Override
             public void onResponse(Call<List<Item>> call, Response<List<Item>> response) {
-                Log.d("DFGCB",new Gson().toJson(response.body()));
-                if(response.isSuccessful()){
+                Log.d("DFGCB", new Gson().toJson(response.body()));
+                if (response.isSuccessful()) {
 
                     //remove loading view
-                    items.remove(items.size()-1);
+                    items.remove(items.size() - 1);
                     List<Item> result = response.body();
-                    if(result.size()>0){
+                    if (result.size() > 0) {
                         //add loaded data
                         items.addAll(result);
-                    }else{//result size 0 means there is no more data available at server
-                        ((F1_Adapter)Helper.fragment1_Adapter).setMoreDataAvailable(false);
+                    } else {//result size 0 means there is no more data available at server
+                        ((F1_Adapter) Helper.fragment1_Adapter).setMoreDataAvailable(false);
 
                         //telling adapter to stop calling load more as no more server data available
-                        Toast.makeText(context,"No More Data Available",Toast.LENGTH_LONG).show();
+                        Toast.makeText(context, "No More Data Available", Toast.LENGTH_LONG).show();
                     }
-                    ((F1_Adapter)Helper.fragment1_Adapter).notifyDataChanged();
+                    ((F1_Adapter) Helper.fragment1_Adapter).notifyDataChanged();
                     //should call the custom method adapter.notifyDataChanged here to get the correct loading status
-                }else{
-                    Log.e(TAG," Load More Response Error "+String.valueOf(response.code()));
+                } else {
+                    Log.e(TAG, " Load More Response Error " + String.valueOf(response.code()));
                 }
             }
 
             @Override
             public void onFailure(Call<List<Item>> call, Throwable t) {
-                Log.e(TAG," Load More Response Error "+t.getMessage());
+                Log.e(TAG, " Load More Response Error " + t.getMessage());
             }
         });
     }
