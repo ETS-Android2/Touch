@@ -23,6 +23,7 @@ import com.seeds.touch.Management.Interface.CurrentTimeInterface;
 import com.seeds.touch.Management.Interface.PostTimeInterface;
 import com.seeds.touch.Management.Manager.MainActivity;
 import com.seeds.touch.Technical.Enums;
+import com.seeds.touch.Technical.GSON_Wrapper;
 import com.seeds.touch.Technical.Helper;
 
 import org.json.JSONObject;
@@ -85,7 +86,7 @@ public class Server {
     }
 
     public static void loginUserProfile(Context context, RequestQueue requestQueue, @NonNull Person person, PostTimeInterface onPost) {
-        Gson gson = new Gson();
+        Gson gson = GSON_Wrapper.getInstance();
         Object[] arr = new Object[2];
         StringRequest stringRequest = new StringRequest(Request.Method.POST, LOGIN_PERSON_URL, response -> {
             try {
@@ -133,7 +134,7 @@ public class Server {
     }
 
     public static void editUserAccount(@NonNull String id, @NonNull Person newPerson, RequestQueue requestQueue, CurrentTimeInterface onPost) {
-        Gson gson = new Gson();
+        Gson gson = GSON_Wrapper.getInstance();
         Object[] objects = new Object[1];
         StringRequest stringRequest = new StringRequest(Request.Method.POST, COMPLETE_USER_PROFILE_URL, response -> {
             try {
@@ -188,7 +189,7 @@ public class Server {
             person.setName("Charlie");
         //
         Object[] objects=new Object[1];
-        objects[0]=new Gson().toJson(person);
+        objects[0]=GSON_Wrapper.getInstance().toJson(person);
         onPost.does(objects);
 
     }
@@ -196,8 +197,8 @@ public class Server {
     public static void editItemDetails(String databaseID, Item item, PostTimeInterface onPost) {
         Object[] objects=new Object[2];
         objects[0]="done";
-        objects[1]=new Gson().toJson(new Item("2",null,null,null,
-                null,"fg",null,null,12,null,null));
+        objects[1]=GSON_Wrapper.getInstance().toJson(new Item("2",null,null,null,
+                null,"fg",null,null,12,null,null,null));
         try {
             onPost.does(objects);
         } catch (IOException e) {

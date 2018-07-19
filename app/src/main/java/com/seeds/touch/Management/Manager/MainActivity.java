@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -20,19 +21,26 @@ import android.widget.TextView;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.notification.AHNotification;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.seeds.touch.Activity.CompleteUserProfileActivity;
 import com.seeds.touch.Activity.SettingsActivity;
 import com.seeds.touch.Activity.UserVerify;
 import com.seeds.touch.Configuration.Setting;
 import com.seeds.touch.Entity.Entities.Comment;
 import com.seeds.touch.Entity.Entities.Item;
+import com.seeds.touch.Entity.Events.CinemaEvent;
+import com.seeds.touch.Entity.Events.Event;
+import com.seeds.touch.Entity.Events.TripEvent;
 import com.seeds.touch.Fragment.Fragment1.Fragment1;
 import com.seeds.touch.Fragment.Fragment2.Fragment2;
 import com.seeds.touch.Fragment.Fragment3.Fragment3;
 import com.seeds.touch.Fragment.Fragment4.Fragment4;
 import com.seeds.touch.R;
 import com.seeds.touch.Technical.Enums;
+import com.seeds.touch.Technical.GSON_Wrapper;
 import com.seeds.touch.Technical.Helper;
+import com.seeds.touch.Technical.LocationDeserializer;
+import com.seeds.touch.Technical.LocationSerializer;
 
 import net.hockeyapp.android.CrashManager;
 import net.hockeyapp.android.UpdateManager;
@@ -63,18 +71,47 @@ public class MainActivity extends AppCompatActivity {
                 updateScreenOnlineDetails();
             }, 0, 1000, TimeUnit.MILLISECONDS);
         }
-        new Item();
-        Gson gson=new Gson();
+
+                    Calendar calendar = Calendar.getInstance();
+            calendar.set(Calendar.YEAR, 2019);
+
+
+            HashSet<Comment> comments = new HashSet<>();
+            comments.add(new Comment("Salam , aali bood", Calendar.getInstance(), "Hasan"));
+            comments.add(new Comment("Merciiii", Calendar.getInstance(), "Parvaneh"));
+
+            HashSet<String> attenders = new HashSet<>();
+            attenders.add("Reza");
+            attenders.add("Baghiat");
+            attenders.add("Company");
+
+            HashSet<String> tags = new HashSet<>();
+            tags.add("Bagh");
+
+            HashSet<String> pictures = new HashSet<>();
+            pictures.add("url1");
+            pictures.add("url2");
+            pictures.add("url3");
+
+            Location location = new Location("Touch");
+            Bundle bundle = new Bundle();
+            bundle.putString("NAME", "California");
+            location.setExtras(bundle);
+            location.setLatitude(2365.12);
+            location.setLongitude(7654.70);
+
+            Event event = new CinemaEvent("Watch The Best Film", Calendar.getInstance(), Calendar.getInstance(), location, "Can You Get A One?1", 45, "Ali O Dani1");
+            Event event2 = new TripEvent("Watch The Best Film2", Calendar.getInstance(), calendar, location, "Can You Get A One?2", 46);
+            Gson gson=GSON_Wrapper.getInstance();
+            Item item  = new Item("10", gson.toJson(pictures), gson.toJson(Calendar.getInstance()),gson.toJson( tags),gson.toJson( event), "Mohammad", gson.toJson(attenders),gson.toJson( comments), 12, gson.toJson(Enums.Status.SHOWN),gson.toJson( Enums.AccessType.PUBLIC),event.getEventKey());
+
+
         Log.d("Attender",gson.toJson(Calendar.getInstance()));
-        Log.d("Attender",gson.toJson(new HashSet<Comment>()));
+        Log.d("Attender",gson.toJson(Enums.Status.SHOWN));
+        Log.d("Attender",gson.toJson(Enums.AccessType.FRIENDS));
         Log.d("Attender",gson.toJson(new HashSet<String>()));
-        Log.d("Attender",gson.toJson(new HashSet<String>()));
-        Log.d("Attender",gson.toJson(new HashSet<String>()));
-        Log.d("Attender",gson.toJson(new HashSet<String>()));
-        Log.d("Attender",gson.toJson(new HashSet<String>()));
-        Log.d("Attender",gson.toJson(new HashSet<String>()));
-        Log.d("Attender",gson.toJson(new HashSet<String>()));
-        Log.d("Attender",gson.toJson(new HashSet<String>()));
+
+        Log.d("Attender", GSON_Wrapper.getInstance().toJson(event));
     }
 
     private void updateScreenOnlineDetails() {

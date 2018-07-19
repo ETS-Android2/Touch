@@ -12,6 +12,7 @@ public class Event implements Serializable {
     private Location location;
     private String description;
     private int ATTENDER_NUMBER_RANGE;
+    private String eventKey;
 
     public Event(String title, Calendar startDate, Calendar endDate, Location location,
                  String description, int ATTENDER_NUMBER_RANGE) {
@@ -21,6 +22,9 @@ public class Event implements Serializable {
         this.location = location;
         this.description = description;
         this.ATTENDER_NUMBER_RANGE = ATTENDER_NUMBER_RANGE;
+    }
+
+    public Event() {
     }
 
     public String getTitle() {
@@ -69,5 +73,9 @@ public class Event implements Serializable {
 
     public void setATTENDER_NUMBER_RANGE(int ATTENDER_NUMBER_RANGE) {
         this.ATTENDER_NUMBER_RANGE = ATTENDER_NUMBER_RANGE;
+    }
+
+    public String getEventKey() {
+        return this instanceof CinemaEvent ? "cinema" : (this instanceof RestaurantEvent ? "restaurant" : "trip");
     }
 }

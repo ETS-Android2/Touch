@@ -17,6 +17,7 @@ import com.seeds.touch.Entity.Entities.Item;
 import com.seeds.touch.Management.Interface.HomeItemAPI;
 import com.seeds.touch.R;
 import com.seeds.touch.Server.ServiceGenerator;
+import com.seeds.touch.Technical.GSON_Wrapper;
 import com.seeds.touch.Technical.Helper;
 
 import java.util.ArrayList;
@@ -103,7 +104,7 @@ public class Fragment1 extends Fragment {
         call.enqueue(new Callback<List<Item>>() {
             @Override
             public void onResponse(Call<List<Item>> call, Response<List<Item>> response) {
-                Log.d("FGHBVNC", new Gson().toJson(response.body()));
+                Log.d("FGHBVNC", GSON_Wrapper.getInstance().toJson(response.body()));
                 if (response.isSuccessful()) {
                     items.addAll(response.body());
                     ((F1_Adapter) Helper.fragment1_Adapter).notifyDataChanged();
@@ -152,7 +153,7 @@ public class Fragment1 extends Fragment {
         call.enqueue(new Callback<List<Item>>() {
             @Override
             public void onResponse(Call<List<Item>> call, Response<List<Item>> response) {
-                Log.d("DFGCB", new Gson().toJson(response.body()));
+                Log.d("DFGCB", GSON_Wrapper.getInstance().toJson(response.body()));
                 if (response.isSuccessful()) {
 
                     //remove loading view

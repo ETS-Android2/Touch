@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.seeds.touch.R;
+import com.seeds.touch.Technical.GSON_Wrapper;
 
 public class EnterVerifyCodeFragment extends Fragment {
     private Button button;
@@ -37,7 +38,7 @@ public class EnterVerifyCodeFragment extends Fragment {
                     Fragment fragment = new ChangePasswordFragment();
                     FragmentManager fragmentManager = getFragmentManager();
                     Bundle bundle=new Bundle();
-                    bundle.putString("PERSON",new Gson().toJson(person));
+                    bundle.putString("PERSON", GSON_Wrapper.getInstance().toJson(person));
                     fragment.setArguments(bundle);
                     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                     fragmentTransaction.replace(R.id.forgetpassword1fragment, fragment);

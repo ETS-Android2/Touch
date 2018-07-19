@@ -13,6 +13,9 @@ public class CinemaEvent extends Event {
         this.filmName = filmName;
     }
 
+    public CinemaEvent() {
+    }
+
     public String getFilmName() {
         return filmName;
     }

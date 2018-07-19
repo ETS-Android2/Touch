@@ -1,153 +1,177 @@
 package com.seeds.touch.Entity.Entities;
 
-import com.google.gson.annotations.SerializedName;
+import android.util.Log;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.seeds.touch.Entity.Events.CinemaEvent;
 import com.seeds.touch.Entity.Events.Event;
+import com.seeds.touch.Entity.Events.RestaurantEvent;
+import com.seeds.touch.Entity.Events.TripEvent;
+import com.seeds.touch.Technical.GSON_Wrapper;
+import com.seeds.touch.Technical.Helper;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.Calendar;
 import java.util.HashSet;
 
 import static com.seeds.touch.Technical.Enums.*;
 
+
+//all json fileds are set till now :)
 public class Item {
-    @SerializedName("database_id")
+    private final static Gson gson = GSON_Wrapper.getInstance();
     private String databaseID;
-    @SerializedName("pictures")
-    private HashSet<String> pictures;
-    @SerializedName("release_date")
-    private Calendar releaseDate;
-    @SerializedName("tags")
-    private HashSet<String> tags;
-    @SerializedName("event")
-    private Event event;
-    @SerializedName("publisher")
+    private String JSONPictures;
+    private String JSONReleaseDate;
+    private String JSONTags;
+    private String JSONEvent;
     private String publisher;
-    @SerializedName("attenders")
-    private HashSet<String> attenders;
-    @SerializedName("comments")
-    private HashSet<Comment> comments;
-    @SerializedName("rank")
+    private String JSONAttenders;
+    private String JSONComments;
+    private String eventKey;
     private float rank;
-    @SerializedName("status")
-    private Status status;
-    @SerializedName("access_type")
-    private AccessType accessType;
-    @SerializedName("load_item")
+    private String JSONStatus;
+    private String JSONAccessType;
     private boolean loadItem; //if was true, no data will be bind to it and just a progressbar will show inside it |  default=false
 
     public Item() {
-        this.loadItem=false;
+        this.loadItem = false;
     }
 
-    public Item(String databaseID, HashSet<String> pictures, Calendar releaseDate,
-                HashSet<String> tags, Event event, String publisher, HashSet<String> attenders,
-                HashSet<Comment> comments, float rank, Status status, AccessType accessType) {
+    public Item(String databaseID, String JSONPictures, String JSONReleaseDate, String JSONTags,
+                String JSONEvent, String publisher, String JSONAttenders, String JSONComments,
+                float rank, String JSONStatus, String JSONAccessType, String eventKey) {
         this.databaseID = databaseID;
-        this.pictures = pictures;
-        this.releaseDate = releaseDate;
-        this.tags = tags;
-        this.event = event;
+        this.JSONPictures = JSONPictures;
+        this.JSONReleaseDate = JSONReleaseDate;
+        this.JSONTags = JSONTags;
+        this.JSONEvent = JSONEvent;
         this.publisher = publisher;
-        this.attenders = attenders;
-        this.comments = comments;
+        this.JSONAttenders = JSONAttenders;
+        this.JSONComments = JSONComments;
         this.rank = rank;
-        this.status = status;
-        this.accessType = accessType;
-        this.loadItem=false;
+        this.JSONStatus = JSONStatus;
+        this.JSONAccessType = JSONAccessType;
+        this.loadItem = false;
+        this.eventKey = eventKey;
     }
 
-    public String getDatabaseID() {
-        return databaseID;
+    public Calendar getReleaseDate() {
+        return gson.fromJson(JSONReleaseDate, Calendar.class);
+    }
+
+    public Event getEvent(String type) {
+        if (JSONEvent == null)
+            return null;
+        Log.d("VBV", JSONEvent);
+        if (type.equalsIgnoreCase("cinema"))
+            return gson.fromJson(JSONEvent, CinemaEvent.class);
+        else if (type.equalsIgnoreCase("trip"))
+            return gson.fromJson(JSONEvent, TripEvent.class);
+        else if (type.equalsIgnoreCase("restaurant"))
+            return gson.fromJson(JSONEvent, RestaurantEvent.class);
+        return null;
+    }
+
+    public Status getStatus() {
+        return gson.fromJson(JSONStatus, Status.class);
+    }
+
+    public AccessType getAccessType() {
+        return gson.fromJson(JSONAccessType, AccessType.class);
+    }
+
+    public HashSet<String> getPictures() {
+        return gson.fromJson(JSONPictures, new TypeToken<HashSet<String>>() {
+        }.getType());
+    }
+
+
+    public HashSet<String> getTags() {
+        return gson.fromJson(JSONTags, new TypeToken<HashSet<String>>() {
+        }.getType());
+    }
+
+
+    public HashSet<String> getAttenders() {
+        return gson.fromJson(JSONAttenders, new TypeToken<HashSet<String>>() {
+        }.getType());
+    }
+
+
+    public HashSet<String> getComments() {
+        return gson.fromJson(JSONComments, new TypeToken<HashSet<String>>() {
+        }.getType());
     }
 
     public void setDatabaseID(String databaseID) {
         this.databaseID = databaseID;
     }
 
-    public HashSet<String> getPictures() {
-        return pictures;
+    public void setJSONPictures(String JSONPictures) {
+        this.JSONPictures = JSONPictures;
     }
 
-    public void setPictures(HashSet<String> pictures) {
-        this.pictures = pictures;
+    public void setJSONReleaseDate(String JSONReleaseDate) {
+        this.JSONReleaseDate = JSONReleaseDate;
     }
 
-    public Calendar getReleaseDate() {
-        return releaseDate;
+    public void setJSONTags(String JSONTags) {
+        this.JSONTags = JSONTags;
     }
 
-    public void setReleaseDate(Calendar releaseDate) {
-        this.releaseDate = releaseDate;
-    }
-
-    public HashSet<String> getTags() {
-        return tags;
-    }
-
-    public void setTags(HashSet<String> tags) {
-        this.tags = tags;
-    }
-
-    public Event getEvent() {
-        return event;
-    }
-
-    public void setEvent(Event event) {
-        this.event = event;
-    }
-
-    public String getPublisher() {
-        return publisher;
+    public void setJSONEvent(String JSONEvent) {
+        this.JSONEvent = JSONEvent;
     }
 
     public void setPublisher(String publisher) {
         this.publisher = publisher;
     }
 
-    public HashSet<String> getAttenders() {
-        return attenders;
+    public void setJSONAttenders(String JSONAttenders) {
+        this.JSONAttenders = JSONAttenders;
     }
 
-    public void setAttenders(HashSet<String> attenders) {
-        this.attenders = attenders;
-    }
-
-    public HashSet<Comment> getComments() {
-        return comments;
-    }
-
-    public void setComments(HashSet<Comment> comments) {
-        this.comments = comments;
-    }
-
-    public float getRank() {
-        return rank;
+    public void setJSONComments(String JSONComments) {
+        this.JSONComments = JSONComments;
     }
 
     public void setRank(float rank) {
         this.rank = rank;
     }
 
-    public Status getStatus() {
-        return status;
+    public void setJSONStatus(String JSONStatus) {
+        this.JSONStatus = JSONStatus;
     }
 
-    public void setStatus(Status status) {
-        this.status = status;
+    public void setJSONAccessType(String JSONAccessType) {
+        this.JSONAccessType = JSONAccessType;
     }
 
-    public AccessType getAccessType() {
-        return accessType;
+    public void setLoadItem(boolean loadItem) {
+        this.loadItem = loadItem;
     }
 
-    public void setAccessType(AccessType accessType) {
-        this.accessType = accessType;
+    public String getDatabaseID() {
+        return databaseID;
     }
 
     public boolean isLoadItem() {
         return loadItem;
     }
 
-    public void setLoadItem(boolean loadItem) {
-        this.loadItem = loadItem;
+    public String getPublisher() {
+        return publisher;
+    }
+
+    public String getEventKey() {
+        return eventKey;
+    }
+
+    public void setEventKey(String eventKey) {
+        this.eventKey = eventKey;
     }
 }

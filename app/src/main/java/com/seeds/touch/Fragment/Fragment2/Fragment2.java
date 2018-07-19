@@ -17,6 +17,7 @@ import com.seeds.touch.Entity.Entities.Item;
 import com.seeds.touch.Management.Interface.WorldItemAPI;
 import com.seeds.touch.R;
 import com.seeds.touch.Server.ServiceGenerator2;
+import com.seeds.touch.Technical.GSON_Wrapper;
 import com.seeds.touch.Technical.Helper;
 
 import java.util.ArrayList;
@@ -97,22 +98,22 @@ public class Fragment2 extends Fragment {
     }
 
     private void load(int index) {
-        Call<Item> call = api.getItems(index);
-        Log.d("FGCV",call+"");
-        call.enqueue(new Callback<Item>() {
+        Call<List<Item>> call = api.getItems(index);
+        Log.d("FGCV", call + "");
+        call.enqueue(new Callback<List<Item>>() {
             @Override
-            public void onResponse(Call<Item> call, Response<Item> response) {
-                Log.d("FGHBVNC", new Gson().toJson(response.body()));
+            public void onResponse(Call<List<Item>> call, Response<List<Item>> response) {
+                Log.d("FGHBVNC", GSON_Wrapper.getInstance().toJson(response.body()));
                 //if (response.isSuccessful()) {
-                    items.add(response.body());
-                    ((F2_Adapter) Helper.fragment2_Adapter).notifyDataChanged();
-               // } else {
-               //     Log.e(TAG, " Response Error " + String.valueOf(response.code()));
+                items.addAll(response.body());
+                ((F2_Adapter) Helper.fragment2_Adapter).notifyDataChanged();
+                // } else {
+                //     Log.e(TAG, " Response Error " + String.valueOf(response.code()));
                 //}
             }
 
             @Override
-            public void onFailure(Call<Item> call, Throwable t) {
+            public void onFailure(Call<List<Item>> call, Throwable t) {
                 Log.e(TAG, " Rxcvesponse Error " + t.getMessage());
             }
         });
@@ -132,7 +133,7 @@ public class Fragment2 extends Fragment {
         ((F2_Adapter) Helper.fragment2_Adapter).setLoadMoreListener(() -> {
 
             Helper.fragment2_RecyclerView.post(() -> {
-                int index = items.size() ;
+                int index = items.size();
                 Fragment2.this.loadMore(getContext(), index);// a method which requests remote data
             });
             //Calling loadMore function in Runnable to fix the
@@ -148,19 +149,19 @@ public class Fragment2 extends Fragment {
         items.add(item);
         Helper.fragment2_Adapter.notifyItemInserted(items.size() - 1);
 
-        Call<Item> call = api.getItems(index);
-        call.enqueue(new Callback<Item>() {
+        Call<List<Item>> call = api.getItems(index);
+        call.enqueue(new Callback<List<Item>>() {
             @Override
-            public void onResponse(Call<Item> call, Response<Item> response) {
-                Log.d("DFGCB", new Gson().toJson(response.body()));
+            public void onResponse(Call<List<Item>> call, Response<List<Item>> response) {
+                Log.d("DFGCB", GSON_Wrapper.getInstance().toJson(response.body()));
                 if (response.isSuccessful()) {
 
                     //remove loading view
                     items.remove(items.size() - 1);
-                    Item result = response.body();
-                    if (result!=null) {
+                    List<Item> result = response.body();
+                    if (!result.isEmpty()) {
                         //add loaded data
-                        items.add(result);
+                        items.addAll(result);
                     } else {//result size 0 means there is no more data available at server
                         ((F2_Adapter) Helper.fragment2_Adapter).setMoreDataAvailable(false);
                         //telling adapter to stop calling load more as no more server data available
@@ -174,7 +175,7 @@ public class Fragment2 extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<Item> call, Throwable t) {
+            public void onFailure(Call<List<Item>> call, Throwable t) {
                 Log.e(TAG, " Load More Response Error " + t.getMessage());
             }
         });

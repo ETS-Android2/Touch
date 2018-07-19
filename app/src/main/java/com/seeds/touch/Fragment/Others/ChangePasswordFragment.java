@@ -21,6 +21,7 @@ import com.seeds.touch.Management.Manager.MainActivity;
 import com.seeds.touch.R;
 import com.seeds.touch.Server.Server;
 import com.seeds.touch.Technical.Enums;
+import com.seeds.touch.Technical.GSON_Wrapper;
 import com.seeds.touch.Technical.Helper;
 
 import java.io.IOException;
@@ -36,7 +37,7 @@ public class ChangePasswordFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_change_password, container, false);
         findViews(view);
-        person = new Gson().fromJson(getArguments().getString("PERSON"), Person.class);
+        person = GSON_Wrapper.getInstance().fromJson(getArguments().getString("PERSON"), Person.class);
         handleListeners(view);
         return view;
     }

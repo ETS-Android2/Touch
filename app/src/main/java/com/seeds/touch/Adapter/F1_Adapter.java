@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import com.seeds.touch.Activity.AddItemActivity;
 import com.seeds.touch.Activity.ShowItemFullInformationActivity;
 import com.seeds.touch.Configuration.Converter;
@@ -33,12 +34,14 @@ import com.seeds.touch.Listeners.ItemClickSupport;
 import com.seeds.touch.Management.Manager.ASyncProfessionalClass;
 import com.seeds.touch.R;
 import com.seeds.touch.Server.Server;
+import com.seeds.touch.Technical.GSON_Wrapper;
 import com.seeds.touch.Technical.Helper;
 import com.seeds.touch.Technical.LocationDeserializer;
 import com.seeds.touch.Technical.LocationSerializer;
 import com.squareup.picasso.Picasso;
 
 import java.util.Calendar;
+import java.util.HashSet;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -181,12 +184,12 @@ public class F1_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                         break;
                     case TYPE_ITEM:
                         Item item = items.get(position);
-                        item.getAttenders().add(Setting.decode_Default(Helper.encryptedUserID));
+                                items.get(position).getAttenders().add(Setting.decode_Default(Helper.encryptedUserID));
                         Server.editItemDetails(item.getDatabaseID(), item, objects -> {
                             Item newItem = null;
                             try {
 
-                                newItem = new Gson().fromJson(objects[1].toString(), Item.class);
+                                newItem = GSON_Wrapper.getInstance().fromJson(objects[1].toString(), Item.class);
                             } catch (Exception e) {
                                 Log.d(Helper.LOG_TOUCH_ERROR, "Error WHILE GSON");
 
@@ -212,7 +215,7 @@ public class F1_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 String id = objects[0].toString();
                 try {
                     Server.getUserProfile(id, objects1 -> {
-                        objects[0] = new Gson().fromJson(objects1[0].toString(), Person.class);
+                        objects[0] = GSON_Wrapper.getInstance().fromJson(objects1[0].toString(), Person.class);
                     });
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -224,36 +227,37 @@ public class F1_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             }).execute(items.get(position).getPublisher());
         }
         //set population
-        if (items.get(position) != null && items.get(position).getEvent()!=null && items.get(position).getAttenders() != null)
-            population.setText("Attenders : " + items.get(position).getAttenders().size() + " / " + items.get(position).getEvent().getATTENDER_NUMBER_RANGE());
+        if (items.get(position) != null && items.get(position).getEvent(items.get(position).getEventKey())!=null && items.get(position).getAttenders() != null) {
+            population.setText("Attenders : " + items.get(position).getAttenders().size() + " / " + items.get(position).getEvent(items.get(position).getEventKey()).getATTENDER_NUMBER_RANGE());
+        }
         //set image
         image.setImageResource(R.drawable.mytestimage);
         //set publisher image
         Picasso.with(holder.view.getContext()).load(R.drawable.testimagetwo).resize(90, 90)
                 .transform(new CropCircleTransformation()).into(publisherPhoto);
         //set category desc
-        if (items.get(position) != null && items.get(position).getEvent() != null) {
+        if (items.get(position) != null && items.get(position).getEvent(items.get(position).getEventKey()) != null) {
             String sentence = "";
             Item item = items.get(position);
-            if (item.getEvent() instanceof CinemaEvent) {
-                sentence = "Watch " + ((CinemaEvent) item.getEvent()).getFilmName();
-            } else if (item.getEvent() instanceof RestaurantEvent) {
-                sentence = "Serve for " + Converter.toCamelCase(((RestaurantEvent) item.getEvent()).getMealMode().toString());
-            } else if (item.getEvent() instanceof TripEvent) {
-                sentence = "Trip to " + item.getEvent().getLocation().getExtras().getString("NAME");
+            if (item.getEvent(item.getEventKey()) instanceof CinemaEvent) {
+                sentence = "Watch " + ((CinemaEvent) item.getEvent(item.getEventKey())).getFilmName();
+            } else if (item.getEvent(item.getEventKey()) instanceof RestaurantEvent) {
+                sentence = "Serve for " + Converter.toCamelCase(((RestaurantEvent) item.getEvent(item.getEventKey())).getMealMode().toString());
+            } else if (item.getEvent(item.getEventKey()) instanceof TripEvent) {
+                sentence = "Trip to " + item.getEvent(item.getEventKey()).getLocation().getExtras().getString("NAME");
             }
             category.setText(sentence);
         }
         //set stickerLabel
-        if (items.get(position) != null && items.get(position).getEvent() != null) {
-            if (Calendar.getInstance().after(items.get(position).getEvent().getEndDate()))
+        if (items.get(position) != null && items.get(position).getEvent(items.get(position).getEventKey()) != null) {
+            if (Calendar.getInstance().after(items.get(position).getEvent(items.get(position).getEventKey()).getEndDate()))
                 stickerLabel.setText("Join");
             else
                 stickerLabel.setText("Expired");
         }
         //set endDate
-        if (items.get(position) != null && items.get(position).getEvent() != null)
-            startDate.setText(Converter.getDifferenceBetweenCalendars(Calendar.getInstance(), items.get(position).getEvent().getEndDate()));
+        if (items.get(position) != null && items.get(position).getEvent(items.get(position).getEventKey()) != null)
+            startDate.setText(Converter.getDifferenceBetweenCalendars(Calendar.getInstance(), items.get(position).getEvent(items.get(position).getEventKey()).getEndDate()));
         //
         //}
 
@@ -291,9 +295,9 @@ public class F1_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             gsonBuilder.registerTypeAdapter(Location.class, new LocationDeserializer());
             gsonBuilder.registerTypeAdapter(Location.class, new LocationSerializer());
             Gson gson = gsonBuilder.create();
-            intent.putExtra("Item", new Gson().toJson(item));
-            String type = item.getEvent() instanceof CinemaEvent ? "cinema" : (item.getEvent() instanceof TripEvent ? "trip" : "restaurant");
-            intent.putExtra("Type", new Gson().toJson(type));
+            intent.putExtra("Item", GSON_Wrapper.getInstance().toJson(item));
+            String type = item.getEvent(item.getEventKey()) instanceof CinemaEvent ? "cinema" : (item.getEvent(item.getEventKey()) instanceof TripEvent ? "trip" : "restaurant");
+            intent.putExtra("Type", GSON_Wrapper.getInstance().toJson(type));
             v.getContext().startActivity(intent);
         });
         final AlertDialog dialog = builder.create();

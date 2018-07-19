@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.seeds.touch.Entity.Entities.Person;
 import com.seeds.touch.R;
+import com.seeds.touch.Technical.GSON_Wrapper;
 
 public class VerifyPhoneFragment extends Fragment {
     private Button verifyButton;
@@ -25,7 +26,7 @@ public class VerifyPhoneFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_fp_verify_phone, container, false);
         findViews(view);
-        this.person = new Gson().fromJson(getArguments().getString("PERSON"), Person.class);
+        this.person = GSON_Wrapper.getInstance().fromJson(getArguments().getString("PERSON"), Person.class);
         handleListeners(view);
 
         return view;
@@ -45,7 +46,7 @@ public class VerifyPhoneFragment extends Fragment {
                         //////////////////
                         Fragment fragment= new EnterVerifyCodeFragment();
                         Bundle bundle=new Bundle();
-                        bundle.putString("PERSON",new Gson().toJson(person));
+                        bundle.putString("PERSON",GSON_Wrapper.getInstance().toJson(person));
                         fragment.setArguments(bundle);
                         FragmentManager fragmentManager = getFragmentManager();
                         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();

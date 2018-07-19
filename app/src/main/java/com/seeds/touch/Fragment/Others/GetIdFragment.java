@@ -16,6 +16,7 @@ import com.google.gson.Gson;
 import com.seeds.touch.Entity.Entities.Person;
 import com.seeds.touch.R;
 import com.seeds.touch.Server.Server;
+import com.seeds.touch.Technical.GSON_Wrapper;
 import com.seeds.touch.Technical.Helper;
 
 public class GetIdFragment extends Fragment {
@@ -42,7 +43,7 @@ public class GetIdFragment extends Fragment {
                         Server.getUserProfile(gottenID, objects -> {
                             Fragment fragment = new VerifyPhoneFragment();
                             Bundle bundle=new Bundle();
-                            bundle.putString("PERSON",new Gson().toJson((Person)objects[0]));
+                            bundle.putString("PERSON", GSON_Wrapper.getInstance().toJson((Person)objects[0]));
                             fragment.setArguments(bundle);
                             FragmentManager fragmentManager = getFragmentManager();
                             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();

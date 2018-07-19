@@ -12,5 +12,5 @@ import retrofit2.http.Query;
 
 public interface WorldItemAPI {
     @GET("getItems.php")
-    Call<Item> getItems(@Query("index") int index);
+    Call<List<Item>> getItems(@Query("index") int index);
 }
