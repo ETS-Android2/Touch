@@ -8,7 +8,7 @@
         <EditTextPreference
             android:defaultValue="@string/pref_edittext_defualt_value"
             android:title="@string/pref_account_firstname"
-            android:key="First name"
+            android:key="first_name"
             android:gravity="center"
             android:inputType="text"
             android:maxLines="1"
@@ -17,7 +17,7 @@
         <EditTextPreference
             android:defaultValue="@string/pref_edittext_defualt_value"
             android:title="@string/pref_account_lastname"
-            android:key="Last name"
+            android:key="last_name"
             android:inputType="text"
             android:gravity="start"
             android:maxLines="1"
@@ -26,7 +26,7 @@
         <EditTextPreference
             android:defaultValue="@string/pref_edittext_defualt_value"
             android:title="@string/pref_account_id"
-            android:key="Id"
+            android:key="id"
             android:inputType="text"
             android:gravity="start"
             android:maxLines="1"
@@ -35,7 +35,7 @@
         <EditTextPreference
             android:defaultValue="@string/pref_edittext_defualt_value"
             android:title="@string/pref_account_biography"
-            android:key="Biography"
+            android:key="biography"
             android:gravity="start"
             android:inputType="text"
             android:selectAllOnFocus="true">
@@ -47,7 +47,6 @@
         android:gravity="start">
 
         <SwitchPreference
-            android:defaultValue="false"
             android:title="@string/pref_language_persian"
             android:id="@+id/lang_switch"
             android:gravity="start"

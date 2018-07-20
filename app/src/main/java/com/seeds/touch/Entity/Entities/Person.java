@@ -1,64 +1,64 @@
 package com.seeds.touch.Entity.Entities;
 
 import android.location.Location;
+import android.util.Log;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.seeds.touch.Technical.Enums.Gender;
+import com.seeds.touch.Technical.GSON_Wrapper;
+
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.HashSet;
 
 public class Person implements Serializable {
     private String databaseID;
+    private String ID;
     private String name;
     private String lastName;
-    private Gender gender;
-    private Calendar birthdate;
+    private String GSONGender;
+    private String GSONBirthdate;
     private String phoneNumber;
     private String biography;
-    private Location location;
+    private String GSONLocation;
     private String macAddress;
-    private HashSet<String> followers;
-    private HashSet<String> followings;
-    private HashSet<String> followersQueue;
-    private HashSet<String> followingsQueue;
-    private HashSet<String> items;
-    private HashSet<String> profilePictures;
-    private String ID;
+    private String GSONFollowers;
+    private String GSONFollowings;
+    private String GSONFollowersQueue;
+    private String GSONFollowingsQueue;
+    private String GSONItems;
+    private String GSONProfilePictures;
     private String password;
+    private static final Gson gson=GSON_Wrapper.getInstance();
 
 
     public Person()
     {
 
     }
-    public Person(String databaseID, String ID, String name, String lastName, Gender gender,
-                  Calendar birthdate, String phoneNumber, String biography, Location location,
-                  String macAddress, HashSet<String> followers, HashSet<String> followings,
-                  HashSet<String> followersQueue, HashSet<String> followingsQueue,
-                  HashSet<String> items, HashSet<String> profilePictures) {
+
+    public Person(String databaseID, String ID, String name, String lastName, String GSONGender,
+                  String GSONBirthdate, String phoneNumber, String biography, String GSONLocation,
+                  String macAddress, String GSONFollowers, String GSONFollowings,
+                  String GSONFollowersQueue, String GSONFollowingsQueue, String GSONItems,
+                  String GSONProfilePictures, String password) {
         this.databaseID = databaseID;
         this.ID = ID;
         this.name = name;
         this.lastName = lastName;
-        this.gender = gender;
-        this.birthdate = birthdate;
+        this.GSONGender = GSONGender;
+        this.GSONBirthdate = GSONBirthdate;
         this.phoneNumber = phoneNumber;
         this.biography = biography;
-        this.location = location;
+        this.GSONLocation = GSONLocation;
         this.macAddress = macAddress;
-        this.followers = followers;
-        this.followings = followings;
-        this.followersQueue = followersQueue;
-        this.followingsQueue = followingsQueue;
-        this.items = items;
-        this.profilePictures = profilePictures;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
+        this.GSONFollowers = GSONFollowers;
+        this.GSONFollowings = GSONFollowings;
+        this.GSONFollowersQueue = GSONFollowersQueue;
+        this.GSONFollowingsQueue = GSONFollowingsQueue;
+        this.GSONItems = GSONItems;
+        this.GSONProfilePictures = GSONProfilePictures;
         this.password = password;
     }
 
@@ -94,22 +94,6 @@ public class Person implements Serializable {
         this.lastName = lastName;
     }
 
-    public Gender getGender() {
-        return gender;
-    }
-
-    public void setGender(Gender gender) {
-        this.gender = gender;
-    }
-
-    public Calendar getBirthdate() {
-        return birthdate;
-    }
-
-    public void setBirthdate(Calendar birthdate) {
-        this.birthdate = birthdate;
-    }
-
     public String getPhoneNumber() {
         return phoneNumber;
     }
@@ -126,14 +110,6 @@ public class Person implements Serializable {
         this.biography = biography;
     }
 
-    public Location getLocation() {
-        return location;
-    }
-
-    public void setLocation(Location location) {
-        this.location = location;
-    }
-
     public String getMacAddress() {
         return macAddress;
     }
@@ -142,53 +118,104 @@ public class Person implements Serializable {
         this.macAddress = macAddress;
     }
 
-    public HashSet<String> getFollowers() {
-        return followers;
+    public String getPassword() {
+        return password;
     }
 
-    public void setFollowers(HashSet<String> followers) {
-        this.followers = followers;
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setGSONGender(String GSONGender) {
+        this.GSONGender = GSONGender;
+    }
+
+    public void setGSONBirthdate(String GSONBirthdate) {
+        this.GSONBirthdate = GSONBirthdate;
+    }
+
+    public void setGSONLocation(String GSONLocation) {
+        this.GSONLocation = GSONLocation;
+    }
+
+    public void setGSONFollowers(String GSONFollowers) {
+        this.GSONFollowers = GSONFollowers;
+    }
+
+    public void setGSONFollowings(String GSONFollowings) {
+        this.GSONFollowings = GSONFollowings;
+    }
+
+    public void setGSONFollowersQueue(String GSONFollowersQueue) {
+        this.GSONFollowersQueue = GSONFollowersQueue;
+    }
+
+    public void setGSONFollowingsQueue(String GSONFollowingsQueue) {
+        this.GSONFollowingsQueue = GSONFollowingsQueue;
+    }
+
+    public void setGSONItems(String GSONItems) {
+        this.GSONItems = GSONItems;
+    }
+
+    public void setGSONProfilePictures(String GSONProfilePictures) {
+        this.GSONProfilePictures = GSONProfilePictures;
+    }
+
+    ////////////////////////////
+
+    public Gender getGender() {
+        return gson.fromJson(GSONGender,Gender.class);
+    }
+
+    public Calendar getBirthdate() {
+        return gson.fromJson(GSONBirthdate,Calendar.class);
+    }
+
+    public Location getLocation() {
+        return gson.fromJson(GSONLocation,Location.class);
+    }
+
+    public HashSet<String> getFollowers() {
+        return gson.fromJson(GSONFollowers,new TypeToken<HashSet<String>>(){}.getType());
     }
 
     public HashSet<String> getFollowings() {
-        return followings;
-    }
-
-    public void setFollowings(HashSet<String> followings) {
-        this.followings = followings;
+        Log.d("GHJB","IS : "+GSONFollowings);
+        return  gson.fromJson(GSONFollowings,new TypeToken<HashSet<String>>(){}.getType());
     }
 
     public HashSet<String> getFollowersQueue() {
-        return followersQueue;
-    }
-
-    public void setFollowersQueue(HashSet<String> followersQueue) {
-        this.followersQueue = followersQueue;
+        return  gson.fromJson(GSONFollowersQueue,new TypeToken<HashSet<String>>(){}.getType());
     }
 
     public HashSet<String> getFollowingsQueue() {
-        return followingsQueue;
+        return  gson.fromJson(GSONFollowingsQueue,new TypeToken<HashSet<String>>(){}.getType());
     }
 
-    public void setFollowingsQueue(HashSet<String> followingsQueue) {
-        this.followingsQueue = followingsQueue;
-    }
-
-    public HashSet<String> getItems() {
-        return items;
-    }
-
-    public void setItems(HashSet<String> items) {
-        this.items = items;
+    public Item getItems() {
+        return gson.fromJson(GSONItems,Item.class);
     }
 
     public HashSet<String> getProfilePictures() {
-        return profilePictures;
+        return  gson.fromJson(GSONProfilePictures,new TypeToken<HashSet<String>>(){}.getType());
+    }
+    ///////////////////
+    public void setGender(Gender gender)
+    {
+        this.GSONGender=gson.toJson(gender);
+    }
+    public void setLocation(Location location)
+    {
+        this.GSONLocation=gson.toJson(location);
+    }
+    public void setBirthdate(Calendar calendar)
+    {
+        this.GSONBirthdate=gson.toJson(calendar);
     }
 
-    public void setProfilePictures(HashSet<String> profilePictures) {
-        this.profilePictures = profilePictures;
-    }
+
+    ///////////////////////////
 
     public boolean isARawUser() {
         return this.getName()==null || this.getName().isEmpty() ||

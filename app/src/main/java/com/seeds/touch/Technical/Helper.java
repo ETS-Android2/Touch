@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.TextView;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
@@ -47,6 +48,27 @@ public final class Helper {
     public static EditText complete_fullName_edittext;
     public static Spinner complete_genderSpinner;
     public static Button complete_completeButton;
+
+    public static TextView mainProfileName;
+    public static TextView mainProfileFollowersNumber;
+    public static TextView mainProfileFollowingsNumber;
+    public static TextView mainProfileBiography;
+
+    public static TextView profileName;
+    public static TextView profileFollowersNumber;
+    public static TextView profileFollowingsNumber;
+    public static TextView profileBiography;
+
+    public static EditText cinemaTitleEdittext;
+    public static EditText cinemaDescriptionEdittext;
+    public static EditText cinemaLocationEdittext;
+    public static EditText cinemaFilmNameEdittext;
+    public static TextView cinemaDateTextView;
+    public static Spinner cinemaRangeSpinner;
+    public static Spinner cinemaAccessTypeSpinner;
+    public static TextView cinemaSaveTextView;
+    public static ImageView cinemaCancelTextView;
+
 
 
 

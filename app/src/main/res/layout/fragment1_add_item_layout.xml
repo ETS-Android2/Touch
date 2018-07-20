@@ -103,6 +103,7 @@
                                 android:layout_height="match_parent"
                                 android:maxLength="12"
                                 android:maxLines="1"
+                                android:layout_gravity="start"
                                 android:textColor="@color/black"
                                 android:textSize="15sp" />
                         </LinearLayout>
@@ -146,6 +147,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:maxLength="25"
+                                android:layout_gravity="start"
                                 android:maxLines="1"
                                 android:text="What do you want to do ?"
                                 android:textColor="@color/home_add_item_item_font_color"

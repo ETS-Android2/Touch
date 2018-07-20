@@ -3,6 +3,7 @@ package com.seeds.touch.Configuration;
 import com.android.volley.toolbox.StringRequest;
 
 import java.util.Calendar;
+import java.util.HashSet;
 import java.util.StringTokenizer;
 
 public class Converter {
@@ -81,5 +82,14 @@ public class Converter {
         else
             return Math.abs(hours) + " hours "+(hours<0 ? "ago" : "");
 
+    }
+
+    public static HashSet<String> putDoubleQuotationAroundEachItemOfHashSet(HashSet<String> set) {
+        HashSet<String> hashSet=new HashSet<>();
+        for(String item:set)
+        {
+            hashSet.add("\""+item+"\"");
+        }
+        return hashSet;
     }
 }

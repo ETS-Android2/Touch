@@ -5,7 +5,9 @@ import android.app.AlertDialog;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
@@ -47,6 +49,7 @@ import net.hockeyapp.android.UpdateManager;
 
 import java.util.Calendar;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -72,44 +75,47 @@ public class MainActivity extends AppCompatActivity {
             }, 0, 1000, TimeUnit.MILLISECONDS);
         }
 
-                    Calendar calendar = Calendar.getInstance();
-            calendar.set(Calendar.YEAR, 2019);
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.YEAR, 2019);
 
 
-            HashSet<Comment> comments = new HashSet<>();
-            comments.add(new Comment("Salam , aali bood", Calendar.getInstance(), "Hasan"));
-            comments.add(new Comment("Merciiii", Calendar.getInstance(), "Parvaneh"));
+        HashSet<Comment> comments = new HashSet<>();
+        comments.add(new Comment("Salam , aali bood", Calendar.getInstance(), "Hasan"));
+        comments.add(new Comment("Merciiii", Calendar.getInstance(), "Parvaneh"));
 
-            HashSet<String> attenders = new HashSet<>();
-            attenders.add("Reza");
-            attenders.add("Baghiat");
-            attenders.add("Company");
+        HashSet<String> attenders = new HashSet<>();
+        attenders.add("Reza");
+        attenders.add("Baghiat");
+        attenders.add("Company");
 
-            HashSet<String> tags = new HashSet<>();
-            tags.add("Bagh");
+        HashSet<String> tags = new HashSet<>();
+        tags.add("Bagh");
 
-            HashSet<String> pictures = new HashSet<>();
-            pictures.add("url1");
-            pictures.add("url2");
-            pictures.add("url3");
+        HashSet<String> pictures = new HashSet<>();
+        pictures.add("url1");
+        pictures.add("url2");
+        pictures.add("url3");
 
-            Location location = new Location("Touch");
-            Bundle bundle = new Bundle();
-            bundle.putString("NAME", "California");
-            location.setExtras(bundle);
-            location.setLatitude(2365.12);
-            location.setLongitude(7654.70);
+        Location location = new Location("Touch");
+        Bundle bundle = new Bundle();
+        bundle.putString("NAME", "California");
+        location.setExtras(bundle);
+        location.setLatitude(2365.12);
+        location.setLongitude(7654.70);
 
-            Event event = new CinemaEvent("Watch The Best Film", Calendar.getInstance(), Calendar.getInstance(), location, "Can You Get A One?1", 45, "Ali O Dani1");
-            Event event2 = new TripEvent("Watch The Best Film2", Calendar.getInstance(), calendar, location, "Can You Get A One?2", 46);
-            Gson gson=GSON_Wrapper.getInstance();
-            Item item  = new Item("10", gson.toJson(pictures), gson.toJson(Calendar.getInstance()),gson.toJson( tags),gson.toJson( event), "Mohammad", gson.toJson(attenders),gson.toJson( comments), 12, gson.toJson(Enums.Status.SHOWN),gson.toJson( Enums.AccessType.PUBLIC),event.getEventKey());
+        Event event = new CinemaEvent("Watch The Best Film", Calendar.getInstance(), Calendar.getInstance(), location, "Can You Get A One?1", 45, "Ali O Dani1");
+        Event event2 = new TripEvent("Watch The Best Film2", Calendar.getInstance(), calendar, location, "Can You Get A One?2", 46);
+        Gson gson = GSON_Wrapper.getInstance();
+        Item item = new Item("10", gson.toJson(pictures), gson.toJson(Calendar.getInstance()), gson.toJson(tags), gson.toJson(event), "Mohammad", gson.toJson(attenders), gson.toJson(comments), 12, gson.toJson(Enums.Status.SHOWN), gson.toJson(Enums.AccessType.PUBLIC), event.getEventKey());
 
 
-        Log.d("Attender",gson.toJson(Calendar.getInstance()));
-        Log.d("Attender",gson.toJson(Enums.Status.SHOWN));
-        Log.d("Attender",gson.toJson(Enums.AccessType.FRIENDS));
-        Log.d("Attender",gson.toJson(new HashSet<String>()));
+        HashSet<String> hashSet=new HashSet<>();
+        hashSet.add("SiminTala");
+        hashSet.add("Eskandar");
+        Log.d("Attender0", gson.toJson(hashSet));
+        Log.d("Attender", gson.toJson(Enums.Status.SHOWN));
+        Log.d("Attender", gson.toJson(Enums.AccessType.FRIENDS));
+        Log.d("Attender", gson.toJson(new HashSet<String>()));
 
         Log.d("Attender", GSON_Wrapper.getInstance().toJson(event));
     }
@@ -122,9 +128,15 @@ public class MainActivity extends AppCompatActivity {
     private void constructMainActivityItems(Bundle savedInstanceState) {
         Setting.setStatusBarInDualColored(this);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
+
+        loadLocale(this);
         setContentView(R.layout.activity_main);
+
         Helper.reNewObjects(this);
         findViews();
+        Helper.tab_details_text_view.setText(R.string.home);
+        Helper.total_items_Details_in_toolbar_text_view.setText(R.string.connecting);
         manageListeners();
         refineSizes();
         Thread thread = new Thread(() -> getSupportFragmentManager()
@@ -243,8 +255,7 @@ public class MainActivity extends AppCompatActivity {
 //                Item_Manager.getInstance().readItems(MainActivity.this, Enums.EventTypes.HOME_PUBLISHED, objects -> {
 //                    filterItems(objects[0], item, tabNum);
 //                });
-            }
-            else {
+            } else {
 //                Item_Manager.getInstance().readItems(MainActivity.this, Enums.EventTypes.WORLD_PUBLISHED, objects -> {
 //                    filterItems(objects[0], item, tabNum);
 //                });
@@ -323,6 +334,38 @@ public class MainActivity extends AppCompatActivity {
         return Helper.MainActivity_resource.getString(id);
     }
 
+
+    public static void loadLocale(Context context) {
+        String langPref = "Language";
+        SharedPreferences prefs = context.getSharedPreferences("CommonPrefs", Activity.MODE_PRIVATE);
+        String language = prefs.getString(langPref, "");
+        if (language == null || language.isEmpty()) {
+            saveLocale(context, "en_US");
+            language="en_US";
+        }
+        changeLang(context, language);
+    }
+
+    public static void saveLocale(Context context, String lang) {
+        String langPref = "Language";
+        SharedPreferences prefs = context.getSharedPreferences("CommonPrefs", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString(langPref, lang);
+        editor.commit();
+    }
+
+    public static void changeLang(Context context, String lang) {
+
+        Locale myLocale;
+        if (lang.equalsIgnoreCase(""))
+            return;
+        myLocale = new Locale(lang);
+        saveLocale(context, lang);
+        Locale.setDefault(myLocale);
+        android.content.res.Configuration config = new android.content.res.Configuration();
+        config.locale = myLocale;
+        context.getResources().updateConfiguration(config, context.getResources().getDisplayMetrics());
+    }
 
 
 }

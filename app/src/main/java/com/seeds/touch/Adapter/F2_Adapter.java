@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -21,6 +22,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.seeds.touch.Activity.ShowItemFullInformationActivity;
+import com.seeds.touch.Activity.ShowOthersProfileInformationActivity;
 import com.seeds.touch.Configuration.Converter;
 import com.seeds.touch.Configuration.Setting;
 import com.seeds.touch.Entity.Entities.Item;
@@ -29,9 +31,11 @@ import com.seeds.touch.Entity.Events.CinemaEvent;
 import com.seeds.touch.Entity.Events.RestaurantEvent;
 import com.seeds.touch.Entity.Events.TripEvent;
 import com.seeds.touch.Listeners.ItemClickSupport;
+import com.seeds.touch.Management.Interface.ProfileAPI;
 import com.seeds.touch.Management.Manager.ASyncProfessionalClass;
 import com.seeds.touch.R;
 import com.seeds.touch.Server.Server;
+import com.seeds.touch.Server.ServiceGenerator3;
 import com.seeds.touch.Technical.GSON_Wrapper;
 import com.seeds.touch.Technical.Helper;
 import com.seeds.touch.Technical.LocationDeserializer;
@@ -44,6 +48,9 @@ import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import jp.wasabeef.picasso.transformations.CropCircleTransformation;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class F2_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final ItemClickSupport listener;
@@ -100,22 +107,28 @@ public class F2_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         TextView population = (TextView) holder.view.findViewById(R.id.world_item_attender_population_text);
 
         Item item = items.get(position);
+        // profile photo listener
+        publisherPhoto.setOnClickListener(v -> {
+            Intent intent=new Intent(holder.view.getContext(), ShowOthersProfileInformationActivity.class);
+            Bundle bundle=new Bundle();
+            bundle.putString("ID",items.get(position).getPublisher());
+            intent.putExtras(bundle);
+            holder.view.getContext().startActivity(intent);
+        });
         //set publisher name
         if (item.getPublisher() != null) {
-            new ASyncProfessionalClass(objects -> {
-                String id = objects[0].toString();
-                try {
-                    Server.getUserProfile(id, objects1 -> {
-                        objects[0] = GSON_Wrapper.getInstance().fromJson(objects1[0].toString(), Person.class);
-                    });
-                } catch (Exception e) {
-                    e.printStackTrace();
+            Call<Person> call=ServiceGenerator3.createService(ProfileAPI.class).getProfile(item.getPublisher());
+            call.enqueue(new Callback<Person>() {
+                @Override
+                public void onResponse(Call<Person> call, Response<Person> response) {
+                    publisherName.setText(response.body().getName()+" "+response.body().getLastName());
                 }
-            }, objects -> {
-                String name = item.getPublisher();//((Person) objects[0]).getName();
-                publisherName.setText(name);
 
-            }).execute(item.getPublisher());
+                @Override
+                public void onFailure(Call<Person> call, Throwable t) {
+
+                }
+            });
         }
         //set population
         if (item.getEvent(item.getEventKey()) != null) {

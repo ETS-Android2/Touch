@@ -3,14 +3,16 @@
     package="com.seeds.touch">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/touch_icon"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@drawable/touch_icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".Management.Manager.MainActivity">
@@ -34,7 +36,8 @@
             android:theme="@style/AppTheme" />
         <activity
             android:name=".Activity.SettingsActivity"
-            android:label="@string/title_activity_settings"></activity>
+            android:label="@string/title_activity_settings" />
+        <activity android:name=".Activity.ShowOthersProfileInformationActivity"></activity>
     </application>
 
 </manifest>

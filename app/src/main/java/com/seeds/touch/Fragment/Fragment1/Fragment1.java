@@ -14,17 +14,24 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.seeds.touch.Adapter.F1_Adapter;
 import com.seeds.touch.Entity.Entities.Item;
+import com.seeds.touch.Entity.Entities.Person;
 import com.seeds.touch.Management.Interface.HomeItemAPI;
+import com.seeds.touch.Management.Interface.ProfileAPI;
 import com.seeds.touch.R;
 import com.seeds.touch.Server.ServiceGenerator;
+import com.seeds.touch.Server.ServiceGenerator3;
 import com.seeds.touch.Technical.GSON_Wrapper;
 import com.seeds.touch.Technical.Helper;
 
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
+import retrofit2.Converter;
 import retrofit2.Response;
 
 import static com.seeds.touch.Technical.Helper.TAG;
@@ -34,6 +41,7 @@ import static com.seeds.touch.Technical.Helper.TAG;
 public class Fragment1 extends Fragment {
     private List<Item> items = new ArrayList<>();
     private HomeItemAPI api;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -100,22 +108,35 @@ public class Fragment1 extends Fragment {
     }
 
     private void load(int index) {
-        Call<List<Item>> call = api.getItems(index);
-        call.enqueue(new Callback<List<Item>>() {
+        Call<Person> personCall = ServiceGenerator3.createService(ProfileAPI.class).getProfile("SiminTala");
+        personCall.enqueue(new Callback<Person>() {
             @Override
-            public void onResponse(Call<List<Item>> call, Response<List<Item>> response) {
-                Log.d("FGHBVNC", GSON_Wrapper.getInstance().toJson(response.body()));
-                if (response.isSuccessful()) {
-                    items.addAll(response.body());
-                    ((F1_Adapter) Helper.fragment1_Adapter).notifyDataChanged();
-                } else {
-                    Log.e(TAG, " Response Error " + String.valueOf(response.code()));
+            public void onResponse(Call<Person> call, Response<Person> response) {
+                if (response.body() != null) {
+                    Call<List<Item>> itemCall = api.getItems(index, GSON_Wrapper.getInstance().toJson(response.body().getFollowings()));
+                    itemCall.enqueue(new Callback<List<Item>>() {
+                        @Override
+                        public void onResponse(Call<List<Item>> call, Response<List<Item>> response) {
+                            Log.d("vcxvFGHBVNC", GSON_Wrapper.getInstance().toJson(response.body()));
+                            if (response.isSuccessful()) {
+                                items.addAll(response.body());
+                                ((F1_Adapter) Helper.fragment1_Adapter).notifyDataChanged();
+                            } else {
+                                Log.e(TAG, " Response Error " + String.valueOf(response.code()));
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<List<Item>> call, Throwable t) {
+                            Log.e(TAG, " Rxcvesponse Error " + t.getMessage());
+                        }
+                    });
                 }
             }
 
             @Override
-            public void onFailure(Call<List<Item>> call, Throwable t) {
-                Log.e(TAG, " Rxcvesponse Error " + t.getMessage());
+            public void onFailure(Call<Person> call, Throwable t) {
+                Log.d(Helper.LOG_TOUCH_ERROR, "ERROR");
             }
         });
     }
@@ -149,35 +170,58 @@ public class Fragment1 extends Fragment {
         items.add(item);
         Helper.fragment1_Adapter.notifyItemInserted(items.size() - 1);
 
-        Call<List<Item>> call = api.getItems(index);
-        call.enqueue(new Callback<List<Item>>() {
+        Call<Person> personCall = ServiceGenerator3.createService(ProfileAPI.class).getProfile("SiminTala");
+        personCall.enqueue(new Callback<Person>() {
             @Override
-            public void onResponse(Call<List<Item>> call, Response<List<Item>> response) {
-                Log.d("DFGCB", GSON_Wrapper.getInstance().toJson(response.body()));
-                if (response.isSuccessful()) {
+            public void onResponse(Call<Person> call, Response<Person> response) {
+                if(response.body()!=null)
+                {
+                    Log.d("IOPU",GSON_Wrapper.getInstance().toJson(response.body()));
+                    Log.d("dsfh",GSON_Wrapper.getInstance().toJson(response.body().getFollowings()));
 
-                    //remove loading view
-                    items.remove(items.size() - 1);
-                    List<Item> result = response.body();
-                    if (result.size() > 0) {
-                        //add loaded data
-                        items.addAll(result);
-                    } else {//result size 0 means there is no more data available at server
-                        ((F1_Adapter) Helper.fragment1_Adapter).setMoreDataAvailable(false);
+                    Call<List<Item>> itemCall = ServiceGenerator.createService(HomeItemAPI.class).
+                            getItems(index,GSON_Wrapper.getInstance().toJson(com.seeds.touch.
+                                    Configuration.Converter.putDoubleQuotationAroundEachItemOfHashSet(response.body().getFollowings())));
+                    itemCall.enqueue(new Callback<List<Item>>() {
+                        @Override
+                        public void onResponse(Call<List<Item>> call, Response<List<Item>> response) {
+                            Log.d("DFGCxcxcB", GSON_Wrapper.getInstance().toJson(response.body()));
+                            if (response.isSuccessful()) {
 
-                        //telling adapter to stop calling load more as no more server data available
-                        Toast.makeText(context, "No More Data Available", Toast.LENGTH_LONG).show();
-                    }
-                    ((F1_Adapter) Helper.fragment1_Adapter).notifyDataChanged();
-                    //should call the custom method adapter.notifyDataChanged here to get the correct loading status
-                } else {
-                    Log.e(TAG, " Load More Response Error " + String.valueOf(response.code()));
+                                //remove loading view
+                                items.remove(items.size() - 1);
+                                List<Item> result = response.body();
+                                if (result.size() > 0) {
+                                    //add loaded data
+                                    items.addAll(result);
+                                } else {//result size 0 means there is no more data available at server
+                                    ((F1_Adapter) Helper.fragment1_Adapter).setMoreDataAvailable(false);
+
+                                    //telling adapter to stop calling load more as no more server data available
+                                    Toast.makeText(context, "No More Data Available", Toast.LENGTH_LONG).show();
+                                }
+                                ((F1_Adapter) Helper.fragment1_Adapter).notifyDataChanged();
+                                //should call the custom method adapter.notifyDataChanged here to get the correct loading status
+                            } else {
+                                Log.e(TAG, " Load More Response Error " + String.valueOf(response.code()));
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<List<Item>> call, Throwable t) {
+                            Log.e(TAG, " Load More Response Error " + t.getMessage());
+                        }
+                    });
+                }
+                else
+                {
+                    Log.d(Helper.LOG_TOUCH_ERROR, "****Error");
                 }
             }
 
             @Override
-            public void onFailure(Call<List<Item>> call, Throwable t) {
-                Log.e(TAG, " Load More Response Error " + t.getMessage());
+            public void onFailure(Call<Person> call, Throwable t) {
+                Log.d(Helper.LOG_TOUCH_ERROR, "Error***");
             }
         });
     }

@@ -91,18 +91,20 @@
 
     <string name="pref_language_title">Language</string>
     <string name="pref_language_english">English</string>
-    <string name="pref_language_persian">English/Persian</string>
+    <string name="pref_language_persian">Persian/English</string>
 
     <string name="pref_account_title">Account</string>
     <string name="pref_account_firstname">First Name</string>
     <string name="pref_account_lastname">Last Name</string>
     <string name="pref_account_id">Id</string>
     <string name="pref_account_biography">Biography</string>
-    <string name="pref_edittext_defualt_value">none</string>
+    <string name="pref_edittext_defualt_value"></string>
 
     <string name="pref_logout">Logout</string>
     <string name="license">Open source libraries</string>
     <string name="privacy_policy">Privacy and Policy</string>
+    <string name="please_exit_and_re_open">Please close touch and re-open it</string>
+    <string name="connecting">Connecting ...</string>
 
     <!-- String related to toolbar -->
 

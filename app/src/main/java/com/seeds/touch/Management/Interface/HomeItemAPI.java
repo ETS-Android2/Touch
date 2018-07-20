@@ -10,5 +10,7 @@ import retrofit2.http.Query;
 
 public interface HomeItemAPI {
     @GET("getHomeItems.php")
-    Call<List<Item>> getItems(@Query("index") int index);
+    Call<List<Item>> getItems(@Query("index") int index,@Query("followings") String GSONFollowings);
+    @GET("storeItem.php")
+    Call<String> storeItem(@Query("publisherID") String ID,@Query("item") String GSONItem);
 }
