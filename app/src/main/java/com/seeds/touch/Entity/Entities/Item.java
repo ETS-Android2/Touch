@@ -25,7 +25,6 @@ public class Item {
     private final static Gson gson = GSON_Wrapper.getInstance();
     private String databaseID;
     private String JSONPictures;
-    private String JSONReleaseDate;
     private String JSONTags;
     private String JSONEvent;
     private String publisher;
@@ -39,14 +38,14 @@ public class Item {
 
     public Item() {
         this.loadItem = false;
+        this.rank=0;
     }
 
-    public Item(String databaseID, String JSONPictures, String JSONReleaseDate, String JSONTags,
+    public Item(String JSONPictures, String JSONTags,
                 String JSONEvent, String publisher, String JSONAttenders, String JSONComments,
                 float rank, String JSONStatus, String JSONAccessType, String eventKey) {
-        this.databaseID = databaseID;
+
         this.JSONPictures = JSONPictures;
-        this.JSONReleaseDate = JSONReleaseDate;
         this.JSONTags = JSONTags;
         this.JSONEvent = JSONEvent;
         this.publisher = publisher;
@@ -57,10 +56,6 @@ public class Item {
         this.JSONAccessType = JSONAccessType;
         this.loadItem = false;
         this.eventKey = eventKey;
-    }
-
-    public Calendar getReleaseDate() {
-        return gson.fromJson(JSONReleaseDate, Calendar.class);
     }
 
     public Event getEvent(String type) {
@@ -77,32 +72,45 @@ public class Item {
     }
 
     public Status getStatus() {
+        if(JSONStatus==null)
+            JSONStatus=GSON_Wrapper.getInstance().toJson(Status.SHOWN);
         return gson.fromJson(JSONStatus, Status.class);
     }
 
     public AccessType getAccessType() {
+
+        if(JSONAccessType==null)
+            JSONAccessType=GSON_Wrapper.getInstance().toJson(AccessType.PUBLIC);
         return gson.fromJson(JSONAccessType, AccessType.class);
     }
 
     public HashSet<String> getPictures() {
+        if(JSONPictures==null)
+            JSONPictures=GSON_Wrapper.getInstance().toJson(new HashSet<String>());
         return gson.fromJson(JSONPictures, new TypeToken<HashSet<String>>() {
         }.getType());
     }
 
 
     public HashSet<String> getTags() {
+        if(JSONTags==null)
+            JSONTags=GSON_Wrapper.getInstance().toJson(new HashSet<String>());
         return gson.fromJson(JSONTags, new TypeToken<HashSet<String>>() {
         }.getType());
     }
 
 
     public HashSet<String> getAttenders() {
+        if(JSONAttenders==null)
+            JSONAttenders=GSON_Wrapper.getInstance().toJson(new HashSet<String>());
         return gson.fromJson(JSONAttenders, new TypeToken<HashSet<String>>() {
         }.getType());
     }
 
 
     public HashSet<String> getComments() {
+        if(JSONComments==null)
+            JSONComments=GSON_Wrapper.getInstance().toJson(new HashSet<String>());
         return gson.fromJson(JSONComments, new TypeToken<HashSet<String>>() {
         }.getType());
     }
@@ -115,9 +123,6 @@ public class Item {
         this.JSONPictures = JSONPictures;
     }
 
-    public void setJSONReleaseDate(String JSONReleaseDate) {
-        this.JSONReleaseDate = JSONReleaseDate;
-    }
 
     public void setJSONTags(String JSONTags) {
         this.JSONTags = JSONTags;
@@ -173,5 +178,9 @@ public class Item {
 
     public void setEventKey(String eventKey) {
         this.eventKey = eventKey;
+    }
+
+    public float getRank() {
+        return rank;
     }
 }

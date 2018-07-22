@@ -5,23 +5,15 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.util.Base64;
-import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 
 import com.karumi.dexter.Dexter;
-import com.karumi.dexter.MultiplePermissionsReport;
-import com.karumi.dexter.PermissionToken;
-import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.multi.DialogOnAnyDeniedMultiplePermissionsListener;
-import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
-import com.seeds.touch.Management.Manager.MainActivity;
 import com.seeds.touch.R;
 import com.seeds.touch.Technical.Enums;
 import com.seeds.touch.Technical.Enums.LoginStatus;
 import com.seeds.touch.Technical.Helper;
-
-import java.util.List;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -55,9 +47,9 @@ public final class Setting {
                 .build()).check();
     }
 
-    public static void saveEncryptedID(Context context, String newEncryptedID) {
-        Helper.encryptedUserID = newEncryptedID;
-        Setting.saveSetting(context, USER_INFORMATION_SHARED_PREFERENCES_TABLE, Helper.ENCRYPTED_USER_ID_KEY, newEncryptedID);
+    public static void saveUSerID(Context context, String newUserID) {
+        Helper.userID= newUserID;
+        Setting.saveSetting(context, USER_INFORMATION_SHARED_PREFERENCES_TABLE, Helper.USER_ID_KEY, newUserID);
     }
 
     public static LoginStatus getLoginStatus(Context context) {

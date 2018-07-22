@@ -12,6 +12,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Full Name ( John Anderson )" />
+    <EditText
+        android:id="@+id/complete_id_edittext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="ID ( JohnAnderson )" />
 
     <Spinner
         android:id="@+id/complete_gender_spinner"

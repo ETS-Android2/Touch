@@ -31,8 +31,11 @@ import com.seeds.touch.Management.Manager.MainActivity;
 import com.seeds.touch.R;
 import com.seeds.touch.Server.Server;
 import com.seeds.touch.Server.ServiceGenerator3;
+import com.seeds.touch.Technical.Enums;
+import com.seeds.touch.Technical.GSON_Wrapper;
 import com.seeds.touch.Technical.Helper;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 
@@ -90,15 +93,29 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
 
 
         findPreference("first_name").setOnPreferenceChangeListener((preference1, newValue1) -> {
-            Call<String> call = api.updateProfile("AlexMohammad", "Name", newValue1.toString());
-            call.enqueue(new Callback<String>() {
+            HashSet<String> columns=new HashSet<>();
+            columns.add("Name");
+            HashSet<String> values=new HashSet<>();
+            values.add(newValue1.toString());
+            Call<Integer> call = api.updateProfile(Helper.userID,1, GSON_Wrapper.getInstance().toJson(columns),
+                    GSON_Wrapper.getInstance().toJson(values));
+            call.enqueue(new Callback<Integer>() {
                 @Override
-                public void onResponse(Call<String> call, Response<String> response) {
-                    Toast.makeText(SettingsActivity.this, "" + response.body(), Toast.LENGTH_LONG).show();
+                public void onResponse(Call<Integer> call, Response<Integer> response) {
+                    switch (Enums.UpdateUserResult.values()[response.body()])
+                    {
+                        case SUCCESSFUL:
+                            Toast.makeText(SettingsActivity.this, "Successfully Edited", Toast.LENGTH_LONG).show();
+                            break;
+                        case FAILED:
+                            Toast.makeText(SettingsActivity.this, "Error while edit", Toast.LENGTH_LONG).show();
+
+                            break;
+                    }
                 }
 
                 @Override
-                public void onFailure(Call<String> call, Throwable t) {
+                public void onFailure(Call<Integer> call, Throwable t) {
                     Log.d(Helper.LOG_TOUCH_ERROR, "ERROR IN RESPONSE");
                 }
             });
@@ -106,15 +123,29 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
             return false;
         });
         findPreference("last_name").setOnPreferenceChangeListener((preference1, newValue1) -> {
-            Call<String> call = api.updateProfile("AlexMohammad", "LastName", newValue1.toString());
-            call.enqueue(new Callback<String>() {
+            HashSet<String> columns=new HashSet<>();
+            columns.add("LastName");
+            HashSet<String> values=new HashSet<>();
+            values.add(newValue1.toString());
+            Call<Integer> call = api.updateProfile(Helper.userID,1, GSON_Wrapper.getInstance().toJson(columns),
+                    GSON_Wrapper.getInstance().toJson(values));
+            call.enqueue(new Callback<Integer>() {
                 @Override
-                public void onResponse(Call<String> call, Response<String> response) {
-                    Toast.makeText(SettingsActivity.this, "" + response.body(), Toast.LENGTH_LONG).show();
+                public void onResponse(Call<Integer> call, Response<Integer> response) {
+                    switch (Enums.UpdateUserResult.values()[response.body()])
+                    {
+                        case SUCCESSFUL:
+                            Toast.makeText(SettingsActivity.this, "Successfully Edited", Toast.LENGTH_LONG).show();
+                            break;
+                        case FAILED:
+                            Toast.makeText(SettingsActivity.this, "Error while edit", Toast.LENGTH_LONG).show();
+
+                            break;
+                    }
                 }
 
                 @Override
-                public void onFailure(Call<String> call, Throwable t) {
+                public void onFailure(Call<Integer> call, Throwable t) {
                     Log.d(Helper.LOG_TOUCH_ERROR, "ERROR IN RESPONSE");
                 }
             });
@@ -123,35 +154,65 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
         });
 
         findPreference("id").setOnPreferenceChangeListener((preference1, newValue1) -> {
-            Call<String> call = api.updateProfile("AlexMohammad", "ID", newValue1.toString());
-            call.enqueue(new Callback<String>() {
+            HashSet<String> columns=new HashSet<>();
+            columns.add("ID");
+            HashSet<String> values=new HashSet<>();
+            values.add(newValue1.toString());
+            Call<Integer> call = api.updateProfile(Helper.userID,1, GSON_Wrapper.getInstance().toJson(columns),
+                    GSON_Wrapper.getInstance().toJson(values));
+            call.enqueue(new Callback<Integer>() {
                 @Override
-                public void onResponse(Call<String> call, Response<String> response) {
-                    Toast.makeText(SettingsActivity.this, "" + response.body(), Toast.LENGTH_LONG).show();
+                public void onResponse(Call<Integer> call, Response<Integer> response) {
+                    switch (Enums.UpdateUserResult.values()[response.body()])
+                    {
+                        case SUCCESSFUL:
+                            Toast.makeText(SettingsActivity.this, "Successfully Edited", Toast.LENGTH_LONG).show();
+                            break;
+                        case FAILED:
+                            Toast.makeText(SettingsActivity.this, "Error while edit", Toast.LENGTH_LONG).show();
+
+                            break;
+                    }
                 }
 
                 @Override
-                public void onFailure(Call<String> call, Throwable t) {
+                public void onFailure(Call<Integer> call, Throwable t) {
                     Log.d(Helper.LOG_TOUCH_ERROR, "ERROR IN RESPONSE");
                 }
             });
+
 
             return false;
         });
 
         findPreference("biography").setOnPreferenceChangeListener((preference1, newValue1) -> {
-            Call<String> call = api.updateProfile("AlexMohammad", "Bio", newValue1.toString());
-            call.enqueue(new Callback<String>() {
+            HashSet<String> columns=new HashSet<>();
+            columns.add("Bio");
+            HashSet<String> values=new HashSet<>();
+            values.add(newValue1.toString());
+            Call<Integer> call = api.updateProfile(Helper.userID,1, GSON_Wrapper.getInstance().toJson(columns),
+                    GSON_Wrapper.getInstance().toJson(values));
+            call.enqueue(new Callback<Integer>() {
                 @Override
-                public void onResponse(Call<String> call, Response<String> response) {
-                    Toast.makeText(SettingsActivity.this, "" + response.body(), Toast.LENGTH_LONG).show();
+                public void onResponse(Call<Integer> call, Response<Integer> response) {
+                    switch (Enums.UpdateUserResult.values()[response.body()])
+                    {
+                        case SUCCESSFUL:
+                            Toast.makeText(SettingsActivity.this, "Successfully Edited", Toast.LENGTH_LONG).show();
+                            break;
+                        case FAILED:
+                            Toast.makeText(SettingsActivity.this, "Error while edit", Toast.LENGTH_LONG).show();
+
+                            break;
+                    }
                 }
 
                 @Override
-                public void onFailure(Call<String> call, Throwable t) {
+                public void onFailure(Call<Integer> call, Throwable t) {
                     Log.d(Helper.LOG_TOUCH_ERROR, "ERROR IN RESPONSE");
                 }
             });
+
 
             return false;
         });

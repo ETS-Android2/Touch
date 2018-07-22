@@ -9,12 +9,13 @@ import static com.seeds.touch.Technical.Enums.*;
 public class RestaurantEvent extends Event {
     private MealMode mealMode;
 
-    public RestaurantEvent(String title, Calendar startDate, Calendar endDate, Location location,
+    public RestaurantEvent(String title, Calendar startDate, Calendar endDate, String location,
                            String description, int ATTENDER_NUMBER_RANGE, MealMode mealMode) {
         super(title, startDate, endDate, location, description, ATTENDER_NUMBER_RANGE);
         this.mealMode = mealMode;
     }
 
+    public RestaurantEvent(){}
     public MealMode getMealMode() {
         return mealMode;
     }

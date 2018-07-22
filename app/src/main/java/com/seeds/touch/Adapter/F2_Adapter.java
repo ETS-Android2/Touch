@@ -147,18 +147,18 @@ public class F2_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         } else if (item.getEvent(item.getEventKey()) instanceof RestaurantEvent) {
             sentence = "Serve for " + Converter.toCamelCase(((RestaurantEvent) item.getEvent(item.getEventKey())).getMealMode().toString());
         } else if (item.getEvent(item.getEventKey()) instanceof TripEvent) {
-            sentence = "Trip to " + item.getEvent(item.getEventKey()).getLocation().getExtras().getString("NAME");
+            sentence = "Trip to " + item.getEvent(item.getEventKey()).getLocation();
         }
         category.setText(sentence);
         //set stickerLabel
         if (item.getEvent(item.getEventKey()) != null)
-            if (Calendar.getInstance().after(item.getEvent(item.getEventKey()).getEndDate()))
+            if (Calendar.getInstance().after(item.getEvent(item.getEventKey()).getStartDate()))
                 stickerLabel.setText("Join");
             else
                 stickerLabel.setText("Expired");
         //set endDate
         if (item.getEvent(item.getEventKey()) != null)
-            startDate.setText(Converter.getDifferenceBetweenCalendars(Calendar.getInstance(), item.getEvent(item.getEventKey()).getEndDate()));
+            startDate.setText(Converter.getDifferenceBetweenCalendars(Calendar.getInstance(), item.getEvent(item.getEventKey()).getStartDate()));
         //
         listener.setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
             @Override
@@ -170,7 +170,7 @@ public class F2_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             @Override
             public void onItemDoubleClicked(RecyclerView recyclerView, int position, View v) {
                 Item item = items.get(position);
-                item.getAttenders().add(Setting.decode_Default(Helper.encryptedUserID));
+                item.getAttenders().add(Helper.userID);
                  Server.editItemDetails(item.getDatabaseID(), item, objects -> {
                     Item newItem = null;
                     try {

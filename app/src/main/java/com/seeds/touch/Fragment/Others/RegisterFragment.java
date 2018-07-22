@@ -2,7 +2,6 @@ package com.seeds.touch.Fragment.Others;
 
 import android.app.Fragment;
 import android.os.Bundle;
-import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,15 +12,11 @@ import android.widget.Toast;
 import com.android.volley.toolbox.Volley;
 import com.seeds.touch.Configuration.Setting;
 import com.seeds.touch.Entity.Entities.Person;
-import com.seeds.touch.Management.Interface.PostTimeInterface;
 import com.seeds.touch.Management.Manager.MainActivity;
 import com.seeds.touch.R;
 import com.seeds.touch.Server.Server;
 import com.seeds.touch.Technical.Enums;
 import com.seeds.touch.Technical.Helper;
-
-import java.io.IOException;
-import java.util.Set;
 
 import static com.seeds.touch.Configuration.Setting.USER_INFORMATION_SHARED_PREFERENCES_TABLE;
 
@@ -47,7 +42,7 @@ public class RegisterFragment extends Fragment {
                 Server.registerUserProfile(view.getContext(), Volley.newRequestQueue(view.getContext()), phoneNumber, userName, password, objects -> {
                     if (objects[0].toString().equals("done")) {
                         Person person = (Person) objects[1];
-                        Setting.saveEncryptedID(view.getContext(), person.getID());
+                        Setting.saveUSerID(view.getContext(), person.getID());
                         Toast.makeText(view.getContext(), "Signed Up Successfully", Toast.LENGTH_LONG).show();
 
                         Server.loginUserProfile(view.getContext(), Volley.newRequestQueue(view.getContext()), person, objects1 -> {

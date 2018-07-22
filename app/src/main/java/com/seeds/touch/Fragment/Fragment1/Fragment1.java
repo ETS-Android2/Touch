@@ -108,7 +108,7 @@ public class Fragment1 extends Fragment {
     }
 
     private void load(int index) {
-        Call<Person> personCall = ServiceGenerator3.createService(ProfileAPI.class).getProfile("SiminTala");
+        Call<Person> personCall = ServiceGenerator3.createService(ProfileAPI.class).getProfile(Helper.userID);
         personCall.enqueue(new Callback<Person>() {
             @Override
             public void onResponse(Call<Person> call, Response<Person> response) {
@@ -170,7 +170,7 @@ public class Fragment1 extends Fragment {
         items.add(item);
         Helper.fragment1_Adapter.notifyItemInserted(items.size() - 1);
 
-        Call<Person> personCall = ServiceGenerator3.createService(ProfileAPI.class).getProfile("SiminTala");
+        Call<Person> personCall = ServiceGenerator3.createService(ProfileAPI.class).getProfile(Helper.userID);
         personCall.enqueue(new Callback<Person>() {
             @Override
             public void onResponse(Call<Person> call, Response<Person> response) {

@@ -1,6 +1,7 @@
 package com.seeds.touch.Configuration;
 
 import com.android.volley.toolbox.StringRequest;
+import com.seeds.touch.Technical.Enums;
 
 import java.util.Calendar;
 import java.util.HashSet;
@@ -91,5 +92,18 @@ public class Converter {
             hashSet.add("\""+item+"\"");
         }
         return hashSet;
+    }
+    public static Enums.MealMode getEnumTypeOf(String stringEquivalent)
+    {
+        if(stringEquivalent.equalsIgnoreCase(Enums.MealMode.BREAKFAST.toString()))
+            return Enums.MealMode.BREAKFAST;
+        else if(stringEquivalent.equalsIgnoreCase(Enums.MealMode.DINNER.toString()))
+            return Enums.MealMode.DINNER;
+        else if(stringEquivalent.equalsIgnoreCase(Enums.MealMode.EVENING_MEAL.toString()))
+            return Enums.MealMode.EVENING_MEAL;
+        else if(stringEquivalent.equalsIgnoreCase(Enums.MealMode.LUNCH.toString()))
+            return Enums.MealMode.LUNCH;
+        return null;
+
     }
 }

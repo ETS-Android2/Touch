@@ -21,15 +21,24 @@ import com.android.volley.toolbox.Volley;
 import com.seeds.touch.Configuration.Setting;
 import com.seeds.touch.Entity.Entities.Person;
 import com.seeds.touch.Management.Interface.CurrentTimeInterface;
+import com.seeds.touch.Management.Interface.ProfileAPI;
 import com.seeds.touch.Management.Manager.MainActivity;
 import com.seeds.touch.R;
 import com.seeds.touch.Server.Server;
+import com.seeds.touch.Server.ServiceGenerator;
+import com.seeds.touch.Server.ServiceGenerator2;
 import com.seeds.touch.Technical.Enums;
+import com.seeds.touch.Technical.GSON_Wrapper;
 import com.seeds.touch.Technical.Helper;
 
 import java.net.NetworkInterface;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class CompleteUserProfileActivity extends AppCompatActivity implements
         AdapterView.OnItemSelectedListener, LocationListener {
@@ -54,34 +63,55 @@ public class CompleteUserProfileActivity extends AppCompatActivity implements
     private void handleListeners() {
         Helper.complete_completeButton.setOnClickListener(v -> {
             if (Helper.complete_fullName_edittext.getText() == null ||
-                    Helper.complete_fullName_edittext.getText().toString().isEmpty()) {
+                    Helper.complete_fullName_edittext.getText().toString().isEmpty() ||
+                    Helper.complete_ID_edittext.getText() == null ||
+                    Helper.complete_ID_edittext.getText().toString().isEmpty()
+                    ) {
                 Toast.makeText(this, "Empty Fields Should Be Filled", Toast.LENGTH_SHORT).show();
             } else {
                 person.setName(Helper.complete_fullName_edittext.getText().toString().split(" ")[0]);
-                //int finishNameIndex = Helper.complete_fullName_edittext.getText().toString().split(" ")[0].indexOf(person.getName())
-                  //      + Helper.complete_fullName_edittext.getText().toString().split(" ")[0].length();
-                try {
-                    person.setLastName("Jalili");//Helper.complete_fullName_edittext.getText().toString().substring(finishNameIndex + 2));
-                } catch (Exception e) {
-                    Toast.makeText(this, "Error in text processing", Toast.LENGTH_LONG).show();
-                }
-            }
-            person.setGender(Helper.complete_genderSpinner.getSelectedItem().toString().equals(Enums.Gender.MALE.toString()) ? Enums.Gender.MALE :
-                    (Helper.complete_genderSpinner.getSelectedItem().toString().equals(Enums.Gender.FEMALE.toString()) ? Enums.Gender.FEMALE : Enums.Gender.NONE));
-            LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-                    ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                Toast.makeText(this, "You have not permissions yet", Toast.LENGTH_LONG).show();
-            } else {
-                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
-            }
-            person.setMacAddress(getMacAddress());
-            person.setID(Setting.decode_Default(Helper.encryptedUserID));
-            if (person.getLocation() != null) {
-                Server.editUserAccount(person.getID(), person, Volley.newRequestQueue(this),objects -> {
-                    Toast.makeText(this, "Welcome " + person.getName(), Toast.LENGTH_LONG).show();
-                    MainActivity.openActivity_GeneralMode(this, Enums.ActivityRepository.MAIN_ACTIVITY, true);
+                person.setLastName(Helper.complete_fullName_edittext.getText().toString().split(" ")[1]);
+                person.setID(Helper.complete_ID_edittext.getText().toString());
+                person.setGender(Helper.complete_genderSpinner.getSelectedItem().toString().
+                        equals(Enums.Gender.MALE.toString()) ? Enums.Gender.MALE :
+                        (Helper.complete_genderSpinner.getSelectedItem().toString().
+                                equals(Enums.Gender.FEMALE.toString()) ? Enums.Gender.FEMALE : Enums.Gender.NONE));
+                person.setMacAddress(getMacAddress());
+                //   if (person.getLocation() != null) {
+                HashSet<String> columns = new HashSet<>();
+                columns.add("Name");
+                columns.add("LastName");
+                columns.add("ID");
+                HashSet<String> values = new HashSet<>();
+                values.add(person.getName());
+                values.add(person.getLastName());
+                values.add(person.getID());
+                Call<Integer> call = ServiceGenerator2.createService(ProfileAPI.class).
+                        updateProfile(getIntent().getExtras().getString("ID"), 3, GSON_Wrapper.getInstance().toJson(columns),
+                                GSON_Wrapper.getInstance().toJson(values));
+                call.enqueue(new Callback<Integer>() {
+                    @Override
+                    public void onResponse(Call<Integer> call, Response<Integer> response) {
+                        switch (Enums.UpdateUserResult.values()[response.body()]) {
+                            case SUCCESSFUL:
+                                Toast.makeText(v.getContext(), "Welcome " + person.getName(), Toast.LENGTH_LONG).show();
+                                MainActivity.openActivity_GeneralMode(v.getContext(), Enums.ActivityRepository.MAIN_ACTIVITY, true);
+                                break;
+                            case FAILED:
+                                Toast.makeText(v.getContext(), "Error while edit profile", Toast.LENGTH_LONG).show();
+                                break;
+                            case ID_EXIST:
+                                Toast.makeText(v.getContext(), "ID exists !", Toast.LENGTH_LONG).show();
+                                break;
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<Integer> call, Throwable t) {
+                        Log.d("GVBBV", "ERROR COMPLETE");
+                    }
                 });
+                //   }
             }
         });
     }
@@ -89,6 +119,7 @@ public class CompleteUserProfileActivity extends AppCompatActivity implements
     private void findViews() {
         Helper.complete_completeButton = findViewById(R.id.complete_complete_button);
         Helper.complete_fullName_edittext = findViewById(R.id.complete_fullname_edittext);
+        Helper.complete_ID_edittext = findViewById(R.id.complete_id_edittext);
         Helper.complete_genderSpinner = findViewById(R.id.complete_gender_spinner);
 
     }

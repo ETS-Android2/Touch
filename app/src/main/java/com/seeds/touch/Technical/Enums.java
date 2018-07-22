@@ -38,4 +38,17 @@ public final class Enums {
     public enum DisplayMode {
         SHOW,HIDE
     }
+    public enum LoginResult
+    {
+        SUCCESSFUL_COMPLETED,
+        SUCCESSFUL_NOT_COMPLETED,
+        NOT_EXIST,
+        WRONG_PASSWORD,
+        ERROR;
+    }
+    public enum UpdateUserResult
+    {
+        SUCCESSFUL,FAILED,ID_EXIST
+    }
+
 }

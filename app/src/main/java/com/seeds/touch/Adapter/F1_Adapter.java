@@ -141,7 +141,17 @@ public class F1_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         publisherName.setText("You");
         publisherPhoto.setImageResource(R.drawable.mytestimage);
 
+        listener.setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
+            @Override
+            public void onItemClicked(RecyclerView recyclerView, int position, View v) {
+                openAddItemDialog(v);
+            }
 
+            @Override
+            public void onItemDoubleClicked(RecyclerView recyclerView, int position, View v) {
+                //do nothing
+            }
+        });
         Log.d("WERT", "" + position);
     }
 
@@ -166,8 +176,8 @@ public class F1_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 //if (position == 0 && items.get(position) == null)
                 //     Toast.makeText(v.getContext(), "ADDING", Toast.LENGTH_LONG).show();
                 // else
-                switch (getItemViewType(position)) {
-                    case TYPE_ADD_ITEM:
+                switch (position) {
+                    case 0:
                         openAddItemDialog(v);
                         break;
                     case TYPE_ITEM:
@@ -184,7 +194,7 @@ public class F1_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                         break;
                     case TYPE_ITEM:
                         Item item = items.get(position);
-                                items.get(position).getAttenders().add(Setting.decode_Default(Helper.encryptedUserID));
+                                items.get(position).getAttenders().add(Helper.userID);
                         Server.editItemDetails(item.getDatabaseID(), item, objects -> {
                             Item newItem = null;
                             try {
@@ -244,20 +254,20 @@ public class F1_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             } else if (item.getEvent(item.getEventKey()) instanceof RestaurantEvent) {
                 sentence = "Serve for " + Converter.toCamelCase(((RestaurantEvent) item.getEvent(item.getEventKey())).getMealMode().toString());
             } else if (item.getEvent(item.getEventKey()) instanceof TripEvent) {
-                sentence = "Trip to " + item.getEvent(item.getEventKey()).getLocation().getExtras().getString("NAME");
+                sentence = "Trip to " + item.getEvent(item.getEventKey()).getLocation();
             }
             category.setText(sentence);
         }
         //set stickerLabel
         if (items.get(position) != null && items.get(position).getEvent(items.get(position).getEventKey()) != null) {
-            if (Calendar.getInstance().after(items.get(position).getEvent(items.get(position).getEventKey()).getEndDate()))
+            if (Calendar.getInstance().after(items.get(position).getEvent(items.get(position).getEventKey()).getStartDate()))
                 stickerLabel.setText("Join");
             else
                 stickerLabel.setText("Expired");
         }
         //set endDate
         if (items.get(position) != null && items.get(position).getEvent(items.get(position).getEventKey()) != null)
-            startDate.setText(Converter.getDifferenceBetweenCalendars(Calendar.getInstance(), items.get(position).getEvent(items.get(position).getEventKey()).getEndDate()));
+            startDate.setText(Converter.getDifferenceBetweenCalendars(Calendar.getInstance(), items.get(position).getEvent(items.get(position).getEventKey()).getStartDate()));
         //
         //}
 

@@ -22,7 +22,7 @@ public final class Helper {
     //helpers
     public static Context MainActivity_context;
     public static Resources MainActivity_resource;
-    public static String encryptedUserID;
+    public static String userID;
     public static AHBottomNavigation bottomNavigation;
     public static TextView tab_details_text_view;
     public static TextView total_items_Details_in_toolbar_text_view;
@@ -46,6 +46,7 @@ public final class Helper {
     public static Button register_signUpButton;
 
     public static EditText complete_fullName_edittext;
+    public static EditText complete_ID_edittext;
     public static Spinner complete_genderSpinner;
     public static Button complete_completeButton;
 
@@ -69,12 +70,32 @@ public final class Helper {
     public static TextView cinemaSaveTextView;
     public static ImageView cinemaCancelTextView;
 
+    public static EditText restaurantTitleEdittext;
+    public static EditText restaurantDescriptionEdittext;
+    public static EditText restaurantLocationEdittext;
+    public static EditText restaurantFilmNameEdittext;
+    public static TextView restaurantDateTextView;
+    public static TextView restaurantSaveTextView;
+    public static ImageView restaurantCancelTextView;
+    public static Spinner restaurantRangeSpinner;
+    public static Spinner restaurantMealTypeSpinner;
+    public static Spinner restaurantAccessTypeSpinner;
+
+    public static EditText tripTitleEdittext;
+    public static EditText tripDescriptionEdittext;
+    public static EditText tripLocationEdittext;
+    public static TextView tripDateTextView;
+    public static Spinner tripRangeSpinner;
+    public static Spinner tripAccessTypeSpinner;
+    public static TextView tripSaveTextView;
+    public static ImageView tripCancelTextView;
+
 
 
 
 
     //final keys
-    public static final String ENCRYPTED_USER_ID_KEY="ENCRYPTED_USER_ID_KEY";
+    public static final String USER_ID_KEY ="USER_ID_KEY";
     public static final String NO_VALUE_FOUND_FOR_KEY="NO_VALUE_FOUND_FOR_KEY";
     public static final String LOGIN_STATUS_KEY="LOGIN_STATUS_KEY";
 

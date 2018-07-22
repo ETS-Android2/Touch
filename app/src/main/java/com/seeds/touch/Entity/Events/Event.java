@@ -9,12 +9,11 @@ public class Event implements Serializable {
     private String title;
     private Calendar startDate;
     private Calendar endDate;
-    private Location location;
+    private String location;
     private String description;
     private int ATTENDER_NUMBER_RANGE;
-    private String eventKey;
 
-    public Event(String title, Calendar startDate, Calendar endDate, Location location,
+    public Event(String title, Calendar startDate, Calendar endDate, String location,
                  String description, int ATTENDER_NUMBER_RANGE) {
         this.title = title;
         this.startDate = startDate;
@@ -51,11 +50,11 @@ public class Event implements Serializable {
         this.endDate = endDate;
     }
 
-    public Location getLocation() {
+    public String getLocation() {
         return location;
     }
 
-    public void setLocation(Location location) {
+    public void setLocation(String location) {
         this.location = location;
     }
 

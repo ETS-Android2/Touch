@@ -7,48 +7,33 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
-import android.content.res.Configuration;
 import android.graphics.Color;
-import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.notification.AHNotification;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.seeds.touch.Activity.CompleteUserProfileActivity;
 import com.seeds.touch.Activity.SettingsActivity;
 import com.seeds.touch.Activity.UserVerify;
 import com.seeds.touch.Configuration.Setting;
-import com.seeds.touch.Entity.Entities.Comment;
-import com.seeds.touch.Entity.Entities.Item;
-import com.seeds.touch.Entity.Events.CinemaEvent;
-import com.seeds.touch.Entity.Events.Event;
-import com.seeds.touch.Entity.Events.TripEvent;
 import com.seeds.touch.Fragment.Fragment1.Fragment1;
 import com.seeds.touch.Fragment.Fragment2.Fragment2;
 import com.seeds.touch.Fragment.Fragment3.Fragment3;
 import com.seeds.touch.Fragment.Fragment4.Fragment4;
 import com.seeds.touch.R;
 import com.seeds.touch.Technical.Enums;
-import com.seeds.touch.Technical.GSON_Wrapper;
 import com.seeds.touch.Technical.Helper;
-import com.seeds.touch.Technical.LocationDeserializer;
-import com.seeds.touch.Technical.LocationSerializer;
 
 import net.hockeyapp.android.CrashManager;
 import net.hockeyapp.android.UpdateManager;
 
-import java.util.Calendar;
-import java.util.HashSet;
 import java.util.Locale;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -63,61 +48,61 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
        /* Setting.checkForPermissions(this, Manifest.permission.INTERNET, Manifest.permission.WRITE_EXTERNAL_STORAGE,
                 Manifest.permission.ACCESS_FINE_LOCATION);*/
-        if (!Setting.getLoginStatus(this).equals(NEW)) {
+        if (Setting.getLoginStatus(this).equals(NEW)) {
             openActivity_GeneralMode(this, Enums.ActivityRepository.LOG_IN, true);
         } else {
-            Helper.encryptedUserID = Setting.loadSetting(this, Setting.USER_INFORMATION_SHARED_PREFERENCES_TABLE,
-                    Helper.ENCRYPTED_USER_ID_KEY, Helper.NO_VALUE_FOUND_FOR_KEY + "\"" + Helper.ENCRYPTED_USER_ID_KEY + "\"");
+            Helper.userID = Setting.loadSetting(this, Setting.USER_INFORMATION_SHARED_PREFERENCES_TABLE,
+                    Helper.USER_ID_KEY, Helper.NO_VALUE_FOUND_FOR_KEY + "\"" + Helper.USER_ID_KEY + "\"");
             constructMainActivityItems(savedInstanceState);
             ScheduledExecutorService exec = Executors.newSingleThreadScheduledExecutor();
             exec.scheduleAtFixedRate(() -> {
                 updateScreenOnlineDetails();
             }, 0, 1000, TimeUnit.MILLISECONDS);
         }
-
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.YEAR, 2019);
-
-
-        HashSet<Comment> comments = new HashSet<>();
-        comments.add(new Comment("Salam , aali bood", Calendar.getInstance(), "Hasan"));
-        comments.add(new Comment("Merciiii", Calendar.getInstance(), "Parvaneh"));
-
-        HashSet<String> attenders = new HashSet<>();
-        attenders.add("Reza");
-        attenders.add("Baghiat");
-        attenders.add("Company");
-
-        HashSet<String> tags = new HashSet<>();
-        tags.add("Bagh");
-
-        HashSet<String> pictures = new HashSet<>();
-        pictures.add("url1");
-        pictures.add("url2");
-        pictures.add("url3");
-
-        Location location = new Location("Touch");
-        Bundle bundle = new Bundle();
-        bundle.putString("NAME", "California");
-        location.setExtras(bundle);
-        location.setLatitude(2365.12);
-        location.setLongitude(7654.70);
-
-        Event event = new CinemaEvent("Watch The Best Film", Calendar.getInstance(), Calendar.getInstance(), location, "Can You Get A One?1", 45, "Ali O Dani1");
-        Event event2 = new TripEvent("Watch The Best Film2", Calendar.getInstance(), calendar, location, "Can You Get A One?2", 46);
-        Gson gson = GSON_Wrapper.getInstance();
-        Item item = new Item("10", gson.toJson(pictures), gson.toJson(Calendar.getInstance()), gson.toJson(tags), gson.toJson(event), "Mohammad", gson.toJson(attenders), gson.toJson(comments), 12, gson.toJson(Enums.Status.SHOWN), gson.toJson(Enums.AccessType.PUBLIC), event.getEventKey());
-
-
-        HashSet<String> hashSet=new HashSet<>();
-        hashSet.add("SiminTala");
-        hashSet.add("Eskandar");
-        Log.d("Attender0", gson.toJson(hashSet));
-        Log.d("Attender", gson.toJson(Enums.Status.SHOWN));
-        Log.d("Attender", gson.toJson(Enums.AccessType.FRIENDS));
-        Log.d("Attender", gson.toJson(new HashSet<String>()));
-
-        Log.d("Attender", GSON_Wrapper.getInstance().toJson(event));
+//
+//        Calendar calendar = Calendar.getInstance();
+//        calendar.set(Calendar.YEAR, 2019);
+//
+//
+//        HashSet<Comment> comments = new HashSet<>();
+//        comments.add(new Comment("Salam , aali bood", Calendar.getInstance(), "Hasan"));
+//        comments.add(new Comment("Merciiii", Calendar.getInstance(), "Parvaneh"));
+//
+//        HashSet<String> attenders = new HashSet<>();
+//        attenders.add("Reza");
+//        attenders.add("Baghiat");
+//        attenders.add("Company");
+//
+//        HashSet<String> tags = new HashSet<>();
+//        tags.add("Bagh");
+//
+//        HashSet<String> pictures = new HashSet<>();
+//        pictures.add("url1");
+//        pictures.add("url2");
+//        pictures.add("url3");
+//
+//        Location location = new Location("Touch");
+//        Bundle bundle = new Bundle();
+//        bundle.putString("NAME", "California");
+//        location.setExtras(bundle);
+//        location.setLatitude(2365.12);
+//        location.setLongitude(7654.70);
+//
+//        Event event = new CinemaEvent("Watch The Best Film", Calendar.getInstance(), Calendar.getInstance(), location, "Can You Get A One?1", 45, "Ali O Dani1");
+//        Event event2 = new TripEvent("Watch The Best Film2", Calendar.getInstance(), calendar, location, "Can You Get A One?2", 46);
+//        Gson gson = GSON_Wrapper.getInstance();
+//        Item item = new Item(gson.toJson(pictures), gson.toJson(tags), gson.toJson(event), "Mohammad", gson.toJson(attenders), gson.toJson(comments), 12, gson.toJson(Enums.Status.SHOWN), gson.toJson(Enums.AccessType.PUBLIC), event.getEventKey());
+//
+//
+//        HashSet<String> hashSet=new HashSet<>();
+//        hashSet.add("SiminTala");
+//        hashSet.add("Eskandar");
+//        Log.d("Attender0", gson.toJson(hashSet));
+//        Log.d("Attender", gson.toJson(Enums.Status.SHOWN));
+//        Log.d("Attender", gson.toJson(Enums.AccessType.FRIENDS));
+//        Log.d("Attender", gson.toJson(new HashSet<String>()));
+//
+//        Log.d("Attender", GSON_Wrapper.getInstance().toJson(event));
     }
 
     private void updateScreenOnlineDetails() {
@@ -204,7 +189,7 @@ public class MainActivity extends AppCompatActivity {
                 case THIRD:
                     selectedFragment = new Fragment3();
                     Bundle bundle = new Bundle();
-                    bundle.putString("Person_ID", Helper.encryptedUserID);
+                    bundle.putString("Person_ID", Helper.userID);
                     selectedFragment.setArguments(bundle);
                     break;
                 case FORTH:
@@ -341,7 +326,7 @@ public class MainActivity extends AppCompatActivity {
         String language = prefs.getString(langPref, "");
         if (language == null || language.isEmpty()) {
             saveLocale(context, "en_US");
-            language="en_US";
+            language = "en_US";
         }
         changeLang(context, language);
     }

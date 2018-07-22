@@ -13,5 +13,8 @@ public interface ProfileAPI {
     @GET("getProfileInformation.php")
     Call<Person> getProfile(@Query("id") String profileID);
     @GET("updateProfileInformation.php")
-    Call<String> updateProfile(@Query("id") String profileID,@Query("column") String column,@Query("value") String value);
+    Call<Integer> updateProfile(@Query("id") String profileID,@Query("numberOfEditedColumns") int n,@Query("columns") String GSONColumnsSet,@Query("values") String GSONValues);
+    @GET("login_userprofile.php")
+    Call<Integer> loginProfile(@Query("id") String profileID,@Query("password") String password);
+
 }

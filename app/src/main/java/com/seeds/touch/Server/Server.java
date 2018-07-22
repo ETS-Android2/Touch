@@ -14,6 +14,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.seeds.touch.Configuration.Converter;
 import com.seeds.touch.Configuration.Setting;
@@ -32,6 +33,8 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import retrofit2.Call;
+
 import static com.seeds.touch.Configuration.Setting.USER_INFORMATION_SHARED_PREFERENCES_TABLE;
 import static com.seeds.touch.Technical.Enums.ActivityRepository.MAIN_ACTIVITY;
 
@@ -39,6 +42,7 @@ public class Server {
     private static final String REGISTER_PERSON_URL = "https://hcuot.com/SeedS/register_userprofile.php";
     private static final String LOGIN_PERSON_URL = "https://hcuot.com/SeedS/login_userprofile.php";
     private static final String COMPLETE_USER_PROFILE_URL = "https://hcuot.com/SeedS/complete_user_profile.php";
+    private static final String STORE_ITEM_URL = "https://hcuot.com/SeedS/storeItem.php";
 
     public static void registerUserProfile(Context context, RequestQueue requestQueue,
                                            @NonNull String phoneNumber, @NonNull String userName, @NonNull String password,
@@ -73,7 +77,7 @@ public class Server {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("test", "test");
                 params.put("ID", "SDF");//Setting.encode_Default(userName));
-                params.put("Password","CVXB");// Setting.encode_Default(password));
+                params.put("Password", "CVXB");// Setting.encode_Default(password));
                 params.put("PhoneNumber", "CXVV");//Setting.encode_Default(phoneNumber));
                 return params;
             }
@@ -182,28 +186,66 @@ public class Server {
 
     }
 
-    public static void getUserProfile(String id,PostTimeInterface onPost) throws Exception {
+    public static void getUserProfile(String id, PostTimeInterface onPost) throws Exception {
 
-        Person person=new Person();
+        Person person = new Person();
         // server operations
-            person.setName("Charlie");
+        person.setName("Charlie");
         //
-        Object[] objects=new Object[1];
-        objects[0]=GSON_Wrapper.getInstance().toJson(person);
+        Object[] objects = new Object[1];
+        objects[0] = GSON_Wrapper.getInstance().toJson(person);
         onPost.does(objects);
 
     }
 
     public static void editItemDetails(String databaseID, Item item, PostTimeInterface onPost) {
-        Object[] objects=new Object[2];
-        objects[0]="done";
-        objects[1]=GSON_Wrapper.getInstance().toJson(new Item("2",null,null,null,
-                null,"fg",null,null,12,null,null,null));
+        Object[] objects = new Object[2];
+        objects[0] = "done";
+        objects[1] = GSON_Wrapper.getInstance().toJson(new Item(null, null, null,
+                null, "fg", null, 12, null, null, null));
         try {
             onPost.does(objects);
         } catch (IOException e) {
-            Log.d(Helper.LOG_TOUCH_ERROR,e.getMessage());
+            Log.d(Helper.LOG_TOUCH_ERROR, e.getMessage());
         }
+    }
+
+    public static void storeItem(Context context, Item item, PostTimeInterface onPost) {
+        Object[] objects = new Object[1];
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, STORE_ITEM_URL, response -> {
+            try {
+                objects[0]=response;
+                Log.d("VBCVBsX", response+"");
+                onPost.does(objects);
+
+            } catch (Exception e) {
+                Log.d(Helper.LOG_TOUCH_ERROR, "for response,try : " + e.getMessage());
+            }
+        }, error -> {
+            Log.d(Helper.LOG_TOUCH_ERROR, "for error,try : " + error.getMessage());
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("publisher", item.getPublisher());
+                params.put("eventKey", item.getEventKey());
+                params.put("rank", item.getRank()+"");
+                params.put("loadItem", item.isLoadItem()+"");
+                params.put("event", GSON_Wrapper.getInstance().toJson(item.getEvent(item.getEventKey())));
+                params.put("attenders", GSON_Wrapper.getInstance().toJson(item.getAttenders()));
+                params.put("comments", GSON_Wrapper.getInstance().toJson(item.getComments()));
+                params.put("status", GSON_Wrapper.getInstance().toJson(item.getStatus()));
+                params.put("tags", GSON_Wrapper.getInstance().toJson(item.getTags()));
+                params.put("accessType", GSON_Wrapper.getInstance().toJson(item.getAccessType()));
+                params.put("pictures", GSON_Wrapper.getInstance().toJson(item.getPictures()));
+                return params;
+            }
+        };
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(
+                0,
+                0,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        Volley.newRequestQueue(context).add(stringRequest);
     }
 
 }

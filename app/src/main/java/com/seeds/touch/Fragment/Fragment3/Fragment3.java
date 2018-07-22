@@ -33,8 +33,8 @@ public class Fragment3 extends Fragment {
         findViews(view);
         tuneRecyclerView();
         api = ServiceGenerator3.createService(ProfileAPI.class);
-        Toast.makeText(view.getContext(), "" + Setting.decode_Default(Helper.encryptedUserID), Toast.LENGTH_LONG).show();
-        Call<Person> call = api.getProfile("SiminTala");
+        Toast.makeText(view.getContext(), "" + Helper.userID, Toast.LENGTH_LONG).show();
+        Call<Person> call = api.getProfile(Helper.userID);
         call.enqueue(new Callback<Person>() {
             @Override
             public void onResponse(Call<Person> call, Response<Person> response) {
