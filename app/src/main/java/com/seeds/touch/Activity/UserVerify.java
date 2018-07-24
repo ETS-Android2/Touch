@@ -31,4 +31,9 @@ public class UserVerify extends AppCompatActivity {
             fragmentTransaction.commit();
         }).start();
     }
+
+    @Override
+    public void onBackPressed() {
+        finish();
+    }
 }

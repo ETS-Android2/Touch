@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
+import android.content.PeriodicSync;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
@@ -13,6 +14,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -23,11 +25,14 @@ import com.seeds.touch.Activity.CompleteUserProfileActivity;
 import com.seeds.touch.Activity.SettingsActivity;
 import com.seeds.touch.Activity.UserVerify;
 import com.seeds.touch.Configuration.Setting;
+import com.seeds.touch.Entity.Entities.Person;
 import com.seeds.touch.Fragment.Fragment1.Fragment1;
 import com.seeds.touch.Fragment.Fragment2.Fragment2;
 import com.seeds.touch.Fragment.Fragment3.Fragment3;
 import com.seeds.touch.Fragment.Fragment4.Fragment4;
+import com.seeds.touch.Management.Interface.ProfileAPI;
 import com.seeds.touch.R;
+import com.seeds.touch.Server.ServiceGenerator;
 import com.seeds.touch.Technical.Enums;
 import com.seeds.touch.Technical.Helper;
 
@@ -35,19 +40,25 @@ import net.hockeyapp.android.CrashManager;
 import net.hockeyapp.android.UpdateManager;
 
 import java.util.Locale;
+import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 import static com.seeds.touch.Technical.Enums.LoginStatus.NEW;
 
 public class MainActivity extends AppCompatActivity {
-
+static int i=1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
        /* Setting.checkForPermissions(this, Manifest.permission.INTERNET, Manifest.permission.WRITE_EXTERNAL_STORAGE,
                 Manifest.permission.ACCESS_FINE_LOCATION);*/
+       Log.d("FGHCC",Setting.getLoginStatus(this).toString());
         if (Setting.getLoginStatus(this).equals(NEW)) {
             openActivity_GeneralMode(this, Enums.ActivityRepository.LOG_IN, true);
         } else {
@@ -57,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
             ScheduledExecutorService exec = Executors.newSingleThreadScheduledExecutor();
             exec.scheduleAtFixedRate(() -> {
                 updateScreenOnlineDetails();
-            }, 0, 1000, TimeUnit.MILLISECONDS);
+            }, 0, 40, TimeUnit.MILLISECONDS);
         }
 //
 //        Calendar calendar = Calendar.getInstance();
@@ -106,7 +117,24 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void updateScreenOnlineDetails() {
+        Helper.total_items_Details_in_toolbar_text_view.setText(++i+"");
         //code
+        Call<Person> call= ServiceGenerator.createService(ProfileAPI.class).getProfile(Helper.userID);
+        call.enqueue(new Callback<Person>() {
+            @Override
+            public void onResponse(Call<Person> call, Response<Person> response) {
+                if(response==null || response.body()== null)
+                {
+                    Setting.saveSetting(MainActivity.this,Setting.USER_INFORMATION_SHARED_PREFERENCES_TABLE,
+                            Helper.LOGIN_STATUS_KEY,NEW.toString());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Person> call, Throwable t) {
+                Log.d("FGH","EEXXXXITED");
+            }
+        });
 
     }
 

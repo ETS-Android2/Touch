@@ -46,6 +46,12 @@ public final class Enums {
         WRONG_PASSWORD,
         ERROR;
     }
+    public enum RegisterResult
+    {
+        SUCCESSFUL,
+        EXIST_ID,
+        ERROR
+    }
     public enum UpdateUserResult
     {
         SUCCESSFUL,FAILED,ID_EXIST

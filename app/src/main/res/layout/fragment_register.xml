@@ -10,6 +10,7 @@
         android:id="@+id/register_phonenumber_edittext"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:inputType="phone"
         android:hint="Phone Number"/>
     <EditText
         android:id="@+id/register_UserName_edittext"

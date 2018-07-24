@@ -35,9 +35,11 @@ import com.seeds.touch.Technical.Enums;
 import com.seeds.touch.Technical.GSON_Wrapper;
 import com.seeds.touch.Technical.Helper;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -93,12 +95,11 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
 
 
         findPreference("first_name").setOnPreferenceChangeListener((preference1, newValue1) -> {
-            HashSet<String> columns=new HashSet<>();
-            columns.add("Name");
-            HashSet<String> values=new HashSet<>();
-            values.add(newValue1.toString());
-            Call<Integer> call = api.updateProfile(Helper.userID,1, GSON_Wrapper.getInstance().toJson(columns),
-                    GSON_Wrapper.getInstance().toJson(values));
+            Map<String,String> values=new HashMap();
+            values.put("Name",newValue1.toString());
+            values.put("lastID",Helper.userID);
+
+            Call<Integer> call = api.updateProfile(values);
             call.enqueue(new Callback<Integer>() {
                 @Override
                 public void onResponse(Call<Integer> call, Response<Integer> response) {
@@ -123,12 +124,10 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
             return false;
         });
         findPreference("last_name").setOnPreferenceChangeListener((preference1, newValue1) -> {
-            HashSet<String> columns=new HashSet<>();
-            columns.add("LastName");
-            HashSet<String> values=new HashSet<>();
-            values.add(newValue1.toString());
-            Call<Integer> call = api.updateProfile(Helper.userID,1, GSON_Wrapper.getInstance().toJson(columns),
-                    GSON_Wrapper.getInstance().toJson(values));
+            Map<String,String> values=new HashMap<>();
+            values.put("LastName",newValue1.toString());
+            values.put("lastID",Helper.userID);
+            Call<Integer> call = api.updateProfile(values);
             call.enqueue(new Callback<Integer>() {
                 @Override
                 public void onResponse(Call<Integer> call, Response<Integer> response) {
@@ -154,12 +153,10 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
         });
 
         findPreference("id").setOnPreferenceChangeListener((preference1, newValue1) -> {
-            HashSet<String> columns=new HashSet<>();
-            columns.add("ID");
-            HashSet<String> values=new HashSet<>();
-            values.add(newValue1.toString());
-            Call<Integer> call = api.updateProfile(Helper.userID,1, GSON_Wrapper.getInstance().toJson(columns),
-                    GSON_Wrapper.getInstance().toJson(values));
+            Map<String,String> values=new HashMap<>();
+            values.put("ID",newValue1.toString());
+            values.put("lastID",Helper.userID);
+            Call<Integer> call = api.updateProfile(values);
             call.enqueue(new Callback<Integer>() {
                 @Override
                 public void onResponse(Call<Integer> call, Response<Integer> response) {
@@ -186,12 +183,10 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
         });
 
         findPreference("biography").setOnPreferenceChangeListener((preference1, newValue1) -> {
-            HashSet<String> columns=new HashSet<>();
-            columns.add("Bio");
-            HashSet<String> values=new HashSet<>();
-            values.add(newValue1.toString());
-            Call<Integer> call = api.updateProfile(Helper.userID,1, GSON_Wrapper.getInstance().toJson(columns),
-                    GSON_Wrapper.getInstance().toJson(values));
+            Map<String,String> values=new HashMap<>();
+            values.put("Bio",newValue1.toString());
+            values.put("lastID",Helper.userID);
+            Call<Integer> call = api.updateProfile(values);
             call.enqueue(new Callback<Integer>() {
                 @Override
                 public void onResponse(Call<Integer> call, Response<Integer> response) {

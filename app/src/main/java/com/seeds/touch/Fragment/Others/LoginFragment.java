@@ -13,14 +13,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.android.volley.toolbox.Volley;
 import com.seeds.touch.Activity.CompleteUserProfileActivity;
 import com.seeds.touch.Configuration.Setting;
-import com.seeds.touch.Entity.Entities.Person;
 import com.seeds.touch.Management.Interface.ProfileAPI;
 import com.seeds.touch.Management.Manager.MainActivity;
 import com.seeds.touch.R;
-import com.seeds.touch.Server.Server;
 import com.seeds.touch.Server.ServiceGenerator2;
 import com.seeds.touch.Technical.Enums;
 import com.seeds.touch.Technical.Enums.LoginResult;
@@ -29,8 +26,6 @@ import com.seeds.touch.Technical.Helper;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-import static com.seeds.touch.Configuration.Setting.USER_INFORMATION_SHARED_PREFERENCES_TABLE;
 
 public class LoginFragment extends Fragment {
 
@@ -47,24 +42,25 @@ public class LoginFragment extends Fragment {
         Helper.login_signInButton.setOnClickListener(v -> {
             String userIdentityField = Helper.login_UsernameEditText.getText().toString();
             String password = Helper.login_PasswordEditText.getText().toString();
+            Log.d("GHJV",userIdentityField);
             if (userIdentityField != null && !userIdentityField.isEmpty() && password != null && !password.isEmpty()) {
-                Call<Integer> call = ServiceGenerator2.createService(ProfileAPI.class).loginProfile(userIdentityField, password);
+                Call<Integer> call = ServiceGenerator2.createService(ProfileAPI.class).
+                        loginProfile(userIdentityField,
+                                password);
                 call.enqueue(new Callback<Integer>() {
                     @Override
                     public void onResponse(Call<Integer> call, Response<Integer> response) {
+                        Log.d("SDFXV", "" + response.body());
                         switch (LoginResult.values()[response.body()]) {
                             case SUCCESSFUL_COMPLETED:
-                                Helper.userID = userIdentityField;
-                                Setting.saveSetting(view.getContext(), USER_INFORMATION_SHARED_PREFERENCES_TABLE, Helper.USER_ID_KEY, Helper.userID);
-                                Setting.saveSetting(view.getContext(), USER_INFORMATION_SHARED_PREFERENCES_TABLE, Helper.LOGIN_STATUS_KEY, Enums.LoginStatus.USER.toString());
+                                Setting.saveUserID(view.getContext(), userIdentityField);
                                 Toast.makeText(view.getContext(), "Welcome " + userIdentityField, Toast.LENGTH_SHORT).show();
                                 MainActivity.openActivity_GeneralMode(view.getContext(), Enums.ActivityRepository.MAIN_ACTIVITY, true);
-
                                 break;
                             case SUCCESSFUL_NOT_COMPLETED:
-                                Intent intent=new Intent(v.getContext(), CompleteUserProfileActivity.class);
-                                Bundle bundle=new Bundle();
-                                bundle.putString("ID",userIdentityField);
+                                Intent intent = new Intent(v.getContext(), CompleteUserProfileActivity.class);
+                                Bundle bundle = new Bundle();
+                                bundle.putString("ID", userIdentityField);
                                 intent.putExtras(bundle);
                                 startActivity(intent);
                                 break;

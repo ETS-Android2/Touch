@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 
@@ -47,15 +48,17 @@ public final class Setting {
                 .build()).check();
     }
 
-    public static void saveUSerID(Context context, String newUserID) {
+    public static void saveUserID(Context context, String newUserID) {
         Helper.userID= newUserID;
         Setting.saveSetting(context, USER_INFORMATION_SHARED_PREFERENCES_TABLE, Helper.USER_ID_KEY, newUserID);
+        Setting.saveSetting(context, USER_INFORMATION_SHARED_PREFERENCES_TABLE, Helper.LOGIN_STATUS_KEY, LoginStatus.USER.toString());
     }
 
     public static LoginStatus getLoginStatus(Context context) {
         preferences = context.getSharedPreferences(USER_INFORMATION_SHARED_PREFERENCES_TABLE, MODE_PRIVATE);
         editor = preferences.edit();
-        return preferences.getString(Helper.LOGIN_STATUS_KEY, LoginStatus.NEW.toString()).equals(LoginStatus.USER.toString()) ? LoginStatus.USER : LoginStatus.NEW;
+        return preferences.getString(Helper.LOGIN_STATUS_KEY, LoginStatus.NEW.toString()).
+                equals(LoginStatus.USER.toString()) ? LoginStatus.USER : LoginStatus.NEW;
     }
 
     public static void saveSetting(Context context, String table, String key, String value) {
@@ -118,7 +121,7 @@ public final class Setting {
     }
 
     public static void logout(Context context) {
-        saveSetting(context, USER_INFORMATION_SHARED_PREFERENCES_TABLE, "LOGIN_STATUS", LoginStatus.NEW.toString());
+        Setting.saveSetting(context, USER_INFORMATION_SHARED_PREFERENCES_TABLE, Helper.LOGIN_STATUS_KEY, LoginStatus.NEW.toString());
         System.exit(0);
     }
 }

@@ -33,8 +33,10 @@ import com.seeds.touch.Technical.Helper;
 
 import java.net.NetworkInterface;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -78,24 +80,26 @@ public class CompleteUserProfileActivity extends AppCompatActivity implements
                                 equals(Enums.Gender.FEMALE.toString()) ? Enums.Gender.FEMALE : Enums.Gender.NONE));
                 person.setMacAddress(getMacAddress());
                 //   if (person.getLocation() != null) {
-                HashSet<String> columns = new HashSet<>();
-                columns.add("Name");
-                columns.add("LastName");
-                columns.add("ID");
-                HashSet<String> values = new HashSet<>();
-                values.add(person.getName());
-                values.add(person.getLastName());
-                values.add(person.getID());
-                Call<Integer> call = ServiceGenerator2.createService(ProfileAPI.class).
-                        updateProfile(getIntent().getExtras().getString("ID"), 3, GSON_Wrapper.getInstance().toJson(columns),
-                                GSON_Wrapper.getInstance().toJson(values));
+                Map<String, String> map = new HashMap<>();
+                map.put("lastID",getIntent().getExtras().getString("ID"));
+                map.put("Name", person.getName());
+                map.put("LastName", person.getLastName());
+                map.put("ID", person.getID());
+                map.put("Gender", person.getGender().toString());
+                map.put("Followings", "[\""+person.getID()+"\"]");
+                Call<Integer> call=ServiceGenerator.createService(ProfileAPI.class).updateProfile(map);
                 call.enqueue(new Callback<Integer>() {
                     @Override
                     public void onResponse(Call<Integer> call, Response<Integer> response) {
+                        Log.d("CVX", response.body() + "");
                         switch (Enums.UpdateUserResult.values()[response.body()]) {
                             case SUCCESSFUL:
                                 Toast.makeText(v.getContext(), "Welcome " + person.getName(), Toast.LENGTH_LONG).show();
+                                Setting.saveUserID(v.getContext(),person.getID());
+                                Setting.saveSetting(v.getContext(),Setting.USER_INFORMATION_SHARED_PREFERENCES_TABLE,
+                                        Helper.LOGIN_STATUS_KEY, Enums.LoginStatus.USER.toString());
                                 MainActivity.openActivity_GeneralMode(v.getContext(), Enums.ActivityRepository.MAIN_ACTIVITY, true);
+                                finish();
                                 break;
                             case FAILED:
                                 Toast.makeText(v.getContext(), "Error while edit profile", Toast.LENGTH_LONG).show();
