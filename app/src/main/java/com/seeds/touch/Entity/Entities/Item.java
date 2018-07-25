@@ -101,10 +101,13 @@ public class Item {
 
 
     public HashSet<String> getAttenders() {
-        if(JSONAttenders==null)
-            JSONAttenders=GSON_Wrapper.getInstance().toJson(new HashSet<String>());
-        return gson.fromJson(JSONAttenders, new TypeToken<HashSet<String>>() {
+        if(JSONAttenders==null) {
+            JSONAttenders = GSON_Wrapper.getInstance().toJson(new HashSet<String>());
+        }
+        HashSet<String> hashSet=gson.fromJson(JSONAttenders, new TypeToken<HashSet<String>>() {
         }.getType());
+        Log.d("DFSX","IS : "+GSON_Wrapper.getInstance().toJson(hashSet));
+        return hashSet;
     }
 
 

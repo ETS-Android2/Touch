@@ -31,9 +31,14 @@ import com.seeds.touch.Entity.Events.CinemaEvent;
 import com.seeds.touch.Entity.Events.RestaurantEvent;
 import com.seeds.touch.Entity.Events.TripEvent;
 import com.seeds.touch.Listeners.ItemClickSupport;
+import com.seeds.touch.Management.Interface.HomeItemAPI;
+import com.seeds.touch.Management.Interface.ProfileAPI;
+import com.seeds.touch.Management.Interface.WorldItemAPI;
 import com.seeds.touch.Management.Manager.ASyncProfessionalClass;
 import com.seeds.touch.R;
 import com.seeds.touch.Server.Server;
+import com.seeds.touch.Server.ServiceGenerator;
+import com.seeds.touch.Technical.Enums;
 import com.seeds.touch.Technical.GSON_Wrapper;
 import com.seeds.touch.Technical.Helper;
 import com.seeds.touch.Technical.LocationDeserializer;
@@ -41,11 +46,16 @@ import com.seeds.touch.Technical.LocationSerializer;
 import com.squareup.picasso.Picasso;
 
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import jp.wasabeef.picasso.transformations.CropCircleTransformation;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class F1_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final ItemClickSupport listener;
@@ -193,24 +203,104 @@ public class F1_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                         Toast.makeText(v.getContext(), "Double click detected ...", Toast.LENGTH_LONG).show();
                         break;
                     case TYPE_ITEM:
-                        Item item = items.get(position);
-                                items.get(position).getAttenders().add(Helper.userID);
-                        Server.editItemDetails(item.getDatabaseID(), item, objects -> {
-                            Item newItem = null;
-                            try {
+                        Call<Item> call = ServiceGenerator.createService(WorldItemAPI.class).
+                                getItem(Integer.parseInt(items.get(position).getDatabaseID()));
+                        call.enqueue(new Callback<Item>() {
+                            @Override
+                            public void onResponse(Call<Item> call, Response<Item> response) {
+                                Item item = response.body();
+                                Log.d("DSFsX", GSON_Wrapper.getInstance().toJson(item));
+                                HashSet<String> hashSet = item.getAttenders();
+                                if (hashSet.contains(Helper.userID)) {
+                                    hashSet.remove(Helper.userID);
+                                    Map<String, String> map = new HashMap<>();
+                                    map.put("databaseID", item.getDatabaseID());
+                                    map.put("Attenders", GSON_Wrapper.getInstance().toJson(hashSet));
+                                    Call<Integer> call2 = ServiceGenerator.createService(WorldItemAPI.class).updateItem(map);
+                                    call2.enqueue(new Callback<Integer>() {
+                                        @Override
+                                        public void onResponse(Call<Integer> call, Response<Integer> response) {
+                                            switch (Enums.UpdateItemResult.values()[response.body()]) {
+                                                case SUCCESSFUL:
+                                                    Toast.makeText(v.getContext(), "update item for dismissing done !", Toast.LENGTH_LONG).show();
+                                                    Call<Item> itemCall = ServiceGenerator.createService(WorldItemAPI.class).getItem(Integer.parseInt(item.getDatabaseID()));
+                                                    itemCall.enqueue(new Callback<Item>() {
+                                                        @Override
+                                                        public void onResponse(Call<Item> call, Response<Item> response) {
+                                                            items.get(position).setJSONAttenders(GSON_Wrapper.getInstance().toJson(response.body().getAttenders()));
+                                                            notifyDataChanged();
+                                                        }
 
-                                newItem = GSON_Wrapper.getInstance().fromJson(objects[1].toString(), Item.class);
-                            } catch (Exception e) {
-                                Log.d(Helper.LOG_TOUCH_ERROR, "Error WHILE GSON");
+                                                        @Override
+                                                        public void onFailure(Call<Item> call, Throwable t) {
+                                                            Log.d("GHV", "DSFDB");
+                                                        }
+                                                    });
 
+                                                    break;
+                                                case FAILED:
+
+                                                    Toast.makeText(v.getContext(), "Failed to update item information", Toast.LENGTH_LONG).show();
+                                                    break;
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onFailure(Call<Integer> call, Throwable t) {
+                                            Log.d("ASDAS", "ERRROR!");
+                                        }
+                                    });
+
+                                } else {
+
+                                    HashSet<String> hashSet2 = item.getAttenders();
+                                    hashSet2.add(Helper.userID);
+                                    Log.d("DFSX", Helper.userID + "   " + GSON_Wrapper.getInstance().toJson(hashSet2));
+                                    Map<String, String> map = new HashMap<>();
+                                    map.put("databaseID", item.getDatabaseID());
+                                    map.put("Attenders", GSON_Wrapper.getInstance().toJson(hashSet2));
+                                    Call<Integer> call3 = ServiceGenerator.createService(WorldItemAPI.class).updateItem(map);
+                                    call3.enqueue(new Callback<Integer>() {
+                                        @Override
+                                        public void onResponse(Call<Integer> call, Response<Integer> response) {
+                                            switch (Enums.UpdateItemResult.values()[response.body()]) {
+                                                case SUCCESSFUL:
+                                                    Toast.makeText(v.getContext(), "update item for joining done !", Toast.LENGTH_LONG).show();
+
+                                                    Call<Item> itemCall = ServiceGenerator.createService(WorldItemAPI.class).getItem(Integer.parseInt(item.getDatabaseID()));
+                                                    itemCall.enqueue(new Callback<Item>() {
+                                                        @Override
+                                                        public void onResponse(Call<Item> call, Response<Item> response) {
+                                                            items.get(position).setJSONAttenders(GSON_Wrapper.getInstance().toJson(response.body().getAttenders()));
+                                                            notifyDataChanged();
+                                                        }
+
+                                                        @Override
+                                                        public void onFailure(Call<Item> call, Throwable t) {
+                                                            Log.d("GHJ", "SDS");
+                                                        }
+                                                    });
+                                                    break;
+                                                case FAILED:
+
+                                                    Toast.makeText(v.getContext(), "Failed to update item information", Toast.LENGTH_LONG).show();
+                                                    break;
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onFailure(Call<Integer> call, Throwable t) {
+                                            Log.d("ASDAS", "ERRROR!");
+                                        }
+                                    });
+
+                                }
                             }
-                            if (objects[0].toString().equals("done")) {
-                                Toast.makeText(v.getContext(), "Successfully edited", Toast.LENGTH_LONG).show();
 
-                            } else {
-                                Toast.makeText(v.getContext(), "failed", Toast.LENGTH_SHORT).show();
+                            @Override
+                            public void onFailure(Call<Item> call, Throwable t) {
+                                Log.d("FGHV", "DFDFSDCEEEEE");
                             }
-
                         });
                         break;
                 }
@@ -237,7 +327,7 @@ public class F1_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             }).execute(items.get(position).getPublisher());
         }
         //set population
-        if (items.get(position) != null && items.get(position).getEvent(items.get(position).getEventKey())!=null && items.get(position).getAttenders() != null) {
+        if (items.get(position) != null && items.get(position).getEvent(items.get(position).getEventKey()) != null && items.get(position).getAttenders() != null) {
             population.setText("Attenders : " + items.get(position).getAttenders().size() + " / " + items.get(position).getEvent(items.get(position).getEventKey()).getATTENDER_NUMBER_RANGE());
         }
         //set image
@@ -260,10 +350,10 @@ public class F1_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
         //set stickerLabel
         if (items.get(position) != null && items.get(position).getEvent(items.get(position).getEventKey()) != null) {
-            if (Calendar.getInstance().after(items.get(position).getEvent(items.get(position).getEventKey()).getStartDate()))
-                stickerLabel.setText("Join");
+            if (items.get(position).getAttenders().contains(Helper.userID))
+                stickerLabel.setText("Dismiss");
             else
-                stickerLabel.setText("Expired");
+                stickerLabel.setText("Join");
         }
         //set endDate
         if (items.get(position) != null && items.get(position).getEvent(items.get(position).getEventKey()) != null)
@@ -348,5 +438,12 @@ public class F1_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     public void setLoadMoreListener(OnLoadMoreListener loadMoreListener) {
         this.loadMoreListener = loadMoreListener;
+    }
+
+    private void Toggle(TextView tv) {
+        if (tv.getText().equals("Dismiss"))
+            tv.setText("join");
+        tv.setText("Dismiss");
+
     }
 }

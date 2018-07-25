@@ -19,6 +19,7 @@ import com.seeds.touch.Management.Interface.ProfileAPI;
 import com.seeds.touch.Management.Manager.MainActivity;
 import com.seeds.touch.R;
 import com.seeds.touch.Server.ServiceGenerator2;
+import com.seeds.touch.Server.ServiceGenerator3;
 import com.seeds.touch.Technical.Enums;
 import com.seeds.touch.Technical.Enums.LoginResult;
 import com.seeds.touch.Technical.Helper;
@@ -44,7 +45,7 @@ public class LoginFragment extends Fragment {
             String password = Helper.login_PasswordEditText.getText().toString();
             Log.d("GHJV",userIdentityField);
             if (userIdentityField != null && !userIdentityField.isEmpty() && password != null && !password.isEmpty()) {
-                Call<Integer> call = ServiceGenerator2.createService(ProfileAPI.class).
+                Call<Integer> call = ServiceGenerator3.createService(ProfileAPI.class).
                         loginProfile(userIdentityField,
                                 password);
                 call.enqueue(new Callback<Integer>() {

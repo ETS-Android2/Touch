@@ -56,5 +56,14 @@ public final class Enums {
     {
         SUCCESSFUL,FAILED,ID_EXIST
     }
+    public enum UpdateItemResult
+    {
+        SUCCESSFUL,FAILED
+    }
+    public enum SendNotificationResult
+    {
+        SUCCESSFUL,FAILURE
+    }
+
 
 }

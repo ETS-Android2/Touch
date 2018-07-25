@@ -172,6 +172,8 @@
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
 
+
+
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -213,7 +215,7 @@
                 android:layout_gravity="start"
                 android:gravity="center_vertical"
                 android:text="Profile Name"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
                 android:textSize="16sp"/>
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/profile_photo"
@@ -223,8 +225,18 @@
                 android:layout_marginRight="15dp"
                 android:layout_weight="15"
                 android:src="@drawable/testimagetwo" />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_gravity="center"
+                android:layout_height="wrap_content"
+                android:text="Loading"
+                android:id="@+id/profile_follow_btn"
+                android:textAllCaps="false"/>
+
 
         </android.support.design.widget.CoordinatorLayout>
+
     </android.support.v7.widget.Toolbar>
+
 
 </android.support.design.widget.CoordinatorLayout>

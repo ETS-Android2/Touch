@@ -59,6 +59,7 @@ public final class Helper {
     public static TextView profileFollowersNumber;
     public static TextView profileFollowingsNumber;
     public static TextView profileBiography;
+    public static TextView profileFollowButton;
 
     public static EditText cinemaTitleEdittext;
     public static EditText cinemaDescriptionEdittext;

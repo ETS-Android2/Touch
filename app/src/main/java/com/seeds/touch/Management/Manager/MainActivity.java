@@ -5,10 +5,10 @@ import android.app.AlertDialog;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
-import android.content.PeriodicSync;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -18,33 +18,47 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.notification.AHNotification;
 import com.seeds.touch.Activity.CompleteUserProfileActivity;
 import com.seeds.touch.Activity.SettingsActivity;
 import com.seeds.touch.Activity.UserVerify;
+import com.seeds.touch.Configuration.Converter;
 import com.seeds.touch.Configuration.Setting;
 import com.seeds.touch.Entity.Entities.Person;
 import com.seeds.touch.Fragment.Fragment1.Fragment1;
 import com.seeds.touch.Fragment.Fragment2.Fragment2;
 import com.seeds.touch.Fragment.Fragment3.Fragment3;
 import com.seeds.touch.Fragment.Fragment4.Fragment4;
+import com.seeds.touch.Management.Interface.Notification;
 import com.seeds.touch.Management.Interface.ProfileAPI;
 import com.seeds.touch.R;
 import com.seeds.touch.Server.ServiceGenerator;
+import com.seeds.touch.Server.ServiceGenerator2;
 import com.seeds.touch.Technical.Enums;
+import com.seeds.touch.Technical.Enums.SendNotificationResult;
 import com.seeds.touch.Technical.Helper;
 
 import net.hockeyapp.android.CrashManager;
 import net.hockeyapp.android.UpdateManager;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import co.ronash.pushe.Pushe;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -53,9 +67,13 @@ import static com.seeds.touch.Technical.Enums.LoginStatus.NEW;
 
 public class MainActivity extends AppCompatActivity {
 static int i=1;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d("SDX",""+Pushe.getPusheId(this));
+        Pushe.initialize(this,true);
        /* Setting.checkForPermissions(this, Manifest.permission.INTERNET, Manifest.permission.WRITE_EXTERNAL_STORAGE,
                 Manifest.permission.ACCESS_FINE_LOCATION);*/
        Log.d("FGHCC",Setting.getLoginStatus(this).toString());
@@ -170,9 +188,30 @@ static int i=1;
 
     private void manageListeners() {
         createNavigationBar();
-        Helper.setting_toolbar_icon.setOnClickListener(view -> openActivity_GeneralMode(
-                Helper.MainActivity_context, Enums.ActivityRepository.SETTING, false));
+        Helper.setting_toolbar_icon.setOnClickListener(view -> {
+            sendNotification(view.getContext(),"popj","Simin","Chamb");
+            //openActivity_GeneralMode(
+              //      Helper.MainActivity_context, Enums.ActivityRepository.SETTING, false);
+
+
+        });
         Helper.filter_toolbar_icon.setOnClickListener(view -> createFilterDialog());
+    }
+
+    public static void sendNotification(Context context, String ID, String title, String text) {
+        Call<Person> call=ServiceGenerator.createService(ProfileAPI.class).getProfile(ID);
+        call.enqueue(new Callback<Person>() {
+            @Override
+            public void onResponse(Call<Person> call, Response<Person> response) {
+                SendNotification.send_HTTP_req(context,response.body().getPushID(),title,text);
+
+            }
+
+            @Override
+            public void onFailure(Call<Person> call, Throwable t) {
+                Log.d("FGC","ERRRRR");
+            }
+        });
     }
 
     private void createNavigationBar() {
@@ -380,5 +419,9 @@ static int i=1;
         context.getResources().updateConfiguration(config, context.getResources().getDisplayMetrics());
     }
 
+    public static String getPushNotificationID(Context context)
+    {
+        return Pushe.getPusheId(context);
+    }
 
 }

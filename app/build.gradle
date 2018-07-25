@@ -47,8 +47,11 @@ dependencies {
     // network
     implementation 'com.squareup.retrofit2:retrofit:2.0.2'
     implementation 'com.squareup.retrofit2:converter-gson:2.0.2'
-
     // implementation 'com.github.citux:datetimepicker:0.2.0'
-  //  implementation 'com.github.drawers:SpinnerDatePicker:1.0.6'
+    //  implementation 'com.github.drawers:SpinnerDatePicker:1.0.6'
     implementation 'com.github.citux:datetimepicker:0.2.0'
+    implementation 'co.ronash.android:pushe-base:1.4.0'
+    implementation 'com.google.android.gms:play-services-gcm:15.0.1'
+    implementation 'com.google.android.gms:play-services-location:15.0.1'
+    implementation 'com.android.support:support-v4:27.+'
 }

@@ -29,6 +29,7 @@ public class Person implements Serializable {
     private String GSONFollowingsQueue;
     private String GSONItems;
     private String GSONProfilePictures;
+    private String PushID;
     private String password;
     private static final Gson gson=GSON_Wrapper.getInstance();
 
@@ -42,7 +43,7 @@ public class Person implements Serializable {
                   String GSONBirthdate, String phoneNumber, String biography, String GSONLocation,
                   String macAddress, String GSONFollowers, String GSONFollowings,
                   String GSONFollowersQueue, String GSONFollowingsQueue, String GSONItems,
-                  String GSONProfilePictures, String password) {
+                  String GSONProfilePictures, String password,String PushID) {
         this.databaseID = databaseID;
         this.ID = ID;
         this.name = name;
@@ -60,6 +61,7 @@ public class Person implements Serializable {
         this.GSONItems = GSONItems;
         this.GSONProfilePictures = GSONProfilePictures;
         this.password = password;
+        this.PushID=PushID;
     }
 
     public String getDatabaseID() {
@@ -223,5 +225,13 @@ public class Person implements Serializable {
                 this.getGender()==null ||
                 this.getMacAddress()==null || this.getMacAddress().isEmpty() ||
                 this.getLocation()==null;
+    }
+
+    public String getPushID() {
+        return PushID;
+    }
+
+    public void setPushID(String pushID) {
+        PushID = pushID;
     }
 }

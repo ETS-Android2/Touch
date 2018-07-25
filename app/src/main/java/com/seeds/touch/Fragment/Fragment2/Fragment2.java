@@ -17,6 +17,7 @@ import com.seeds.touch.Entity.Entities.Item;
 import com.seeds.touch.Management.Interface.WorldItemAPI;
 import com.seeds.touch.R;
 import com.seeds.touch.Server.ServiceGenerator2;
+import com.seeds.touch.Server.ServiceGenerator3;
 import com.seeds.touch.Technical.GSON_Wrapper;
 import com.seeds.touch.Technical.Helper;
 
@@ -43,7 +44,7 @@ public class Fragment2 extends Fragment {
         View view = inflater.inflate(R.layout.fragment_fragment2, container, false);
         findViews(view);
         tuneRecyclerView(view);
-        api = ServiceGenerator2.createService(WorldItemAPI.class);
+        api = ServiceGenerator3.createService(WorldItemAPI.class);
 
 
 //        ItemManager.getInstance().readItems(view.getContext(), Enums.EventTypes.WORLD, objects -> {
@@ -104,12 +105,12 @@ public class Fragment2 extends Fragment {
             @Override
             public void onResponse(Call<List<Item>> call, Response<List<Item>> response) {
                 Log.d("FGHBVNC", GSON_Wrapper.getInstance().toJson(response.body()));
-                //if (response.isSuccessful()) {
+                if (response.isSuccessful()) {
                 items.addAll(response.body());
                 ((F2_Adapter) Helper.fragment2_Adapter).notifyDataChanged();
-                // } else {
-                //     Log.e(TAG, " Response Error " + String.valueOf(response.code()));
-                //}
+                 } else {
+                     Log.e(TAG, " Response Error " + String.valueOf(response.code()));
+                }
             }
 
             @Override

@@ -16,7 +16,7 @@ public class ServiceGenerator2 {
                 .build();
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://hcuot.com/SeedS/")
+                .baseUrl("https://panel.pushe.co/api/v1/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(httpClient).build();
 
