@@ -4,7 +4,6 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     android:weightSum="100"
-    android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
     android:paddingStart="60dp"
     android:paddingEnd="60dp"
     tools:context=".Fragment.Others.LoginFragment"
@@ -25,11 +24,11 @@
         android:gravity="center"
         android:textStyle="bold"
         android:textColor="@color/touchsent_word_color"
-        android:text="@string/seeds_sentence"/>
+        android:text="If You Have A Plan So Don't Do It Alone !"/>
     <Space
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="9"/>
+        android:layout_weight="4"/>
     <EditText
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -48,7 +47,6 @@
         android:layout_width="match_parent"
         android:id="@+id/login_password_edittext"
         android:layout_height="0dp"
-        android:inputType="textPassword"
         android:layout_weight="11"
         android:paddingStart="15dp"
         android:drawableStart="@drawable/drawable_start_key"
@@ -67,7 +65,7 @@
     <Space
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="6"/>
+        android:layout_weight="5"/>
     <Button
         android:layout_width="145dp"
         android:id="@+id/login_login_button"
@@ -88,11 +86,11 @@
     <Space
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="7"/>
+        android:layout_weight="15"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="15"
+        android:layout_weight="20"
         android:weightSum="100"
         android:gravity="center"
         android:orientation="horizontal">
@@ -122,6 +120,8 @@
             android:layout_weight="25"
             android:layout_height="match_parent"
             android:src="@drawable/insta"/>
+
+
     </LinearLayout>
 
 

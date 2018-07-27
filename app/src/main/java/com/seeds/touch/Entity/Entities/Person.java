@@ -11,6 +11,8 @@ import com.seeds.touch.Technical.GSON_Wrapper;
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class Person implements Serializable {
     private String databaseID;
@@ -29,6 +31,7 @@ public class Person implements Serializable {
     private String GSONFollowingsQueue;
     private String GSONItems;
     private String GSONProfilePictures;
+    private String GSONNews;
     private String PushID;
     private String password;
     private static final Gson gson=GSON_Wrapper.getInstance();
@@ -43,7 +46,7 @@ public class Person implements Serializable {
                   String GSONBirthdate, String phoneNumber, String biography, String GSONLocation,
                   String macAddress, String GSONFollowers, String GSONFollowings,
                   String GSONFollowersQueue, String GSONFollowingsQueue, String GSONItems,
-                  String GSONProfilePictures, String password,String PushID) {
+                  String GSONProfilePictures, String password,String PushID,String GSONNews) {
         this.databaseID = databaseID;
         this.ID = ID;
         this.name = name;
@@ -62,6 +65,7 @@ public class Person implements Serializable {
         this.GSONProfilePictures = GSONProfilePictures;
         this.password = password;
         this.PushID=PushID;
+        this.GSONNews=GSONNews;
     }
 
     public String getDatabaseID() {
@@ -216,8 +220,15 @@ public class Person implements Serializable {
         this.GSONBirthdate=gson.toJson(calendar);
     }
 
+    public HashSet<News> getNews() {
+        return GSON_Wrapper.getInstance().fromJson(GSONNews,new TypeToken<HashSet<News>>(){}.getType());
+    }
 
-    ///////////////////////////
+    public void setGSONNews(String GSONNews) {
+        this.GSONNews = GSONNews;
+    }
+
+///////////////////////////
 
     public boolean isARawUser() {
         return this.getName()==null || this.getName().isEmpty() ||

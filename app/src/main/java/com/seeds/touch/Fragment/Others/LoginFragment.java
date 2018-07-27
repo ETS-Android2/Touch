@@ -11,6 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.seeds.touch.Activity.CompleteUserProfileActivity;
@@ -18,7 +20,6 @@ import com.seeds.touch.Configuration.Setting;
 import com.seeds.touch.Management.Interface.ProfileAPI;
 import com.seeds.touch.Management.Manager.MainActivity;
 import com.seeds.touch.R;
-import com.seeds.touch.Server.ServiceGenerator2;
 import com.seeds.touch.Server.ServiceGenerator3;
 import com.seeds.touch.Technical.Enums;
 import com.seeds.touch.Technical.Enums.LoginResult;
@@ -90,7 +91,7 @@ public class LoginFragment extends Fragment {
             fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commit();
         });
-        Helper.login_forgetPasswordButton.setOnClickListener(v -> {
+        Helper.login_forgetPasswordTextView.setOnClickListener(v -> {
 
         });
 
@@ -99,11 +100,11 @@ public class LoginFragment extends Fragment {
     private void findViews(View view) {
         Helper.login_signInButton = (Button) view.findViewById(R.id.login_login_button);
         Helper.login_registerButton = (Button) view.findViewById(R.id.login_sign_up_button);
-        Helper.login_forgetPasswordButton = (Button) view.findViewById(R.id.login_forget_password_text);
+        Helper.login_forgetPasswordTextView = (TextView) view.findViewById(R.id.login_forget_password_text);
         Helper.login_UsernameEditText = (EditText) view.findViewById(R.id.login_username_edittext);
         Helper.login_PasswordEditText = (EditText) view.findViewById(R.id.login_password_edittext);
-        Helper.login_Facebook_Register = (Button) view.findViewById(R.id.login_login_with_facebook);
-        Helper.login_Twitter_Facebook = (Button) view.findViewById(R.id.login_login_with_twitter);
-        Helper.login_Google_Facebook = (Button) view.findViewById(R.id.login_login_with_google_plus);
+        Helper.login_Facebook_Register = (ImageView) view.findViewById(R.id.login_login_with_facebook);
+        Helper.login_Twitter_Instagram = (ImageView) view.findViewById(R.id.login_login_with_instagram);
+        Helper.login_Google_Facebook = (ImageView) view.findViewById(R.id.login_login_with_google_plus);
     }
 }

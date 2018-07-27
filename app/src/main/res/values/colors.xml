@@ -16,6 +16,8 @@
     <color name="status_color">#b7b7b7</color>
     <color name="divider_color">#bcbcbc</color>
     <color name="add_image_color">#bcbcbc</color>
+    <color name="news_background_color">#e9e9e9</color>
+    <color name="touchsent_word_color">#f4f4f4</color>
 
 
 </resources>

@@ -58,6 +58,7 @@ public class RegisterFragment extends Fragment {
                 map.put("PhoneNumber",phoneNumber);
                 map.put("PushID",MainActivity.getPushNotificationID(view.getContext()));
                 map.put("Followings","[\""+userName+"\"]");
+                map.put("Followers","[\""+userName+"\"]");
                 Call<Integer> call= ServiceGenerator.createService(ProfileAPI.class).registerProfile(map);
                 call.enqueue(new Callback<Integer>() {
                     @Override

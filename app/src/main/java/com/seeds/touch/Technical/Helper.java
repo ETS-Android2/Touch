@@ -34,10 +34,10 @@ public final class Helper {
     public static  AHBottomNavigationItem item4;
     public static Button login_signInButton;
     public static Button login_registerButton;
-    public static Button login_forgetPasswordButton;
-    public static Button login_Facebook_Register;
-    public static Button login_Google_Facebook;
-    public static Button login_Twitter_Facebook;
+    public static TextView login_forgetPasswordTextView;
+    public static ImageView login_Facebook_Register;
+    public static ImageView login_Google_Facebook;
+    public static ImageView login_Twitter_Instagram;
     public static EditText login_UsernameEditText;
     public static EditText login_PasswordEditText;
     public static EditText register_phonenumberEdittext;
@@ -90,6 +90,10 @@ public final class Helper {
     public static Spinner tripAccessTypeSpinner;
     public static TextView tripSaveTextView;
     public static ImageView tripCancelTextView;
+
+    public static RecyclerView newsRecyclerView;
+    public static RecyclerView.Adapter newsAdapter;
+    public static RecyclerView.LayoutManager newsLayoutManager;
 
 
 

@@ -8,6 +8,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.seeds.touch.Technical.VolleyRequestQueue;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -40,7 +41,7 @@ public class SendNotification {
                     return params;
                 }
             };
-            Volley.newRequestQueue(context).add(req);
+            VolleyRequestQueue.getInstance(context).add(req);
 
         }catch(JSONException e){
             e.printStackTrace();

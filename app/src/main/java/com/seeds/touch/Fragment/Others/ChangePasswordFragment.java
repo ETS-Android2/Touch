@@ -19,6 +19,7 @@ import com.seeds.touch.Server.Server;
 import com.seeds.touch.Technical.Enums;
 import com.seeds.touch.Technical.GSON_Wrapper;
 import com.seeds.touch.Technical.Helper;
+import com.seeds.touch.Technical.VolleyRequestQueue;
 
 import static com.seeds.touch.Configuration.Setting.USER_INFORMATION_SHARED_PREFERENCES_TABLE;
 
@@ -41,8 +42,8 @@ public class ChangePasswordFragment extends Fragment {
         String newPasswordConfirmedText = ((EditText) view.findViewById(R.id.new_password_confirm_edittext)).getText().toString();
         if (newPasswordText.equals(newPasswordConfirmedText)) {
             person.setPassword(newPasswordText);
-            Server.editUserAccount(person.getID(), person, Volley.newRequestQueue(view.getContext()), (CurrentTimeInterface) objects -> {
-                Server.loginUserProfile(view.getContext(), Volley.newRequestQueue(view.getContext()), person, objects1 -> {
+            Server.editUserAccount(person.getID(), person, VolleyRequestQueue.getInstance(view.getContext()), (CurrentTimeInterface) objects -> {
+                Server.loginUserProfile(view.getContext(), VolleyRequestQueue.getInstance(view.getContext()), person, objects1 -> {
                     if (objects1[0].toString().equals("done")) {
                         Setting.saveSetting(view.getContext(), USER_INFORMATION_SHARED_PREFERENCES_TABLE, Helper.USER_ID_KEY, Helper.userID);
                         Setting.saveSetting(view.getContext(), USER_INFORMATION_SHARED_PREFERENCES_TABLE, Helper.LOGIN_STATUS_KEY, Enums.LoginStatus.USER.toString());

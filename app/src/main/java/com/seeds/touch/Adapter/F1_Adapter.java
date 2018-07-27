@@ -311,20 +311,19 @@ public class F1_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         //} else {
         //set publisher name
         if (items.get(position) != null && items.get(position).getPublisher() != null) {
-            new ASyncProfessionalClass(objects -> {
-                String id = objects[0].toString();
-                try {
-                    Server.getUserProfile(id, objects1 -> {
-                        objects[0] = GSON_Wrapper.getInstance().fromJson(objects1[0].toString(), Person.class);
-                    });
-                } catch (Exception e) {
-                    e.printStackTrace();
+            Call<Person> call=ServiceGenerator.createService(ProfileAPI.class).getProfile(items.get(position).getPublisher());
+            call.enqueue(new Callback<Person>() {
+                @Override
+                public void onResponse(Call<Person> call, Response<Person> response) {
+                    String name = items.get(position).getPublisher();
+                    publisherName.setText(name);
                 }
-            }, objects -> {
-                String name = items.get(position).getPublisher();
-                publisherName.setText(name);
 
-            }).execute(items.get(position).getPublisher());
+                @Override
+                public void onFailure(Call<Person> call, Throwable t) {
+                    Log.d("SDFX","ERRROROROROROR");
+                }
+            });
         }
         //set population
         if (items.get(position) != null && items.get(position).getEvent(items.get(position).getEventKey()) != null && items.get(position).getAttenders() != null) {

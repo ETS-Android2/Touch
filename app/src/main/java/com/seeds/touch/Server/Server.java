@@ -26,6 +26,7 @@ import com.seeds.touch.Management.Manager.MainActivity;
 import com.seeds.touch.Technical.Enums;
 import com.seeds.touch.Technical.GSON_Wrapper;
 import com.seeds.touch.Technical.Helper;
+import com.seeds.touch.Technical.VolleyRequestQueue;
 
 import org.json.JSONObject;
 
@@ -245,7 +246,7 @@ public class Server {
                 0,
                 0,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        Volley.newRequestQueue(context).add(stringRequest);
+        VolleyRequestQueue.getInstance(context).add(stringRequest);
     }
 
 }

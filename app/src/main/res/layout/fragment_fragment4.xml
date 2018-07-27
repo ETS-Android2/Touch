@@ -4,11 +4,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Fragment.Fragment4.Fragment4"
-    android:background="@color/white">
+    android:background="@color/calendar_selected_date_text">
 
-    <TextView
+    <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="44444"/>
+        android:id="@+id/news_recyclerView"
+        android:background="@color/news_background_color"/>
 
 </FrameLayout>

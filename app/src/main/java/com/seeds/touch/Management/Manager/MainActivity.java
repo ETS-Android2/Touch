@@ -30,6 +30,7 @@ import com.seeds.touch.Activity.SettingsActivity;
 import com.seeds.touch.Activity.UserVerify;
 import com.seeds.touch.Configuration.Converter;
 import com.seeds.touch.Configuration.Setting;
+import com.seeds.touch.Entity.Entities.News;
 import com.seeds.touch.Entity.Entities.Person;
 import com.seeds.touch.Fragment.Fragment1.Fragment1;
 import com.seeds.touch.Fragment.Fragment2.Fragment2;
@@ -42,18 +43,26 @@ import com.seeds.touch.Server.ServiceGenerator;
 import com.seeds.touch.Server.ServiceGenerator2;
 import com.seeds.touch.Technical.Enums;
 import com.seeds.touch.Technical.Enums.SendNotificationResult;
+import com.seeds.touch.Technical.GSON_Wrapper;
 import com.seeds.touch.Technical.Helper;
 
 import net.hockeyapp.android.CrashManager;
 import net.hockeyapp.android.UpdateManager;
+import net.hockeyapp.android.metrics.model.User;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.io.Serializable;
+import java.util.Calendar;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -80,13 +89,16 @@ static int i=1;
         if (Setting.getLoginStatus(this).equals(NEW)) {
             openActivity_GeneralMode(this, Enums.ActivityRepository.LOG_IN, true);
         } else {
+
+
+
             Helper.userID = Setting.loadSetting(this, Setting.USER_INFORMATION_SHARED_PREFERENCES_TABLE,
                     Helper.USER_ID_KEY, Helper.NO_VALUE_FOUND_FOR_KEY + "\"" + Helper.USER_ID_KEY + "\"");
             constructMainActivityItems(savedInstanceState);
             ScheduledExecutorService exec = Executors.newSingleThreadScheduledExecutor();
             exec.scheduleAtFixedRate(() -> {
                 updateScreenOnlineDetails();
-            }, 0, 40, TimeUnit.MILLISECONDS);
+            }, 0, 1000, TimeUnit.MILLISECONDS);
         }
 //
 //        Calendar calendar = Calendar.getInstance();

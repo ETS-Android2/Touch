@@ -62,10 +62,10 @@ public class F2_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private List<Item> items;
     private Context context;
     private RecyclerView recyclerView;
+    boolean isLoading = false, isMoreDataAvailable = true;
+    F2_Adapter.OnLoadMoreListener loadMoreListener;
     public final int TYPE_ITEM = 0;
     public final int TYPE_LOAD = 1;
-    F2_Adapter.OnLoadMoreListener loadMoreListener;
-    boolean isLoading = false, isMoreDataAvailable = true;
 
     @NonNull
     @Override
