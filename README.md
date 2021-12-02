@@ -1,30 +1,29 @@
 # Touch
-Touch is an Android social network application to share your social events or particite in other's events.
-As the initial release, the following event types are supported such that each event has it's own features and properties: 
+Touch is an Android social network application to share your social events or participate in other's events. As the initial release, the following event types are supported such that each event has its features and properties:
 - Trip
 - Concert
 - Conference
 - Restaurant
 
-NOTE: APIs are being reconstructed by the developer.
+NOTE: Backend and APIs are under reconstruction.
 
 **UI/UI Deisgned by** [Amirreza Avani](https://www.linkedin.com/in/amirreza-avani-70825a16a/)
 
 ## Main features
 1. **Sharing social activities**
-Post your own events to your followers or make it visible for everyone!
+Post your events to your followers or make them visible to everyone!
 
 2. **Finding participants**
-When you shared an event, every legal people can see it and attend in your event!
+When you share an event, every legal people can see it and attend your event!
 
 3. **Viewing and Attending other's events**
-You can view your followers' events in your home page or the public events in the world tab!
+You can view your followers' events on your home page or the public events in the world tab!
 
 4. **Searching by tags**
-If you are looking for a specific event, just search it to find in a seconds!
+If you are looking for a specific event, search it to find it in seconds!
 
 5. **Broadcasting a message**
-Broadcast your message to your participants so that they will be stayed in touch with you!
+Broadcast your message to your participants so that they will have stayed in touch with you!
 
 
 
