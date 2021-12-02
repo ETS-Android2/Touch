@@ -9,7 +9,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        manifestPlaceholders = [HOCKEYAPP_APP_ID: "87b03ab49aa74a16ad0c3258035fec89"]
+        manifestPlaceholders = [HOCKEYAPP_APP_ID: "YOUR TOKEN COMES HERE"]
     }
     buildTypes {
         release {
