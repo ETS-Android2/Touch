@@ -7,7 +7,7 @@ Touch is an Android social network application to share your social events or pa
 
 NOTE: Backend and APIs are under reconstruction.
 
-**UI/UX Deisgned by** [Amirreza Avani](https://www.linkedin.com/in/amirreza-avani-70825a16a/)
+**UI/UX Deisgned by** [Amirreza Avani](https://www.linkedin.com/in/amirreza-avani-70825a16a/) in SeedS Startup - Oct 2016
 
 ## Main features
 1. **Sharing social activities**
@@ -25,7 +25,7 @@ If you are looking for a specific event, search it to find it in seconds!
 5. **Broadcasting a message**
 Broadcast your message to your participants so that they will have stayed in touch with you!
 
-## Fearured Lobraries
+## Fearured Libraries
 - Volley
 - Dexter
 - Hockey 
