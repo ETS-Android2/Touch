@@ -5,7 +5,7 @@ Touch is an Android social network application to share your social events or pa
 - Conference
 - Restaurant
 
-**UI/UX Deisgned by** [Amirreza Avani](https://www.linkedin.com/in/amirreza-avani-70825a16a/) **in SeedS Startup - Oct 2016**
+**UI/UX Deisgned by** [Amirreza Avani](https://www.linkedin.com/in/amirreza-avani-70825a16a/) **in SeedS Startup - Oct 2016.**
 
 <br/>
 
