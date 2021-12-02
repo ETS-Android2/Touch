@@ -1,7 +1,5 @@
 # Touch
 Touch is an Android social network application to share your social events or particite in other's events.
-UI/UX designed by [Amirreza Avani](https://www.linkedin.com/in/amirreza-avani-70825a16a/).
-
 As the initial release, the following event types are supported such that each event has it's own features and properties: 
 - Trip
 - Concert
@@ -31,3 +29,6 @@ Broadcast your message to your participants so that they will be stayed in touch
 ## Screenshots
 | ![src1](https://github.com/mohammadJaliliTorkamani/Touch/blob/master/Screenshots/1.png "src1")  | ![src2](https://github.com/mohammadJaliliTorkamani/Touch/blob/master/Screenshots/2.png "src2")   | ![src3](https://github.com/mohammadJaliliTorkamani/Touch/blob/master/Screenshots/3.png "src3")   | ![src4](https://github.com/mohammadJaliliTorkamani/Touch/blob/master/Screenshots/4.png "src4")   | ![src6](https://github.com/mohammadJaliliTorkamani/Touch/blob/master/Screenshots/6.png "src6")   | ![src7](https://github.com/mohammadJaliliTorkamani/Touch/blob/master/Screenshots/7.png "src7")   |
 | ------------ | ------------ | ------------ | ------------ | ------------ | ------------ |
+
+
+UI/UX designed by [Amirreza Avani](https://www.linkedin.com/in/amirreza-avani-70825a16a/).
