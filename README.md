@@ -24,6 +24,7 @@ If you are looking for a specific event, search it to find it in seconds!
 Broadcast your message to your participants so that they will have stayed in touch with you!
 
 ## Fearured Libraries
+The list below are the most prominent libraries used in Android Studio to make the app high performed:
 - Volley
 - Dexter
 - Hockey 
