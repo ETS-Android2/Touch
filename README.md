@@ -1,5 +1,5 @@
 # Touch
-Touch is an Android social network application to share your social events or participate in other's events. As the initial release, the following event types are supported such that each event has its features and properties:
+Touch is an `android` social network application to share your social events or participate in other's events. As the initial release, the following event types are supported such that each event has its features and properties:
 - Trip
 - Concert
 - Conference
