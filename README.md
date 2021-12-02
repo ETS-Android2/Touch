@@ -28,7 +28,7 @@ Broadcast your message to your participants so that they will have stayed in tou
 <br/>
 
 ## Fearured Libraries
-The list below are the most prominent libraries used in Android Studio to make the app high performed:
+The list below are the most prominent libraries used in `Android Studio` to make the app high performed:
 - Volley
 - Dexter
 - Hockey 
