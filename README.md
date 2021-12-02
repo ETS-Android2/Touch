@@ -1,5 +1,5 @@
 # Touch
-Touch is an Android social network application develope by Mohammad Jalili and Amirreza Avani as a free time project !
+Touch is an Android social network application develope by Mohammad Jalili (developer) and [Amirreza Avani](https://www.linkedin.com/in/amirreza-avani-70825a16a/) (UI/UX designer) as a free time project !
 
 As the initial release, the following event types are supported such that each event has it's own features and properties: 
 - Trip
