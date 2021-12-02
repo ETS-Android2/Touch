@@ -7,6 +7,8 @@ Touch is an Android social network application to share your social events or pa
 
 **UI/UX Deisgned by** [Amirreza Avani](https://www.linkedin.com/in/amirreza-avani-70825a16a/) **in SeedS Startup - Oct 2016**
 
+<br/>
+
 ## Main features
 1. **Sharing social activities**
 Post your events to your followers or make them visible to everyone!
@@ -23,6 +25,8 @@ If you are looking for a specific event, search it to find it in seconds!
 5. **Broadcasting a message**
 Broadcast your message to your participants so that they will have stayed in touch with you!
 
+<br/>
+
 ## Fearured Libraries
 The list below are the most prominent libraries used in Android Studio to make the app high performed:
 - Volley
@@ -30,6 +34,8 @@ The list below are the most prominent libraries used in Android Studio to make t
 - Hockey 
 - Picasso
 - Retrofit
+
+<br/>
 
 ## Screenshots
 | ![src1](https://github.com/mohammadJaliliTorkamani/Touch/blob/master/Screenshots/1.png "src1")  | ![src2](https://github.com/mohammadJaliliTorkamani/Touch/blob/master/Screenshots/2.png "src2")   | ![src3](https://github.com/mohammadJaliliTorkamani/Touch/blob/master/Screenshots/3.png "src3")   | ![src4](https://github.com/mohammadJaliliTorkamani/Touch/blob/master/Screenshots/4.png "src4")   | ![src6](https://github.com/mohammadJaliliTorkamani/Touch/blob/master/Screenshots/6.png "src6")   | ![src7](https://github.com/mohammadJaliliTorkamani/Touch/blob/master/Screenshots/7.png "src7")   |
