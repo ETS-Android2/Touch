@@ -8,8 +8,7 @@ As the initial release, the following event types are supported such that each e
 
 NOTE: APIs are being reconstructed by the developer.
 
-**UI/UX designed by ** [Amirreza Avani](https://www.linkedin.com/in/amirreza-avani-70825a16a/).
-
+UI/UI Deisgned by [Amirreza Avani](https://www.linkedin.com/in/amirreza-avani-70825a16a/)
 
 ## Main features
 1. **Sharing social activities**
