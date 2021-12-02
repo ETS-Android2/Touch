@@ -43,5 +43,5 @@ The list below are the most prominent libraries used in Android Studio to make t
 
 <br/>
 
-NOTE: This project is no longer supported by the developer.
+**NOTE:** This project is no longer supported by the developer.
 
